@@ -155,7 +155,7 @@ print(browser.evaluate("""(async () => {
     nameForm.requestSubmit();
     assert(gameState.node === '1', 'No empieza en el andén');
     let steps = 0;
-    while (StoryEngine.current(gameState, STORY_SCENES)) {
+    while (gameState.scene === 'lyra-has-vuelto' && StoryEngine.current(gameState, STORY_SCENES)) {
       assert(++steps < 100, 'Bucle de diálogos');
       const node = StoryEngine.current(gameState, STORY_SCENES);
       const id = gameState.node;
@@ -177,9 +177,9 @@ print(browser.evaluate("""(async () => {
         else document.getElementById('advance-dialogue').click();
       }
     }
-    assert(!sceneEnding.hidden && document.getElementById('ending-heading').textContent === 'Continuará', 'Falta el final');
+    assert(gameState.scene === 'vestibulo' && gameState.node === 'c2_001', 'No enlaza el capítulo 2');
     assert(gameState.decisions.length === 2 && gameState.completedScenes.includes('lyra-has-vuelto'), 'Estado incompleto');
-    document.getElementById('return-to-cover').click();
+    pauseToCover.click();
     assert(!coverScreen.hidden && gameScreen.hidden, 'No vuelve al menú');
   }
   await Promise.all(imageCache.values());
@@ -272,6 +272,32 @@ print(browser.evaluate("""(async () => {
   scene.assets.recuerdo.src = original;
   return 'OK: fotografía ausente mantiene la imagen neutra y permite continuar.';
 })()"""))
+browser.evaluate((ROOT / "tests/chapter2.test.js").read_text())
+print(browser.evaluate((ROOT / "tests/chapter2-browser.js").read_text()))
+for width, height in [(390,844),(320,568),(1440,900)]:
+    browser.call("Emulation.setDeviceMetricsOverride", {"width":width,"height":height,"deviceScaleFactor":1,"mobile":width<600})
+    for node in ["c2_009A","c2_059A","c2_104","c2_038-eleccion"]:
+        browser.evaluate(f"""(() => {{
+          resetScenePresentation(); gameState=StoryEngine.createState();
+          gameState.protagonistName='María José de los Ángeles Fernández';
+          StoryEngine.start(gameState,STORY_SCENES,'vestibulo');gameState.node='{node}';
+          gameState.documents=JSON.parse(JSON.stringify(STORY_SCENES.vestibulo.documents));
+          gameState.documents.archivo.paragraphs=['100','101','102','103'].map(id=>STORY_SCENES.vestibulo.nodes['c2_'+id].text);
+          gameScreen.hidden=false;coverScreen.hidden=true;renderScene();
+        }})()""")
+        time.sleep(.3)
+        assert browser.evaluate("""(() => {
+          const panel=choicesPanel.hidden?dialoguePanel:choicesPanel;
+          const r=panel.getBoundingClientRect(),frame=gameScreen.getBoundingClientRect();
+          const art=document.querySelector('.scene-art').getBoundingClientRect();
+          const fillsFrame=['left','top','right','bottom'].every(edge=>Math.abs(art[edge]-frame[edge])<=1);
+          return fillsFrame && r.left>=frame.left && r.right<=frame.right+1 && r.bottom<=frame.bottom+1
+            && panel.scrollWidth<=panel.clientWidth && getComputedStyle(sceneImages[visibleImage]).objectFit==='cover';
+        })()"""), (width,node)
+        if width==390:
+            shot=browser.call("Page.captureScreenshot",{"format":"png"})
+            Path(f"/tmp/chapter2-{node}.png").write_bytes(base64.b64decode(shot['data']))
+print("OK capítulo 2 visual: imágenes a pantalla completa y textos dentro del marco en móvil y PC.")
 assert not browser.errors, browser.errors
 browser.call("Browser.close")
 browser.socket.close()

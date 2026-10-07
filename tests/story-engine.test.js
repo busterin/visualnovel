@@ -5,6 +5,7 @@
   const assert = (condition, message) => { if (!condition) throw new Error(message); };
   const sceneId = "lyra-has-vuelto";
   const scene = STORY_SCENES[sceneId];
+  const chapterOneScenes = { [sceneId]: scene };
   const visited = new Set();
   const expectedImage = (id) => {
     if (id === "first-choice") return "desconcertada";
@@ -24,24 +25,24 @@
     for (const second of ["A", "B", "C"]) {
       const state = StoryEngine.createState();
       state.protagonistName = "Álex $& <viajero>";
-      StoryEngine.start(state, STORY_SCENES, sceneId);
+      StoryEngine.start(state, chapterOneScenes, sceneId);
       const path = [];
       let count = 0;
-      while (StoryEngine.current(state, STORY_SCENES)) {
+      while (StoryEngine.current(state, chapterOneScenes)) {
         assert(++count < 100, "El recorrido debe terminar");
         const id = state.node;
-        const node = StoryEngine.current(state, STORY_SCENES);
+        const node = StoryEngine.current(state, chapterOneScenes);
         path.push(id);
         visited.add(id);
         assert(node.image === expectedImage(id), `Imagen incorrecta en ${id}`);
         assert(Boolean(scene.assets[node.image]), `Recurso desconocido en ${id}`);
         if (node.type === "choice") {
-          assert(StoryEngine.advance(state, STORY_SCENES) === false, "Avance durante elección");
+          assert(StoryEngine.advance(state, chapterOneScenes) === false, "Avance durante elección");
           assert(state.node === id, "La elección debe detener el avance");
-          assert(!StoryEngine.choose(state, STORY_SCENES, "invalid"), "Opción inválida aceptada");
+          assert(!StoryEngine.choose(state, chapterOneScenes, "invalid"), "Opción inválida aceptada");
           const answer = id === "first-choice" ? first : second;
-          assert(StoryEngine.choose(state, STORY_SCENES, answer), "No se pudo elegir");
-          assert(!StoryEngine.choose(state, STORY_SCENES, answer), "Elección duplicada");
+          assert(StoryEngine.choose(state, chapterOneScenes, answer), "No se pudo elegir");
+          assert(!StoryEngine.choose(state, chapterOneScenes, answer), "Elección duplicada");
         } else {
           assert(node.text.length > 0, `Texto vacío en ${id}`);
           const text = StoryEngine.format(node.text, state);
@@ -50,7 +51,7 @@
           if (node.speaker === "Protagonista") {
             assert(StoryEngine.format(node.speaker, state) === state.protagonistName, "Hablante sin sustituir");
           }
-          StoryEngine.advance(state, STORY_SCENES);
+          StoryEngine.advance(state, chapterOneScenes);
         }
       }
       const expectedPath = [
@@ -64,7 +65,7 @@
       assert(state.completedScenes.length === 1 && state.completedScenes[0] === sceneId, "Escena sin completar");
       assert(state.decisions.length === 2, "Faltan elecciones guardadas");
       assert(state.decisions[0].answer === first && state.decisions[1].answer === second, "Elecciones incorrectas");
-      assert(!StoryEngine.advance(state, STORY_SCENES), "Avance después del final");
+      assert(!StoryEngine.advance(state, chapterOneScenes), "Avance después del final");
       assert(!("romance" in state), "Una elección ha impuesto romance");
     }
   }

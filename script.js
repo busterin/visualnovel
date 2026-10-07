@@ -43,6 +43,16 @@ const speaker = document.getElementById("speaker");
 const choicesPanel = document.getElementById("choices-panel");
 const sceneEnding = document.getElementById("scene-ending");
 const sceneImages = [document.getElementById("scene-image-a"), document.getElementById("scene-image-b")];
+const wallName = document.getElementById("wall-name");
+const storyDocument = document.getElementById("story-document");
+const storyEvent = document.getElementById("story-event");
+const eventImage = document.getElementById("event-image");
+const pauseToCover = document.getElementById("pause-to-cover");
+const saveStatus = document.getElementById("save-status");
+const SAVE_KEY = "el-mundo-que-te-recuerda.save.v2";
+let eventRunning = false;
+let eventRequest = 0;
+let renderedChapter = null;
 const imageCache = new Map();
 const missingResources = new Set();
 let imageRequest = 0;
@@ -219,7 +229,33 @@ introVideo.addEventListener("timeupdate", updateIntroSceneFade);
 introVideo.addEventListener("seeked", updateIntroSceneFade);
 
 function showLoadNotice() {
-  window.alert("En construcción");
+  try {
+    const saved = localStorage.getItem(SAVE_KEY);
+    if (!saved) { window.alert("Todavía no hay una partida guardada."); return; }
+    const restored = StoryEngine.restore(JSON.parse(saved), STORY_SCENES);
+    resetScenePresentation();
+    gameState = restored;
+    coverScreen.hidden = true;
+    introScreen.hidden = true;
+    nameScreen.hidden = true;
+    novel.classList.add("is-playing");
+    gameScreen.hidden = false;
+    renderScene();
+    if (choicesPanel.hidden) gameScreen.focus({ preventScroll: true });
+  } catch {
+    window.alert("No se ha podido cargar la partida guardada.");
+  }
+}
+
+function saveGame() {
+  if (!gameState || !STORY_SCENES[gameState.scene]) return;
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify(gameState));
+    saveStatus.hidden = true;
+  } catch {
+    saveStatus.textContent = "El navegador no permite guardar. La partida continúa en esta pestaña.";
+    saveStatus.hidden = false;
+  }
 }
 
 document.getElementById("previous-option").addEventListener("click", () => changeOption(-1));
@@ -233,7 +269,8 @@ coverScreen.addEventListener("keydown", (event) => {
   }
 });
 
-document.getElementById("return-to-cover").addEventListener("click", () => {
+function returnToCover() {
+  saveGame();
   resetScenePresentation();
   novel.classList.remove("is-playing");
   gameScreen.hidden = true;
@@ -241,14 +278,27 @@ document.getElementById("return-to-cover").addEventListener("click", () => {
   selectedOption = 0;
   changeOption(0);
   menuButton.focus();
-});
+}
+document.getElementById("return-to-cover").addEventListener("click", returnToCover);
+pauseToCover.addEventListener("click", returnToCover);
+window.addEventListener("pagehide", saveGame);
 
 function resetScenePresentation() {
+  eventRequest += 1;
+  eventRunning = false;
+  storyEvent.getAnimations().forEach((animation) => animation.cancel());
+  storyEvent.hidden = true;
+  storyEvent.style.opacity = "0";
+  wallName.hidden = true;
+  storyDocument.hidden = true;
+  renderedChapter = null;
   imageRequest += 1;
   requestedImage = null;
   sceneImages.forEach((image) => image.classList.remove("is-visible"));
   sceneEnding.hidden = true;
   gameScreen.classList.remove("is-memory");
+  gameScreen.classList.remove("is-final-note");
+  novel.classList.remove("is-chapter-two");
 }
 
 function loadSceneImage(src) {
@@ -257,16 +307,29 @@ function loadSceneImage(src) {
       const image = new Image();
       image.onload = () => resolve(true);
       image.onerror = () => { missingResources.add(src); resolve(false); };
+      // Una descarga interrumpida no debe bloquear un evento.
+      const timeout = setTimeout(() => { missingResources.add(src); resolve(false); }, 10000);
+      const loaded = image.onload;
+      const failed = image.onerror;
+      image.onload = () => { clearTimeout(timeout); loaded(); };
+      image.onerror = () => { clearTimeout(timeout); failed(); };
       image.src = src;
     }));
   }
   return imageCache.get(src);
 }
 
-async function showSceneImage(key) {
+async function showSceneImage(key, transitionMs = 220) {
   const assets = STORY_SCENES[gameState.scene].assets;
   let asset = assets[key];
-  if (!asset || requestedImage === asset.src) return;
+  if (!asset) {
+    imageRequest += 1;
+    requestedImage = null;
+    sceneImages.forEach((image) => image.classList.remove("is-visible"));
+    gameScreen.style.removeProperty("--scene-background");
+    return;
+  }
+  if (requestedImage === asset.src) return;
   requestedImage = asset.src;
   const request = ++imageRequest;
   const loaded = await loadSceneImage(asset.src);
@@ -274,22 +337,42 @@ async function showSceneImage(key) {
   if (!loaded) {
     // Si falta el recuerdo, mantener a Lyra neutra sin interrumpir el guion.
     asset = assets[asset.fallback || "neutra"];
-    if (!asset || !await loadSceneImage(asset.src) || request !== imageRequest) return;
+    if (!asset || !await loadSceneImage(asset.src)) {
+      if (request === imageRequest) {
+        sceneImages.forEach((image) => image.classList.remove("is-visible"));
+        gameScreen.style.removeProperty("--scene-background");
+      }
+      return;
+    }
+    if (request !== imageRequest) return;
   }
   const next = 1 - visibleImage;
   sceneImages[next].src = asset.src;
+  const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : transitionMs;
+  sceneImages.forEach((image) => { image.style.transitionDuration = `${duration}ms`; });
   sceneImages[next].alt = asset.alt;
   sceneImages[next].removeAttribute("aria-hidden");
   sceneImages[visibleImage].setAttribute("aria-hidden", "true");
   gameScreen.classList.toggle("is-memory", asset.layout === "memory");
   if (asset.layout === "memory") gameScreen.style.setProperty("--memory-background", `url("${asset.src}")`);
+  gameScreen.style.setProperty("--scene-background", `url("${asset.src}")`);
   sceneImages[next].classList.add("is-visible");
   sceneImages[visibleImage].classList.remove("is-visible");
   visibleImage = next;
 }
 
 function renderScene() {
+  StoryEngine.prepare(gameState, STORY_SCENES);
   const node = StoryEngine.current(gameState, STORY_SCENES);
+  const chapter = STORY_SCENES[gameState.scene];
+  const chapterChanged = renderedChapter !== gameState.scene;
+  renderedChapter = gameState.scene;
+  novel.classList.toggle("is-chapter-two", chapter?.chapter === 2);
+  gameScreen.classList.toggle("is-final-note", node?.presentation === "final-note");
+  saveGame();
+  wallName.hidden = true;
+  storyDocument.hidden = true;
+  pauseToCover.hidden = !node || node.type === "event";
   if (!node) {
     imageRequest += 1;
     dialoguePanel.hidden = true;
@@ -299,7 +382,19 @@ function renderScene() {
     return;
   }
   sceneEnding.hidden = true;
-  showSceneImage(node.image);
+  if (node.type === "event") {
+    dialoguePanel.hidden = true;
+    choicesPanel.hidden = true;
+    runStoryEvent(node);
+    return;
+  }
+  showSceneImage(node.image, node.transitionMs || (chapterChanged ? 350 : 220));
+  wallName.hidden = !node.wallName;
+  if (node.wallName) {
+    wallName.textContent = gameState.protagonistName;
+    wallName.classList.toggle("long-name", gameState.protagonistName.length > 18);
+  }
+  renderDocument(node.document);
   const isChoice = node.type === "choice";
   dialoguePanel.hidden = isChoice;
   choicesPanel.hidden = !isChoice;
@@ -322,8 +417,8 @@ function renderScene() {
     choicesPanel.firstElementChild.focus({ preventScroll: true });
   } else {
     speaker.hidden = !node.speaker;
-    dialogueText.classList.toggle("is-narration", !node.speaker);
-    dialoguePanel.classList.toggle("is-narration", !node.speaker);
+    dialogueText.classList.toggle("is-narration", !node.speaker && node.textStyle !== "document");
+    dialoguePanel.classList.toggle("is-narration", !node.speaker && node.textStyle !== "document");
     speaker.textContent = node.speaker ? formatStoryText(node.speaker) : "";
     dialogueText.textContent = formatStoryText(node.text);
     dialoguePanel.scrollTop = 0;
@@ -332,8 +427,87 @@ function renderScene() {
 }
 
 function advanceDialogue() {
-  if (gameScreen.hidden || !sceneEnding.hidden) return;
+  if (gameScreen.hidden || !sceneEnding.hidden || eventRunning) return;
   if (StoryEngine.advance(gameState, STORY_SCENES)) renderScene();
+}
+
+function renderDocument(id) {
+  storyDocument.replaceChildren();
+  const document = gameState.documents[id];
+  storyDocument.hidden = !document;
+  if (!document) return;
+  const add = (tag, text, className) => {
+    const element = window.document.createElement(tag);
+    element.className = className;
+    element.textContent = formatStoryText(text);
+    storyDocument.append(element);
+  };
+  if (document.label) add("p", document.label, "document-label");
+  add("h2", document.title, "document-title");
+  if (document.body) add("p", document.body, "document-body");
+  (document.paragraphs || []).forEach((paragraph) => add("p", paragraph, "document-body"));
+  if (document.signed) add("p", document.signature, "document-signature");
+  storyDocument.scrollTop = storyDocument.scrollHeight;
+}
+
+async function runStoryEvent(node) {
+  if (eventRunning) return;
+  eventRunning = true;
+  const request = ++eventRequest;
+  const active = () => request === eventRequest && !gameScreen.hidden;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  StoryEngine.beginEvent(gameState, STORY_SCENES);
+  saveGame();
+  const fade = async (from, to, duration) => {
+    storyEvent.style.opacity = String(to);
+    if (!duration || !active()) return;
+    await storyEvent.animate([{ opacity: from }, { opacity: to }], { duration, easing: "ease-in-out" }).finished.catch(() => {});
+  };
+  const wait = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+  try {
+    if (node.style === "memory") {
+      const asset = STORY_SCENES[gameState.scene].assets[node.image];
+      const loaded = await loadSceneImage(asset.src);
+      if (!active()) return;
+      await showSceneImage(node.returnImage, 0);
+      if (!active()) return;
+      if (loaded) {
+        eventImage.src = asset.src;
+        eventImage.alt = asset.alt;
+        eventImage.hidden = false;
+        storyEvent.hidden = false;
+        await fade(0, 1, reduced ? 0 : node.fadeDurationMs);
+        if (!active()) return;
+        await wait(node.durationMs);
+        if (!active()) return;
+        await fade(1, 0, reduced ? 0 : node.fadeDurationMs);
+      }
+    } else {
+      eventImage.hidden = true;
+      storyEvent.hidden = false;
+      await fade(0, 1, reduced ? 0 : node.fadeDurationMs);
+      if (!active()) return;
+      if (!reduced && node.durationMs) await wait(node.durationMs);
+      if (!active()) return;
+      await showSceneImage(node.image, 0);
+      if (!active()) return;
+      if (node.style !== "ending") await fade(1, 0, reduced ? 0 : node.fadeDurationMs);
+    }
+    if (!active()) return;
+    StoryEngine.finishEvent(gameState, STORY_SCENES);
+    eventRunning = false;
+    storyEvent.hidden = true;
+    storyEvent.style.opacity = "0";
+    renderScene();
+    gameScreen.focus({ preventScroll: true });
+  } catch {
+    if (!active()) return;
+    // El texto sigue accesible aunque el navegador no permita animaciones.
+    StoryEngine.finishEvent(gameState, STORY_SCENES);
+    eventRunning = false;
+    storyEvent.hidden = true;
+    renderScene();
+  }
 }
 
 document.getElementById("advance-dialogue").addEventListener("click", (event) => {
@@ -342,11 +516,12 @@ document.getElementById("advance-dialogue").addEventListener("click", (event) =>
 });
 
 gameScreen.addEventListener("click", (event) => {
-  if (event.target.closest("button") || window.getSelection()?.toString()) return;
+  if (event.target.closest("button, .story-document") || window.getSelection()?.toString()) return;
   advanceDialogue();
 });
 
 gameScreen.addEventListener("keydown", (event) => {
+  if (eventRunning) { event.preventDefault(); return; }
   if (!choicesPanel.hidden && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
     event.preventDefault();
     const buttons = Array.from(choicesPanel.querySelectorAll("button"));
@@ -360,7 +535,7 @@ gameScreen.addEventListener("keydown", (event) => {
     buttons[next].scrollIntoView({ block: "nearest", inline: "nearest" });
     return;
   }
-  if (event.key !== "Enter") return;
+  if (event.key !== "Enter" && event.key !== " ") return;
   if (event.repeat) { event.preventDefault(); return; }
   if (event.target.closest("button")) return;
   event.preventDefault();

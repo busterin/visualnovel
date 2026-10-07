@@ -7,6 +7,8 @@
     <title>El mundo que te recuerda</title>
     <link rel="stylesheet" href="styles.css">
     <script src="scenes.js" defer></script>
+    <script src="chapter2-memory.js" defer></script>
+    <script src="chapter2.js" defer></script>
     <script src="story-engine.js" defer></script>
     <script src="script.js" defer></script>
   </head>
@@ -48,7 +50,14 @@
         <div id="scene-art" class="scene-art">
           <img id="scene-image-a" class="scene-image" alt="" draggable="false">
           <img id="scene-image-b" class="scene-image" alt="" draggable="false">
+          <span id="wall-name" class="wall-name" hidden></span>
         </div>
+        <aside id="story-document" class="story-document" aria-label="Documento" hidden></aside>
+        <button id="pause-to-cover" class="text-button pause-to-cover" type="button" aria-label="Guardar y volver al menú">Menú</button>
+        <div id="story-event" class="story-event" hidden aria-live="polite">
+          <img id="event-image" alt="" hidden>
+        </div>
+        <p id="save-status" class="save-status" role="status" hidden></p>
         <div id="dialogue-panel" class="dialogue-panel">
           <div id="dialogue-content" aria-live="polite" aria-atomic="true">
             <p id="speaker" class="speaker"></p>
