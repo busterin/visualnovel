@@ -142,6 +142,8 @@ button:focus-visible { outline: 2px solid #ffe2a3; outline-offset: 4px; }
 
 #intro-video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
 .intro-flash { position: absolute; inset: 0; z-index: 10; background: #fff; opacity: 0; }
+.intro-scene-fade { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+.video-sound { position: absolute; top: 16px; right: 12px; min-height: 44px; }
 .video-fallback { position: absolute; bottom: 12%; left: 5%; width: 90%; padding: 16px; text-align: center; background: #080b14ed; border-radius: 8px; }
 .name-screen { display: grid; place-items: center; padding: 20px; overflow-y: auto; isolation: isolate; }
 .name-screen::before {

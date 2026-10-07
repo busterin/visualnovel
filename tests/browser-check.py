@@ -107,11 +107,41 @@ print(browser.evaluate("""(async () => {
   }
   if (introVideo.error) throw new Error('Error de vídeo: ' + introVideo.error.message);
   if (introVideo.paused || introVideo.currentTime <= 0 || introVideo.controls) throw new Error('No se reproduce automáticamente sin controles');
-  for (let i = 0; i < 500 && nameScreen.hidden; i++) await new Promise(resolve => setTimeout(resolve, 100));
+  if (!introVideo.currentSrc.endsWith('/videos/videointro.mp4')) throw new Error('Ruta incorrecta del MP4');
+  const frame = document.createElement('canvas'); frame.width = 32; frame.height = 32;
+  const ctx = frame.getContext('2d'); ctx.drawImage(introVideo, 0, 0, 32, 32);
+  const pixels = ctx.getImageData(0, 0, 32, 32).data;
+  if (!pixels.some((value, index) => index % 4 !== 3 && value > 40)) throw new Error('El vídeo no decodifica imagen visible');
+  let strongestFade = 0;
+  let fadeOutsideCut = false;
+  for (let i = 0; i < 500 && nameScreen.hidden; i++) {
+    const opacity = Number(introSceneFade.style.opacity);
+    strongestFade = Math.max(strongestFade, opacity);
+    if (opacity > 0 && (introVideo.currentTime < 16.6 || introVideo.currentTime > 18)) fadeOutsideCut = true;
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  if (strongestFade < .99 || fadeOutsideCut) throw new Error('El fundido interno no cubre el corte en el momento correcto');
+  if (!introSceneFade.hidden) throw new Error('El blanco permanece después del vídeo');
   if (nameScreen.hidden) throw new Error('El final real del vídeo no abre la pregunta del nombre');
   nameInput.value = 'Álex'; nameForm.requestSubmit();
   if (gameState.node !== '1' || gameScreen.hidden) throw new Error('No comienza la primera escena');
-  return 'OK vídeo: clic real inicia reproducción con audio, final natural pide nombre y abre la escena.';
+  return 'OK vídeo: fundido inicial, blanco en el corte bosque/Lyra, final natural, nombre y primera escena.';
+})()"""))
+
+print(browser.evaluate("""(async () => {
+  const originalPlay = introVideo.play;
+  introScreen.hidden = false; gameScreen.hidden = true; nameScreen.hidden = true;
+  introVideo.currentTime = 0; introVideo.muted = false;
+  introVideo.play = function () {
+    return this.muted ? originalPlay.call(this) : Promise.reject(new DOMException('Prueba de bloqueo de sonido', 'NotAllowedError'));
+  };
+  await playIntroVideo();
+  if (introVideo.paused || !introVideo.muted || enableVideoSound.hidden) throw new Error('No arranca silenciado cuando se bloquea el audio');
+  introVideo.play = originalPlay;
+  enableVideoSound.click();
+  if (introVideo.muted || !enableVideoSound.hidden) throw new Error('No activa el sonido');
+  introVideo.pause(); askTravelerName();
+  return 'OK: alternativa automática sin sonido y activación de audio por el usuario.';
 })()"""))
 
 print(browser.evaluate("""(async () => {

@@ -17,7 +17,12 @@ const nameForm = document.getElementById("name-form");
 const nameInput = document.getElementById("traveler-name");
 const nameError = document.getElementById("name-error");
 const videoFallback = document.getElementById("video-fallback");
+const enableVideoSound = document.getElementById("enable-video-sound");
 const introFlash = document.getElementById("intro-flash");
+const introSceneFade = document.getElementById("intro-scene-fade");
+// Corte bosque → Lyra de videointro.mp4, alrededor de 17,1 segundos.
+const introSceneTransition = { start: 16.65, whiteFrom: 17, whiteUntil: 17.25, end: 17.95 };
+let introSceneFadeFrame = null;
 let introTransitionRunning = false;
 const novel = document.querySelector(".novel");
 const dialoguePanel = document.getElementById("dialogue-panel");
@@ -60,8 +65,17 @@ async function startNewGame() {
   introScreen.hidden = true;
   videoFallback.hidden = true;
   introVideo.pause();
+  stopIntroSceneFade();
+  introSceneFade.hidden = true;
+  introSceneFade.style.opacity = "0";
   introVideo.controls = false;
+  introVideo.muted = false;
+  enableVideoSound.hidden = true;
   introVideo.currentTime = 0;
+  // Solicitar reproducción dentro del clic; detenerla antes de pintar el fundido.
+  // Algunos móviles pierden la autorización del gesto después de un await.
+  introVideo.play().catch(() => {});
+  introVideo.pause();
   coverScreen.inert = true;
   introFlash.hidden = false;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -72,12 +86,7 @@ async function startNewGame() {
   coverScreen.hidden = true;
   introScreen.hidden = false;
   // La llamada no espera a la descarga: un vídeo lento no retiene el fundido.
-  introVideo.play().catch(() => {
-    if (introScreen.hidden) return;
-    introVideo.controls = true;
-    document.getElementById("video-status").textContent = "Pulsa reproducir en el vídeo o continúa.";
-    videoFallback.hidden = false;
-  });
+  playIntroVideo();
   await introFlash.animate([{ opacity: 1 }, { opacity: 0 }], {
     duration: reducedMotion ? 200 : 500, easing: "ease-out", fill: "forwards",
   }).finished;
@@ -87,9 +96,38 @@ async function startNewGame() {
   introTransitionRunning = false;
 }
 
+async function playIntroVideo() {
+  try {
+    await introVideo.play();
+  } catch (error) {
+    if (introScreen.hidden) return;
+    if (error.name === "NotAllowedError") {
+      // Si el navegador bloquea el audio, el vídeo sigue arrancando solo.
+      introVideo.muted = true;
+      try {
+        await introVideo.play();
+        enableVideoSound.hidden = false;
+        return;
+      } catch { /* Ofrecer controles si tampoco permite reproducir sin sonido. */ }
+    }
+    if (introScreen.hidden) return;
+    introVideo.controls = true;
+    document.getElementById("video-status").textContent = "No se ha podido iniciar el vídeo. Puedes reproducirlo con los controles o continuar.";
+    videoFallback.hidden = false;
+  }
+}
+
+enableVideoSound.addEventListener("click", () => {
+  introVideo.muted = false;
+  enableVideoSound.hidden = true;
+  playIntroVideo();
+});
+
 function askTravelerName() {
   if (!gameState || introScreen.hidden) return;
   introVideo.pause();
+  stopIntroSceneFade();
+  introSceneFade.hidden = true;
   introScreen.hidden = true;
   gameState.scene = "name";
   nameScreen.hidden = false;
@@ -133,6 +171,39 @@ introVideo.addEventListener("error", () => {
   videoFallback.hidden = false;
 });
 document.getElementById("continue-intro").addEventListener("click", askTravelerName);
+
+function updateIntroSceneFade() {
+  const time = introVideo.currentTime;
+  const { start, whiteFrom, whiteUntil, end } = introSceneTransition;
+  let opacity = 0;
+  if (time > start && time < end) {
+    const progress = time < whiteFrom ? (time - start) / (whiteFrom - start)
+      : time > whiteUntil ? (end - time) / (end - whiteUntil) : 1;
+    opacity = progress * progress * (3 - 2 * progress);
+  }
+  introSceneFade.style.opacity = String(opacity);
+  introSceneFade.hidden = opacity === 0 || introScreen.hidden;
+}
+
+function stopIntroSceneFade() {
+  cancelAnimationFrame(introSceneFadeFrame);
+  introSceneFadeFrame = null;
+}
+
+function animateIntroSceneFade() {
+  stopIntroSceneFade();
+  updateIntroSceneFade();
+  // Seguir el tiempo del vídeo conserva la sincronización al pausar o cargar.
+  if (!introVideo.paused && !introVideo.ended && !introScreen.hidden) {
+    introSceneFadeFrame = requestAnimationFrame(animateIntroSceneFade);
+  }
+}
+
+introVideo.addEventListener("play", animateIntroSceneFade);
+introVideo.addEventListener("pause", stopIntroSceneFade);
+introVideo.addEventListener("ended", stopIntroSceneFade);
+introVideo.addEventListener("timeupdate", updateIntroSceneFade);
+introVideo.addEventListener("seeked", updateIntroSceneFade);
 
 function showLoadNotice() {
   window.alert("En construcción");

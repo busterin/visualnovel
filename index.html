@@ -28,7 +28,9 @@
         </nav>
       </section>
       <section id="intro-screen" class="screen" aria-label="Introducción" hidden>
-        <video id="intro-video" src="videos/videointro.MOV" playsinline preload="auto" aria-label="Vídeo de introducción"></video>
+        <video id="intro-video" src="videos/videointro.mp4" playsinline preload="auto" aria-label="Vídeo de introducción"></video>
+        <div id="intro-scene-fade" class="intro-scene-fade" aria-hidden="true" hidden></div>
+        <button id="enable-video-sound" class="text-button video-sound" type="button" hidden>Activar sonido</button>
         <div id="video-fallback" class="video-fallback" hidden>
           <p id="video-status" role="status"></p>
           <button id="continue-intro" class="text-button" type="button">Continuar</button>
