@@ -31,7 +31,7 @@ body {
 
 .menu {
   position: absolute;
-  top: 66%;
+  bottom: 4%;
   left: 14%;
   width: 72%;
   display: grid;
