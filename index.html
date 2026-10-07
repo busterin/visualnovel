@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#080b14">
+    <title>El mundo que te recuerda</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scenes.js" defer></script>
+    <script src="story-engine.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="novel" aria-label="El mundo que te recuerda">
+      <section id="cover-screen" class="screen" aria-label="Menú principal">
+        <img class="cover" src="imagenes/Portada.png" alt="El mundo que te recuerda" fetchpriority="high">
+        <nav class="menu" aria-label="Opciones de partida">
+          <button class="arrow" id="previous-option" type="button" aria-label="Opción anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+          </button>
+          <button class="menu-option" id="menu-option" type="button" aria-label="Nuevo juego">
+            <img id="option-image" src="imagenes/Nuevo%20juego.png" alt="" draggable="false">
+          </button>
+          <button class="arrow" id="next-option" type="button" aria-label="Opción siguiente">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+          </button>
+          <span id="menu-announcement" class="sr-only" aria-live="polite">Nuevo juego</span>
+        </nav>
+      </section>
+      <section id="intro-screen" class="screen" aria-label="Introducción" hidden>
+        <video id="intro-video" src="videos/videointro.MOV" playsinline preload="auto" aria-label="Vídeo de introducción"></video>
+        <div id="video-fallback" class="video-fallback" hidden>
+          <p id="video-status" role="status"></p>
+          <button id="continue-intro" class="text-button" type="button">Continuar</button>
+        </div>
+      </section>
+      <section id="name-screen" class="screen name-screen" aria-labelledby="name-heading" hidden>
+        <form id="name-form" class="name-card">
+          <h1 id="name-heading" tabindex="-1"><label for="traveler-name">¿Cuál es tu nombre, viajero?</label></h1>
+          <input id="traveler-name" name="traveler-name" type="text" maxlength="40" required autocomplete="off" enterkeyhint="done" placeholder="Tu nombre" aria-describedby="name-error">
+          <p id="name-error" class="name-error" aria-live="polite"></p>
+          <button class="text-button" type="submit">Continuar</button>
+        </form>
+      </section>
+      <section id="game-screen" class="screen game-screen" aria-label="Partida" tabindex="-1" hidden>
+        <div id="scene-art" class="scene-art">
+          <img id="scene-image-a" class="scene-image" alt="" draggable="false">
+          <img id="scene-image-b" class="scene-image" alt="" draggable="false">
+        </div>
+        <div id="dialogue-panel" class="dialogue-panel">
+          <div id="dialogue-content" aria-live="polite" aria-atomic="true">
+            <p id="speaker" class="speaker"></p>
+            <p id="dialogue-text" class="dialogue-text"></p>
+          </div>
+          <button id="advance-dialogue" class="advance-dialogue" type="button" aria-label="Siguiente diálogo">Continuar <span aria-hidden="true">▸</span></button>
+        </div>
+        <div id="choices-panel" class="choices-panel" role="group" aria-label="Elige una respuesta" hidden></div>
+        <div id="scene-ending" class="scene-ending" hidden>
+          <p id="ending-heading" tabindex="-1">Continuará</p>
+          <button id="return-to-cover" class="text-button" type="button">Volver a la portada</button>
+        </div>
+      </section>
+      <div id="intro-flash" class="intro-flash" aria-hidden="true" hidden></div>
+    </main>
+  </body>
+</html>
