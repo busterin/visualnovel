@@ -274,6 +274,7 @@ print(browser.evaluate("""(async () => {
 })()"""))
 browser.evaluate((ROOT / "tests/chapter2.test.js").read_text())
 print(browser.evaluate((ROOT / "tests/chapter2-browser.js").read_text()))
+print(browser.evaluate((ROOT / "tests/pause-menu.test.js").read_text()))
 for width, height in [(390,844),(320,568),(1440,900)]:
     browser.call("Emulation.setDeviceMetricsOverride", {"width":width,"height":height,"deviceScaleFactor":1,"mobile":width<600})
     for node in ["c2_009A","c2_059A","c2_104","c2_038-eleccion"]:

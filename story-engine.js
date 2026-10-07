@@ -6,6 +6,7 @@ const StoryEngine = {
     return {
       version: 2, scene: "intro", node: null, protagonistName: "", decisions: [], completedScenes: [],
       appliedNodes: [], events: {}, documents: {},
+      metCompanions: [], affinity: {},
       c2_eleccion_puerta: null, c2_pista_muro: false, c2_advertencia_estacion: false,
       c2_pregunta_lyra: null, c2_conversacion_iven: null, c2_impreso_posada: false,
       c2_recomendacion_firmada: false, c2_contacto_eiden: false, c2_contacto_inspeccion: false,
@@ -36,6 +37,10 @@ const StoryEngine = {
         continue;
       }
       const id = `${state.scene}:${state.node}`;
+      for (const companion of node.meetCompanions || []) {
+        if (!state.metCompanions.includes(companion)) state.metCompanions.push(companion);
+        state.affinity[companion] ??= 1;
+      }
       if (!state.appliedNodes.includes(id)) {
         Object.assign(state, node.effects || {});
         if (node.grantDocument && !state.documents[node.grantDocument]) {
@@ -99,9 +104,26 @@ const StoryEngine = {
   restore(saved, scenes) {
     if (!saved || typeof saved !== "object" || !scenes[saved.scene]) throw new Error("Partida no válida");
     const state = Object.assign(this.createState(), JSON.parse(JSON.stringify(saved)), { version: 2 });
+    if (!Array.isArray(state.metCompanions)) state.metCompanions = [];
+    if (!state.affinity || typeof state.affinity !== "object" || Array.isArray(state.affinity)) state.affinity = {};
+    // Iven se incluyó como compañero en las primeras partidas de prueba.
+    state.metCompanions = state.metCompanions.filter(id => id !== "iven");
+    delete state.affinity.iven;
+    for (const id of Object.keys(state.affinity)) {
+      const level = state.affinity[id];
+      state.affinity[id] = Number.isSafeInteger(level) && level >= 1 ? level : 1;
+    }
     if (!Array.isArray(state.decisions) || !Array.isArray(state.completedScenes) || !Array.isArray(state.appliedNodes)
         || !state.events || !state.documents || typeof state.protagonistName !== "string"
         || (state.node !== null && !scenes[state.scene].nodes[state.node])) throw new Error("Partida no válida");
+    // Recuperar encuentros en partidas guardadas antes de añadir el menú.
+    for (const key of state.appliedNodes) {
+      const [sceneId, nodeId] = key.split(":");
+      for (const companion of scenes[sceneId]?.nodes[nodeId]?.meetCompanions || []) {
+        if (!state.metCompanions.includes(companion)) state.metCompanions.push(companion);
+        state.affinity[companion] ??= 1;
+      }
+    }
     // Una carga durante un evento prosigue después: nunca repite destellos/apagones.
     const node = this.current(state, scenes);
     if (node?.type === "event" && state.events[node.event]) this.finishEvent(state, scenes);

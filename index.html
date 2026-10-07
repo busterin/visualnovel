@@ -11,6 +11,8 @@
     <script src="chapter2.js" defer></script>
     <script src="story-engine.js" defer></script>
     <script src="script.js" defer></script>
+    <script src="companions.js" defer></script>
+    <script src="pause-menu.js" defer></script>
   </head>
   <body>
     <main class="novel" aria-label="El mundo que te recuerda">
@@ -28,6 +30,14 @@
           </button>
           <span id="menu-announcement" class="sr-only" aria-live="polite">Nuevo juego</span>
         </nav>
+      </section>
+      <section id="chapter-screen" class="screen chapter-screen" role="dialog" aria-modal="true" aria-labelledby="chapter-heading" hidden>
+        <div class="chapter-card">
+          <h1 id="chapter-heading">Escoge un capítulo</h1>
+          <p>Acceso temporal para revisar el juego.</p>
+          <div id="chapter-options" class="chapter-options"></div>
+          <button id="cancel-chapter" class="text-button" type="button">Volver</button>
+        </div>
       </section>
       <section id="intro-screen" class="screen" aria-label="Introducción" hidden>
         <video id="intro-video" src="videos/videointro.mp4" playsinline preload="auto" aria-label="Vídeo de introducción"></video>
@@ -53,7 +63,7 @@
           <span id="wall-name" class="wall-name" hidden></span>
         </div>
         <aside id="story-document" class="story-document" aria-label="Documento" hidden></aside>
-        <button id="pause-to-cover" class="text-button pause-to-cover" type="button" aria-label="Guardar y volver al menú">Menú</button>
+        <button id="pause-to-cover" class="text-button pause-to-cover" type="button" aria-label="Pausar y abrir el menú" aria-haspopup="dialog">Menú</button>
         <div id="story-event" class="story-event" hidden aria-live="polite">
           <img id="event-image" alt="" hidden>
         </div>
@@ -70,6 +80,19 @@
           <p id="ending-heading" tabindex="-1">Continuará</p>
           <button id="return-to-cover" class="text-button" type="button">Volver a la portada</button>
         </div>
+      </section>
+      <section id="pause-menu" class="screen pause-menu" role="dialog" aria-modal="true" aria-labelledby="pause-heading" hidden>
+        <header class="pause-header">
+          <div id="protagonist-portrait" class="protagonist-portrait" role="img" aria-label="Retrato del protagonista"></div>
+          <h1 id="pause-heading"></h1>
+          <p>Partida en pausa</p>
+        </header>
+        <nav class="pause-tabs" aria-label="Secciones del menú">
+          <button id="show-history" class="text-button" type="button" aria-pressed="true">Historia</button>
+          <button id="show-companions" class="text-button" type="button" aria-pressed="false">Compañeros</button>
+        </nav>
+        <div id="pause-content" class="pause-content" tabindex="0"></div>
+        <button id="resume-game" class="text-button resume-game" type="button">Continuar partida</button>
       </section>
       <div id="intro-flash" class="intro-flash" aria-hidden="true" hidden></div>
     </main>

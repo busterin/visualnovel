@@ -1,7 +1,9 @@
 "use strict";
 
+// Desactivar al terminar la revisión para recuperar el inicio habitual.
+const ENABLE_CHAPTER_SELECTOR = true;
 const menuOptions = [
-  { label: "Nuevo juego", image: "imagenes/Nuevo%20juego.png", action: startNewGame },
+  { label: "Nuevo juego", image: "imagenes/Nuevo%20juego.png", action: openChapterSelector },
   { label: "Cargar", image: "imagenes/Cargar.png", action: showLoadNotice },
 ];
 
@@ -16,6 +18,10 @@ const nameScreen = document.getElementById("name-screen");
 const nameForm = document.getElementById("name-form");
 const nameInput = document.getElementById("traveler-name");
 const nameError = document.getElementById("name-error");
+const chapterScreen = document.getElementById("chapter-screen");
+const chapterOptions = document.getElementById("chapter-options");
+const cancelChapter = document.getElementById("cancel-chapter");
+let startingScene = "lyra-has-vuelto";
 const videoFallback = document.getElementById("video-fallback");
 const enableVideoSound = document.getElementById("enable-video-sound");
 const introFlash = document.getElementById("intro-flash");
@@ -73,8 +79,48 @@ function changeOption(direction) {
   announcement.textContent = option.label;
 }
 
-async function startNewGame() {
+function openChapterSelector() {
+  if (!ENABLE_CHAPTER_SELECTOR) { startNewGame(); return; }
   if (introTransitionRunning) return;
+  chapterOptions.replaceChildren();
+  Object.entries(STORY_SCENES)
+    .filter(([, scene]) => scene.chapter && scene.nodes?.[scene.start])
+    .sort((a, b) => a[1].chapter - b[1].chapter)
+    .forEach(([id, scene]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "text-button";
+      button.textContent = `Capítulo ${scene.chapter} · ${scene.title}`;
+      button.addEventListener("click", () => startNewGame(id));
+      chapterOptions.append(button);
+    });
+  chapterScreen.hidden = false;
+  coverScreen.inert = true;
+  chapterOptions.firstElementChild?.focus();
+}
+
+cancelChapter.addEventListener("click", () => {
+  chapterScreen.hidden = true;
+  coverScreen.inert = false;
+  menuButton.focus();
+});
+chapterScreen.addEventListener("keydown", (event) => {
+  const buttons = [...chapterScreen.querySelectorAll("button")];
+  const index = buttons.indexOf(document.activeElement);
+  if (event.key === "Escape") { event.preventDefault(); cancelChapter.click(); }
+  else if (["ArrowUp", "ArrowDown", "Tab"].includes(event.key)) {
+    event.preventDefault();
+    const direction = event.key === "ArrowUp" || (event.key === "Tab" && event.shiftKey) ? -1 : 1;
+    buttons[(index + direction + buttons.length) % buttons.length].focus();
+  }
+});
+
+async function startNewGame(sceneId = "lyra-has-vuelto") {
+  if (introTransitionRunning) return;
+  if (!STORY_SCENES[sceneId]?.nodes[STORY_SCENES[sceneId].start]) return;
+  startingScene = sceneId;
+  chapterScreen.hidden = true;
+  coverScreen.inert = false;
   introTransitionRunning = true;
   gameState = StoryEngine.createState();
   novel.classList.remove("is-playing");
@@ -94,6 +140,12 @@ async function startNewGame() {
   introVideo.muted = false;
   enableVideoSound.hidden = true;
   introVideo.currentTime = 0;
+  if (sceneId !== "lyra-has-vuelto") {
+    coverScreen.hidden = true;
+    introTransitionRunning = false;
+    askTravelerName();
+    return;
+  }
   // Solicitar reproducción dentro del clic; detenerla antes de pintar el fundido.
   // Algunos móviles pierden la autorización del gesto después de un await.
   introVideo.play().catch(() => {});
@@ -146,7 +198,7 @@ enableVideoSound.addEventListener("click", () => {
 });
 
 function askTravelerName() {
-  if (!gameState || introScreen.hidden) return;
+  if (!gameState || gameState.scene !== "intro") return;
   introVideo.pause();
   stopIntroSceneFade();
   introSceneFade.hidden = true;
@@ -175,7 +227,7 @@ nameForm.addEventListener("submit", (event) => {
   gameState.protagonistName = name;
   nameInput.blur();
   nameScreen.hidden = true;
-  StoryEngine.start(gameState, STORY_SCENES, "lyra-has-vuelto");
+  StoryEngine.start(gameState, STORY_SCENES, startingScene);
   novel.classList.add("is-playing");
   gameScreen.hidden = false;
   prepareAudio();
@@ -280,10 +332,11 @@ function returnToCover() {
   menuButton.focus();
 }
 document.getElementById("return-to-cover").addEventListener("click", returnToCover);
-pauseToCover.addEventListener("click", returnToCover);
+pauseToCover.addEventListener("click", () => openPauseMenu());
 window.addEventListener("pagehide", saveGame);
 
 function resetScenePresentation() {
+  closePauseMenu(false);
   eventRequest += 1;
   eventRunning = false;
   storyEvent.getAnimations().forEach((animation) => animation.cancel());
@@ -388,7 +441,8 @@ function renderScene() {
     runStoryEvent(node);
     return;
   }
-  showSceneImage(node.image, node.transitionMs || (chapterChanged ? 350 : 220));
+  const documentPresentation = chapter.documents?.[node.document]?.presentation;
+  showSceneImage(documentPresentation?.image || node.image, node.transitionMs || (chapterChanged ? 350 : 220));
   wallName.hidden = !node.wallName;
   if (node.wallName) {
     wallName.textContent = gameState.protagonistName;
@@ -407,6 +461,7 @@ function renderScene() {
       button.textContent = formatStoryText(option.text);
       button.addEventListener("click", (event) => {
         event.stopPropagation();
+        if (isGamePaused) return;
         if (StoryEngine.choose(gameState, STORY_SCENES, option.id)) {
           renderScene();
           gameScreen.focus({ preventScroll: true });
@@ -427,12 +482,14 @@ function renderScene() {
 }
 
 function advanceDialogue() {
-  if (gameScreen.hidden || !sceneEnding.hidden || eventRunning) return;
+  if (isGamePaused || gameScreen.hidden || !sceneEnding.hidden || eventRunning) return;
   if (StoryEngine.advance(gameState, STORY_SCENES)) renderScene();
 }
 
 function renderDocument(id) {
   storyDocument.replaceChildren();
+  const presentation = STORY_SCENES[gameState.scene].documents?.[id]?.presentation;
+  storyDocument.classList.toggle("is-on-paper", Boolean(presentation));
   const document = gameState.documents[id];
   storyDocument.hidden = !document;
   if (!document) return;
@@ -447,8 +504,25 @@ function renderDocument(id) {
   if (document.body) add("p", document.body, "document-body");
   (document.paragraphs || []).forEach((paragraph) => add("p", paragraph, "document-body"));
   if (document.signed) add("p", document.signature, "document-signature");
+  if (presentation) positionPaperText();
   storyDocument.scrollTop = storyDocument.scrollHeight;
 }
+
+function positionPaperText() {
+  if (storyDocument.hidden || !storyDocument.classList.contains("is-on-paper")) return;
+  const node = StoryEngine.current(gameState, STORY_SCENES);
+  const paper = STORY_SCENES[gameState.scene].documents?.[node?.document]?.presentation;
+  if (!paper) return;
+  // Follow the same centered cover crop as the illustration, including on resize.
+  const scale = Math.max(gameScreen.clientWidth / paper.width, gameScreen.clientHeight / paper.height);
+  const bounds = paper.textBounds;
+  storyDocument.style.setProperty("--paper-left", `${(gameScreen.clientWidth - paper.width * scale) / 2 + bounds.x * scale}px`);
+  storyDocument.style.setProperty("--paper-top", `${(gameScreen.clientHeight - paper.height * scale) / 2 + bounds.y * scale}px`);
+  storyDocument.style.setProperty("--paper-width", `${bounds.width * scale}px`);
+  storyDocument.style.setProperty("--paper-height", `${bounds.height * scale}px`);
+  storyDocument.style.setProperty("--paper-font", `${Math.max(12, 30 * scale)}px`);
+}
+new ResizeObserver(positionPaperText).observe(gameScreen);
 
 async function runStoryEvent(node) {
   if (eventRunning) return;
@@ -456,6 +530,7 @@ async function runStoryEvent(node) {
   const request = ++eventRequest;
   const active = () => request === eventRequest && !gameScreen.hidden;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  storyEvent.classList.toggle("is-memory-flash", node.style === "memory");
   StoryEngine.beginEvent(gameState, STORY_SCENES);
   saveGame();
   const fade = async (from, to, duration) => {
@@ -521,7 +596,7 @@ gameScreen.addEventListener("click", (event) => {
 });
 
 gameScreen.addEventListener("keydown", (event) => {
-  if (eventRunning) { event.preventDefault(); return; }
+  if (isGamePaused || eventRunning) { event.preventDefault(); return; }
   if (!choicesPanel.hidden && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
     event.preventDefault();
     const buttons = Array.from(choicesPanel.querySelectorAll("button"));

@@ -64,6 +64,12 @@ STORY_SCENES.vestibulo = {
   },
   "documents": {
     "posada": {
+      "presentation": {
+        "image": "impreso",
+        "width": 941,
+        "height": 1672,
+        "textBounds": { "x": 320, "y": 603, "width": 402, "height": 432 }
+      },
       "title": "POSADA DEL PUENTE",
       "body": "Calle del Puente, 8\nPreguntar por Ada",
       "signed": false,
@@ -82,6 +88,7 @@ STORY_SCENES.vestibulo = {
   },
   "nodes": {
     "c2_001": {
+      "meetCompanions": ["lyra"],
       "type": "dialogue",
       "speaker": null,
       "text": "Sigo a Lyra hasta el vestíbulo. Las taquillas están vacías. Sobre la puerta, un reloj marca una hora que no coincide con la del móvil.",

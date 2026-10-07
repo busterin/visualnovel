@@ -5,6 +5,7 @@
 // Los recursos originales tienen la extensión .png.png.
 const STORY_SCENES = {
   "lyra-has-vuelto": {
+    "chapter": 1,
     "title": "Has vuelto",
     "start": "1",
     "nextScene": "vestibulo",
@@ -46,6 +47,7 @@ const STORY_SCENES = {
     },
     "nodes": {
       "1": {
+        "meetCompanions": ["lyra"],
         "type": "dialogue",
         "speaker": "Lyra",
         "text": "No te muevas.",
