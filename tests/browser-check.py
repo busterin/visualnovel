@@ -236,7 +236,9 @@ for width, height in [(390, 844), (320, 568), (1440, 900), (844, 390)]:
           const rect = panel.getBoundingClientRect();
           const frame = gameScreen.getBoundingClientRect();
           return { inside: rect.left >= frame.left && rect.right <= frame.right + 1 && rect.top >= frame.top && rect.bottom <= frame.bottom + 1,
-            verticalFrame: Math.abs(frame.width / frame.height - 941 / 1672) < .002,
+            verticalFrame: matchMedia('(max-width: 600px), (pointer: coarse) and (max-width: 1024px)').matches
+              ? Math.abs(frame.width - innerWidth) < 1 && Math.abs(frame.height - innerHeight) < 1
+              : Math.abs(frame.width / frame.height - 941 / 1672) < .002,
             faceClear: rect.top >= frame.top + frame.height * .5,
             horizontalOverflow: panel.scrollWidth > panel.clientWidth,
             loaded: sceneImages[visibleImage].naturalWidth > 0 };
@@ -246,6 +248,18 @@ for width, height in [(390, 844), (320, 568), (1440, 900), (844, 390)]:
             shot = browser.call("Page.captureScreenshot", {"format": "png"})
             Path(f"/tmp/novel-{width}-{node}.png").write_bytes(base64.b64decode(shot["data"]))
 print("OK diseño: móvil, móvil pequeño, PC y horizontal; texto dentro de pantalla y zona superior libre.")
+
+browser.call("Emulation.setDeviceMetricsOverride", {"width": 390, "height": 844, "deviceScaleFactor": 1, "mobile": True})
+browser.evaluate("gameScreen.hidden = true; nameScreen.hidden = false; updateNameViewport();")
+before = browser.evaluate("[nameForm.getBoundingClientRect().width, nameInput.getBoundingClientRect().width, nameInput.getBoundingClientRect().height]")
+browser.evaluate("nameInput.focus();")
+browser.call("Emulation.setDeviceMetricsOverride", {"width": 390, "height": 420, "deviceScaleFactor": 1, "mobile": True})
+time.sleep(.2)
+after = browser.evaluate("[nameForm.getBoundingClientRect().width, nameInput.getBoundingClientRect().width, nameInput.getBoundingClientRect().height]")
+assert before == after, ("El teclado cambia el tamaño del formulario", before, after)
+assert browser.evaluate("nameForm.getBoundingClientRect().bottom <= innerHeight"), "El teclado oculta el formulario"
+browser.evaluate("nameInput.blur(); nameScreen.hidden = true; gameScreen.hidden = false;")
+print("OK teclado: formulario e input conservan ancho y tamaño al reducir la altura disponible.")
 
 print(browser.evaluate("""(async () => {
   const scene = STORY_SCENES['lyra-has-vuelto'];

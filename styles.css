@@ -6,6 +6,7 @@
 }
 
 * { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 body {
   margin: 0;
@@ -165,6 +166,34 @@ button:focus-visible { outline: 2px solid #ffe2a3; outline-offset: 4px; }
 .name-error { min-height: 1.5em; margin: 10px 0; font-size: 14px; color: #f6ccad; }
 .name-card .text-button { width: 100%; }
 @keyframes soft-glow { from { opacity: .25; } to { opacity: 1; } }
+
+@media (max-width: 600px), (pointer: coarse) and (max-width: 1024px) {
+  body { padding: 0; overflow: hidden; }
+  .novel { width: 100%; height: 100%; aspect-ratio: auto; }
+  .cover, .scene-image, #intro-video { object-fit: cover; }
+  .cover, #intro-video { object-position: center; }
+  .menu { bottom: max(4%, env(safe-area-inset-bottom)); }
+  .dialogue-panel, .choices-panel {
+    width: calc(100% - 28px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  }
+  .video-sound { top: max(16px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); }
+  .game-screen.is-memory::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--memory-background) center / cover;
+    filter: blur(18px) brightness(.45);
+    transform: scale(1.08);
+  }
+  .game-screen.is-memory .scene-image { object-fit: contain; }
+  .name-screen {
+    top: var(--name-viewport-top, 0px);
+    bottom: auto;
+    height: var(--name-viewport-height, 100%);
+    padding: max(16px, env(safe-area-inset-top)) 20px max(16px, env(safe-area-inset-bottom));
+  }
+  .name-card { flex-shrink: 0; min-width: 0; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .menu-option { transition: none; }

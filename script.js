@@ -25,6 +25,18 @@ const introSceneTransition = { start: 16.65, whiteFrom: 17, whiteUntil: 17.25, e
 let introSceneFadeFrame = null;
 let introTransitionRunning = false;
 const novel = document.querySelector(".novel");
+// El teclado puede reducir el área visible, pero no debe estrechar el formulario.
+function updateNameViewport() {
+  const viewport = window.visualViewport;
+  const frame = novel.getBoundingClientRect();
+  const top = Math.max(0, (viewport?.offsetTop || 0) - frame.top);
+  const height = Math.max(0, Math.min(frame.height - top, viewport?.height || window.innerHeight));
+  novel.style.setProperty("--name-viewport-top", `${top}px`);
+  novel.style.setProperty("--name-viewport-height", `${height}px`);
+}
+window.addEventListener("resize", updateNameViewport);
+window.visualViewport?.addEventListener("resize", updateNameViewport);
+window.visualViewport?.addEventListener("scroll", updateNameViewport);
 const dialoguePanel = document.getElementById("dialogue-panel");
 const dialogueText = document.getElementById("dialogue-text");
 const speaker = document.getElementById("speaker");
@@ -131,6 +143,7 @@ function askTravelerName() {
   introScreen.hidden = true;
   gameState.scene = "name";
   nameScreen.hidden = false;
+  updateNameViewport();
   document.getElementById("name-heading").focus();
 }
 
@@ -269,6 +282,7 @@ async function showSceneImage(key) {
   sceneImages[next].removeAttribute("aria-hidden");
   sceneImages[visibleImage].setAttribute("aria-hidden", "true");
   gameScreen.classList.toggle("is-memory", asset.layout === "memory");
+  if (asset.layout === "memory") gameScreen.style.setProperty("--memory-background", `url("${asset.src}")`);
   sceneImages[next].classList.add("is-visible");
   sceneImages[visibleImage].classList.remove("is-visible");
   visibleImage = next;
