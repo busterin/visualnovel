@@ -1,7 +1,11 @@
 "use strict";
 (() => {
+  const chapterTwoScenes = { ...STORY_SCENES };
+  delete chapterTwoScenes.c3_archivo;
+  delete chapterTwoScenes.c3_posada;
+  delete chapterTwoScenes.c3_inspeccion;
   const assert = (value, label) => { if (!value) throw new Error(label); };
-  const scene = STORY_SCENES.vestibulo;
+  const scene = chapterTwoScenes.vestibulo;
   const covered = new Set();
   let routes = 0;
   for (const e1 of ['A','B','C']) for (const e2 of ['A','B','C'])
@@ -11,25 +15,25 @@
     let state = StoryEngine.createState();
     state.protagonistName = 'María José $& <viajera de Varda>';
     state.decisions.push({ scene:'lyra-has-vuelto', choice:'first-choice', answer:'C' });
-    StoryEngine.start(state, STORY_SCENES, 'vestibulo');
+    StoryEngine.start(state, chapterTwoScenes, 'vestibulo');
     const choices = { c2_e1:e1, c2_e2:e2, 'c2_038-eleccion':memory, c2_e3:e3, c2_e4:e4, c2_e5:e5, c2_e6:e6, c2_e6o:e6 };
     let count=0;
     const path=[];
-    while (StoryEngine.current(state, STORY_SCENES)) {
+    while (StoryEngine.current(state, chapterTwoScenes)) {
       assert(++count < 180, 'Bucle del capítulo');
-      const id=state.node, node=StoryEngine.current(state, STORY_SCENES);
+      const id=state.node, node=StoryEngine.current(state, chapterTwoScenes);
       path.push(id); covered.add(id);
       if(node.type==='event') {
-        assert(!StoryEngine.advance(state, STORY_SCENES), 'Avance durante evento');
-        assert(StoryEngine.beginEvent(state, STORY_SCENES), 'Evento repetido');
-        const resumed=StoryEngine.restore(JSON.parse(JSON.stringify(state)), STORY_SCENES);
+        assert(!StoryEngine.advance(state, chapterTwoScenes), 'Avance durante evento');
+        assert(StoryEngine.beginEvent(state, chapterTwoScenes), 'Evento repetido');
+        const resumed=StoryEngine.restore(JSON.parse(JSON.stringify(state)), chapterTwoScenes);
         assert(resumed.node===node.next && resumed.events[node.event].status==='completed','La carga repite evento');
-        StoryEngine.finishEvent(state, STORY_SCENES);
+        StoryEngine.finishEvent(state, chapterTwoScenes);
       } else if(node.type==='choice') {
-        assert(!StoryEngine.advance(state, STORY_SCENES),'Avance durante elección');
-        const resumed=StoryEngine.restore(JSON.parse(JSON.stringify(state)), STORY_SCENES);
+        assert(!StoryEngine.advance(state, chapterTwoScenes),'Avance durante elección');
+        const resumed=StoryEngine.restore(JSON.parse(JSON.stringify(state)), chapterTwoScenes);
         assert(resumed.node===id && JSON.stringify(resumed.decisions)===JSON.stringify(state.decisions),'Carga cambia elección');
-        assert(StoryEngine.choose(state, STORY_SCENES, choices[id]),'Opción desconocida '+id);
+        assert(StoryEngine.choose(state, chapterTwoScenes, choices[id]),'Opción desconocida '+id);
       } else {
         assert(node.text && !node.text.includes('→') && !/(?:^|\n)(Abrir panel|En \d|Imagen:|Registrar |Si c2_)/.test(node.text), 'Guion inválido '+id);
         if(id==='c2_038-3') assert(state.c2_destello_ocurrido, 'Destello sin registrar');
@@ -37,12 +41,12 @@
         if(id==='c2_090') assert(Boolean(state.documents.posada.signed)===(e3==='A'),'Firma incorrecta');
         if(id==='c2_104') assert(state.documents.archivo.paragraphs.length===4,'Archivo incompleto');
         if(id==='c2_110') {
-          const restored=StoryEngine.restore(JSON.parse(JSON.stringify(state)), STORY_SCENES);
+          const restored=StoryEngine.restore(JSON.parse(JSON.stringify(state)), chapterTwoScenes);
           assert(JSON.stringify(restored)===JSON.stringify(state),'Cargar reaplica efectos');
           assert(state.c2_lyra_conoce_archivo===(e5==='A'),'Lyra conoce líneas ocultas');
           assert(state.c2_lyra_conoce_promesa===(e5==='A'),'Lyra conoce promesa oculta');
         }
-        StoryEngine.advance(state, STORY_SCENES);
+        StoryEngine.advance(state, chapterTwoScenes);
       }
     }
     assert(state.c2_pista_muro===(e1==='A'),'Pista de muro incorrecta');
@@ -76,10 +80,10 @@
     for(const next of [node.next,node.ifTrue,node.ifFalse,...(node.options||[]).map(o=>o.next)].filter(Boolean)) assert(scene.nodes[next], 'Destino inválido '+id);
   }
   const old={scene:'lyra-has-vuelto',node:'12',protagonistName:'Álex',decisions:[],completedScenes:[]};
-  assert(StoryEngine.restore(old, STORY_SCENES).node==='12','Partida anterior incompatible');
+  assert(StoryEngine.restore(old, chapterTwoScenes).node==='12','Partida anterior incompatible');
   const legacyFinished={...old,node:null,completedScenes:['lyra-has-vuelto']};
-  assert(StoryEngine.restore(legacyFinished,STORY_SCENES).node==='c2_001','No enlaza capítulo 1 completado');
-  const future={...STORY_SCENES,c3_archivo:{start:'arrival',nodes:{arrival:{type:'dialogue'}}}};
+  assert(StoryEngine.restore(legacyFinished,chapterTwoScenes).node==='c2_001','No enlaza capítulo 1 completado');
+  const future={...chapterTwoScenes,c3_archivo:{start:'arrival',nodes:{arrival:{type:'dialogue'}}}};
   const state=StoryEngine.createState();StoryEngine.start(state,future,'vestibulo');state.node='c2_120';state.c2_destino='archivo';StoryEngine.advance(state,future);
   assert(state.scene==='c3_archivo' && state.c2_completado,'No enlaza futuro capítulo 3');
   console.log(`OK capítulo 2: ${routes} recorridos completos, ${covered.size} nodos jugables, pistas, documentos, conocimiento de Lyra, eventos únicos y carga.`);

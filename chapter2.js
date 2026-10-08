@@ -601,7 +601,7 @@ STORY_SCENES.vestibulo = {
     "c2_053": {
       "type": "dialogue",
       "speaker": "Iven",
-      "text": "Si necesitáis alojamiento, buscad a Ada en la posada del Puente. Es mi hermana.",
+      "text": "Si necesitáis alojamiento, buscad a Ada en la posada del Puente. Es mi esposa.",
       "image": "carreta",
       "next": "c2_054"
     },
@@ -938,7 +938,7 @@ STORY_SCENES.vestibulo = {
     "c2_079B": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Se llama Iven. Su hermana tiene una posada. Su hija le hizo una cinta azul.",
+      "text": "Se llama Iven. Su esposa tiene una posada. Su hija le hizo una cinta azul.",
       "image": "escucha",
       "next": "c2_080B",
       "effects": {
@@ -1111,7 +1111,7 @@ STORY_SCENES.vestibulo = {
     "c2_091S": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Me lo dio él. Podemos preguntar a su hermana.",
+      "text": "Me lo dio él. Podemos preguntar a su esposa.",
       "image": "escucha",
       "next": "c2_092S",
       "document": "posada"
@@ -1337,13 +1337,13 @@ STORY_SCENES.vestibulo = {
     "c2_111": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Transportista. Chaqueta ocre. Hermana: Ada, posada del Puente. Hija: Alma. Cinta azul con una A.",
+      "text": "Transportista. Chaqueta ocre. Esposa: Ada, posada del Puente. Hija: Alma. Cinta azul con una A.",
       "image": "varda",
       "next": "c2_112",
       "textStyle": "document",
       "documentPatch": {
         "id": "nota",
-        "body": "Transportista. Chaqueta ocre. Hermana: Ada, posada del Puente. Hija: Alma. Cinta azul con una A."
+        "body": "Transportista. Chaqueta ocre. Esposa: Ada, posada del Puente. Hija: Alma. Cinta azul con una A."
       },
       "document": "nota"
     },
@@ -1388,7 +1388,7 @@ STORY_SCENES.vestibulo = {
     "c2_116A": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Aprieto el impreso dentro del bolsillo. Ada puede haberlo olvidado. Pero hay alguien que todavía puede contarle que su hermano estuvo aquí.",
+      "text": "Aprieto el impreso dentro del bolsillo. Ada puede haberlo olvidado. Pero hay alguien que todavía puede contarle que su esposo estuvo aquí.",
       "image": "varda",
       "next": "c2_117"
     },

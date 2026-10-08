@@ -2,6 +2,38 @@
 
 // Desactivar al terminar la revisión para recuperar el inicio habitual.
 const ENABLE_CHAPTER_SELECTOR = true;
+// Accesos de revisión a tramos que no son rutas independientes del capítulo.
+const REVIEW_STARTS = [
+  { label: "Mantenimiento · Con Lyra", scene: "c3_mantenimiento", preset: "maintenance" },
+  { label: "Descanso · Un lugar donde descansar", scene: "c3_inspeccion", node: "descanso_decision_01", preset: "rest" },
+  { label: "La mañana · La ropa de Ada", scene: "c3_ropa_ada", preset: "clothes" },
+  { label: "La revelación · Cincuenta días", scene: "c3_diosa", preset: "revelation" },
+  { label: "Capítulo 4 · Los días que quedan", scene: "c4_actividades", preset: "countdown" },
+];
+let startingNode = null;
+
+function prepareReviewStart(state, preset) {
+  // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
+  Object.assign(state, {
+    completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
+    archivo_completado: true, posada_completada: true, ruta_inspeccion_completada: true,
+    acceso_mantenimiento_autorizado: true, ada_lagunas_iven: true,
+    manifiestos_iven_revisados: true, iven_entrega_inspeccion: true,
+    iven_denuncia_manifiestos: true, inspeccion_corte_segundos: 9,
+    metCompanions: ["lyra", "ada", "alma"], affinity: { lyra: 1, ada: 1, alma: 1 },
+    mantenimiento_con_lyra: preset === "maintenance",
+  });
+  if (["clothes", "revelation", "countdown"].includes(preset)) {
+    Object.assign(state, { inspeccion_descanso: true, descanso_completado: true, desperto_solo: true });
+  }
+  if (["revelation", "countdown"].includes(preset)) {
+    Object.assign(state, { protagonistOutfit: "vaelthar", ropa_ada_recibida: true, ropa_original_guardada: true });
+  }
+  if (preset === "countdown") {
+    state.revelacion_diosa_completada = true;
+    StoryCalendar.activate(state);
+  }
+}
 const menuOptions = [
   { label: "Nuevo juego", image: "imagenes/Nuevo%20juego.png", action: openChapterSelector },
   { label: "Cargar", image: "imagenes/Cargar.png", action: showLoadNotice },
@@ -84,7 +116,7 @@ function openChapterSelector() {
   if (introTransitionRunning) return;
   chapterOptions.replaceChildren();
   Object.entries(STORY_SCENES)
-    .filter(([, scene]) => scene.chapter && scene.nodes?.[scene.start])
+    .filter(([, scene]) => scene.chapter && !scene.hideFromSelector && scene.nodes?.[scene.start])
     .sort((a, b) => a[1].chapter - b[1].chapter)
     .forEach(([id, scene]) => {
       const button = document.createElement("button");
@@ -94,6 +126,15 @@ function openChapterSelector() {
       button.addEventListener("click", () => startNewGame(id));
       chapterOptions.append(button);
     });
+  REVIEW_STARTS.forEach((entry) => {
+    if (!STORY_SCENES[entry.scene]?.nodes[entry.node || STORY_SCENES[entry.scene].start]) return;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "text-button";
+    button.textContent = entry.label;
+    button.addEventListener("click", () => startNewGame(entry.scene, entry));
+    chapterOptions.append(button);
+  });
   chapterScreen.hidden = false;
   coverScreen.inert = true;
   chapterOptions.firstElementChild?.focus();
@@ -115,14 +156,16 @@ chapterScreen.addEventListener("keydown", (event) => {
   }
 });
 
-async function startNewGame(sceneId = "lyra-has-vuelto") {
+async function startNewGame(sceneId = "lyra-has-vuelto", review = null) {
   if (introTransitionRunning) return;
   if (!STORY_SCENES[sceneId]?.nodes[STORY_SCENES[sceneId].start]) return;
   startingScene = sceneId;
+  startingNode = review?.node || null;
   chapterScreen.hidden = true;
   coverScreen.inert = false;
   introTransitionRunning = true;
   gameState = StoryEngine.createState();
+  if (review) prepareReviewStart(gameState, review.preset);
   novel.classList.remove("is-playing");
   resetScenePresentation();
   nameForm.reset();
@@ -227,7 +270,7 @@ nameForm.addEventListener("submit", (event) => {
   gameState.protagonistName = name;
   nameInput.blur();
   nameScreen.hidden = true;
-  StoryEngine.start(gameState, STORY_SCENES, startingScene);
+  StoryEngine.goToScene(gameState, STORY_SCENES, startingScene, startingNode);
   novel.classList.add("is-playing");
   gameScreen.hidden = false;
   prepareAudio();
@@ -419,14 +462,25 @@ function renderScene() {
   const node = StoryEngine.current(gameState, STORY_SCENES);
   const chapter = STORY_SCENES[gameState.scene];
   const chapterChanged = renderedChapter !== gameState.scene;
+  const dayCounter = document.getElementById("day-counter");
+  dayCounter.hidden = !gameState.calendar.active;
+  dayCounter.textContent = `${gameState.calendar.remaining} ${gameState.calendar.remaining === 1 ? "día restante" : "días restantes"}`;
+  const affinityNotice = document.getElementById("affinity-notice");
+  affinityNotice.hidden = !node?.affinityGain;
+  affinityNotice.textContent = node?.affinityGain
+    ? `♥ +${node.affinityGain.amount} vínculo con ${COMPANIONS[node.affinityGain.companion].name}` : "";
+  const platonic = node?.affinityGain && COMPANIONS[node.affinityGain.companion].bondType === "platonic";
+  affinityNotice.classList.toggle("is-romantic", Boolean(node?.affinityGain && !platonic));
+  affinityNotice.setAttribute("aria-label", node?.affinityGain ? `${affinityNotice.textContent}. ${platonic ? "Vínculo no romántico" : "Afinidad con Lyra"}.` : "");
   renderedChapter = gameState.scene;
-  novel.classList.toggle("is-chapter-two", chapter?.chapter === 2);
+  novel.classList.toggle("is-chapter-two", chapter?.chapter >= 2);
   gameScreen.classList.toggle("is-final-note", node?.presentation === "final-note");
   saveGame();
   wallName.hidden = true;
   storyDocument.hidden = true;
   pauseToCover.hidden = !node || node.type === "event";
   if (!node) {
+    document.getElementById("ending-heading").textContent = gameState.calendar.expired ? "El plazo de 50 días ha terminado." : "Continuará";
     imageRequest += 1;
     dialoguePanel.hidden = true;
     choicesPanel.hidden = true;
@@ -454,11 +508,18 @@ function renderScene() {
   choicesPanel.hidden = !isChoice;
   choicesPanel.replaceChildren();
   if (isChoice) {
-    node.options.forEach((option) => {
+    StoryEngine.availableOptions(gameState, STORY_SCENES).forEach((option) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "choice-button";
       button.textContent = formatStoryText(option.text);
+      if (gameState.calendar.active) {
+        const cost = StoryCalendar.cost(gameState, option);
+        const label = document.createElement("small");
+        label.className = "activity-cost";
+        label.textContent = cost ? `${cost} día al terminar` : option.continueActivity ? "Misma jornada · sin coste adicional" : "Sin coste de días";
+        button.append(label);
+      }
       button.addEventListener("click", (event) => {
         event.stopPropagation();
         if (isGamePaused) return;

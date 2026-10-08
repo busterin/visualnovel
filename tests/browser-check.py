@@ -100,6 +100,10 @@ button = browser.evaluate("""(() => {
 })()""")
 browser.call("Input.dispatchMouseEvent", {"type": "mousePressed", "button": "left", "clickCount": 1, **button})
 browser.call("Input.dispatchMouseEvent", {"type": "mouseReleased", "button": "left", "clickCount": 1, **button})
+if browser.evaluate("!chapterScreen.hidden"):
+    button = browser.evaluate("""(() => { const r=chapterOptions.firstElementChild.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()""")
+    browser.call("Input.dispatchMouseEvent", {"type":"mousePressed","button":"left","clickCount":1,**button})
+    browser.call("Input.dispatchMouseEvent", {"type":"mouseReleased","button":"left","clickCount":1,**button})
 assert browser.evaluate("introTransitionRunning && !introFlash.hidden && introVideo.paused && !coverScreen.hidden"), "El vídeo empezó antes del fundido blanco"
 print(browser.evaluate("""(async () => {
   for (let i = 0; i < 100 && introVideo.currentTime === 0 && !introVideo.error; i++) {
@@ -180,7 +184,8 @@ print(browser.evaluate("""(async () => {
     assert(gameState.scene === 'vestibulo' && gameState.node === 'c2_001', 'No enlaza el capítulo 2');
     assert(gameState.decisions.length === 2 && gameState.completedScenes.includes('lyra-has-vuelto'), 'Estado incompleto');
     pauseToCover.click();
-    assert(!coverScreen.hidden && gameScreen.hidden, 'No vuelve al menú');
+    assert(isGamePaused && !pauseMenu.hidden && coverScreen.hidden, 'No abre pausa');
+    closePauseMenu(); returnToCover();
   }
   await Promise.all(imageCache.values());
   assert(missingResources.size === 0, 'Faltan imágenes: ' + [...missingResources]);
@@ -273,8 +278,14 @@ print(browser.evaluate("""(async () => {
   return 'OK: fotografía ausente mantiene la imagen neutra y permite continuar.';
 })()"""))
 browser.evaluate((ROOT / "tests/chapter2.test.js").read_text())
+print(browser.evaluate((ROOT / "tests/chapter3-archive.test.js").read_text()))
+print(browser.evaluate((ROOT / "tests/chapter3-inn.test.js").read_text()))
+print(browser.evaluate((ROOT / "tests/chapter3-inspection.test.js").read_text()))
+print(browser.evaluate((ROOT / "tests/rest.test.js").read_text()))
+print(browser.evaluate((ROOT / "tests/countdown.test.js").read_text()))
 print(browser.evaluate((ROOT / "tests/chapter2-browser.js").read_text()))
 print(browser.evaluate((ROOT / "tests/pause-menu.test.js").read_text()))
+print(browser.evaluate((ROOT / "tests/countdown-browser.js").read_text()))
 for width, height in [(390,844),(320,568),(1440,900)]:
     browser.call("Emulation.setDeviceMetricsOverride", {"width":width,"height":height,"deviceScaleFactor":1,"mobile":width<600})
     for node in ["c2_009A","c2_059A","c2_104","c2_038-eleccion"]:

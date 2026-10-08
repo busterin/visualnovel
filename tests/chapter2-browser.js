@@ -14,7 +14,7 @@
     StoryEngine.start(gameState,STORY_SCENES,'vestibulo');
     coverScreen.hidden=true;gameScreen.hidden=false;novel.classList.add('is-playing');renderScene();
     let steps=0;
-    while(StoryEngine.current(gameState,STORY_SCENES)) {
+    while(gameState.scene==='vestibulo' && StoryEngine.current(gameState,STORY_SCENES)) {
       assert(++steps<180,'Bucle de interfaz');
       const node=StoryEngine.current(gameState,STORY_SCENES),id=gameState.node;
       if(node.type==='event') {
@@ -52,11 +52,11 @@
         gameScreen.dispatchEvent(new KeyboardEvent('keydown',{key:' ',bubbles:true}));
       }
     }
-    assert(!sceneEnding.hidden && gameState.c2_completado,'No completa el capítulo');
+    assert(gameState.c2_completado && (gameState.scene!=='vestibulo' || !sceneEnding.hidden),'No completa el capítulo');
     const saved=JSON.parse(localStorage.getItem(SAVE_KEY));
     assert(saved.c2_destino && saved.c2_completado,'No guarda destino final');
     returnToCover();showLoadNotice();
-    assert(!sceneEnding.hidden && gameState.c2_completado,'Cargar final reinicia capítulo');
+    assert(gameState.c2_completado && (gameState.scene!=='vestibulo' || !sceneEnding.hidden),'Cargar final reinicia capítulo');
   }
   // Cargar durante el evento: saltar a su salida, sin reproducirlo de nuevo.
   resetScenePresentation();gameState=StoryEngine.createState();gameState.protagonistName='Álex';

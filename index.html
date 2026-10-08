@@ -9,6 +9,12 @@
     <script src="scenes.js" defer></script>
     <script src="chapter2-memory.js" defer></script>
     <script src="chapter2.js" defer></script>
+    <script src="chapter3-archive.js" defer></script>
+    <script src="chapter3-inn.js" defer></script>
+    <script src="chapter3-inspection.js" defer></script>
+    <script src="chapter3-maintenance.js" defer></script>
+    <script src="chapter-countdown.js" defer></script>
+    <script src="story-calendar.js" defer></script>
     <script src="story-engine.js" defer></script>
     <script src="script.js" defer></script>
     <script src="companions.js" defer></script>
@@ -57,6 +63,7 @@
         </form>
       </section>
       <section id="game-screen" class="screen game-screen" aria-label="Partida" tabindex="-1" hidden>
+        <p id="day-counter" class="day-counter" role="status" hidden></p>
         <div id="scene-art" class="scene-art">
           <img id="scene-image-a" class="scene-image" alt="" draggable="false">
           <img id="scene-image-b" class="scene-image" alt="" draggable="false">
@@ -69,6 +76,7 @@
         </div>
         <p id="save-status" class="save-status" role="status" hidden></p>
         <div id="dialogue-panel" class="dialogue-panel">
+          <p id="affinity-notice" class="affinity-notice" role="status" hidden></p>
           <div id="dialogue-content" aria-live="polite" aria-atomic="true">
             <p id="speaker" class="speaker"></p>
             <p id="dialogue-text" class="dialogue-text"></p>

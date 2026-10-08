@@ -25,6 +25,7 @@ function openPauseMenu() {
   if (resumeAudio) audioContext.suspend().catch(() => {});
   saveGame();
   document.getElementById("pause-heading").textContent = gameState.protagonistName;
+  document.getElementById("protagonist-portrait").classList.toggle("has-travel-clothes", gameState.protagonistOutfit === "vaelthar");
   pauseMenu.hidden = false;
   showHistory();
   historyButton.focus();
@@ -113,8 +114,9 @@ function showCompanion(id) {
   const frame = menuElement("div", "", "companion-portrait-frame");
   const level = gameState.affinity[id] || 1;
   const affinity = menuElement("span", "", "companion-affinity");
+  affinity.classList.toggle("is-platonic", companion.bondType === "platonic");
   affinity.setAttribute("role", "img");
-  affinity.setAttribute("aria-label", `Afinidad con ${companion.name}: nivel ${level}`);
+  affinity.setAttribute("aria-label", `${companion.bondType === "platonic" ? "Vínculo no romántico" : "Afinidad"} con ${companion.name}: nivel ${level}`);
   affinity.title = `Afinidad: nivel ${level}`;
   const heart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   heart.setAttribute("viewBox", "0 0 24 24");
