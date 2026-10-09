@@ -33,7 +33,7 @@ const CHAPTER_2_MEMORY = {
     "c2_038-3": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Sus ojos cerrados. Su mano entre las mías.\n\nLa sensación de estar besándola.",
+      "text": "Sus ojos cerrados, sus manos entre las mías.\n\nLa sensación de estar besándola.",
       "image": "camino",
       "next": "c2_038-4"
     },
@@ -159,7 +159,11 @@ const CHAPTER_2_MEMORY = {
       "speaker": "Lyra",
       "text": "De acuerdo.",
       "image": "camino",
-      "next": "c2_038-C2"
+      "next": "c2_038-C2",
+      "affinityGain": {
+        "companion": "lyra",
+        "amount": -1
+      }
     },
     "c2_038-C2": {
       "type": "dialogue",

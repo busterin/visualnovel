@@ -468,7 +468,7 @@ function renderScene() {
   const affinityNotice = document.getElementById("affinity-notice");
   affinityNotice.hidden = !node?.affinityGain;
   affinityNotice.textContent = node?.affinityGain
-    ? `♥ +${node.affinityGain.amount} vínculo con ${COMPANIONS[node.affinityGain.companion].name}` : "";
+    ? `♥ ${node.affinityGain.amount > 0 ? "+" : ""}${node.affinityGain.amount} vínculo con ${COMPANIONS[node.affinityGain.companion].name}` : "";
   const platonic = node?.affinityGain && COMPANIONS[node.affinityGain.companion].bondType === "platonic";
   affinityNotice.classList.toggle("is-romantic", Boolean(node?.affinityGain && !platonic));
   affinityNotice.setAttribute("aria-label", node?.affinityGain ? `${affinityNotice.textContent}. ${platonic ? "Vínculo no romántico" : "Afinidad con Lyra"}.` : "");

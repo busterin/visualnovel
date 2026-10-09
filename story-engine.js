@@ -104,7 +104,7 @@ const StoryEngine = {
         Object.assign(state, node.effects || {});
         if (node.affinityGain) {
           const { companion, amount } = node.affinityGain;
-          state.affinity[companion] = (state.affinity[companion] ?? 1) + amount;
+          state.affinity[companion] = Math.max(0, (state.affinity[companion] ?? 1) + amount);
         }
         if (node.grantDocument && !state.documents[node.grantDocument]) {
           state.documents[node.grantDocument] = JSON.parse(JSON.stringify(scenes[state.scene].documents[node.grantDocument]));
@@ -193,7 +193,7 @@ const StoryEngine = {
     delete state.affinity.iven;
     for (const id of Object.keys(state.affinity)) {
       const level = state.affinity[id];
-      state.affinity[id] = Number.isSafeInteger(level) && level >= 1 ? level : 1;
+      state.affinity[id] = Number.isSafeInteger(level) && level >= 0 ? level : 1;
     }
     if (!Array.isArray(state.decisions) || !Array.isArray(state.completedScenes) || !Array.isArray(state.appliedNodes)
         || !state.events || !state.documents || typeof state.protagonistName !== "string"

@@ -58,6 +58,7 @@
     assert(state.c2_incidente_publico===(e4==='C'),'Incidente público incorrecto');
     assert(state.c2_inspeccion_obligatoria===(e4==='C'),'Inspección obligatoria incorrecta');
     assert(state.c2_destello_ocurrido && state.c2_respuesta_destello===memory,'Destello no guardado');
+    assert(state.affinity.lyra===Math.max(0,1-Number(memory==='C')-Number(e5==='C')),'Penalización de afinidad incorrecta');
     assert(state.c2_lyra_conoce_beso===(memory==='A'),'Beso revelado en otra rama');
     assert(state.c2_destino===(e4==='C'?'inspeccion':{A:'posada',B:'archivo',C:'inspeccion'}[e6]),'Destino incorrecto');
     assert(state.c2_siguiente_prioridad===(e4==='C'?{A:'posada',B:'archivo'}[e6]:null),'Prioridad incorrecta');
@@ -73,6 +74,23 @@
     routes++;
   }
   const playable=Object.entries(scene.nodes).filter(([,node])=>node.type!=='condition');
+  // Las dos decisiones restan una vez, incluso al cargar sobre el recuadro.
+  for (const initial of [0,1,3]) {
+    let state=StoryEngine.createState();
+    StoryEngine.start(state,chapterTwoScenes,'vestibulo');state.affinity.lyra=initial;
+    for (const [index,id] of ['c2_038-C1','c2_109C'].entries()) {
+      state.node=id;StoryEngine.prepare(state,chapterTwoScenes);
+      const expected=Math.max(0,initial-index-1);
+      assert(state.affinity.lyra===expected,'Pérdida o mínimo de cero incorrectos');
+      state=StoryEngine.restore(JSON.parse(JSON.stringify(state)),chapterTwoScenes);
+      StoryEngine.prepare(state,chapterTwoScenes);
+      assert(state.affinity.lyra===expected,'Cargar repite la pérdida o restaura el cero a uno');
+    }
+    state.affinity.lyra=0;
+    StoryEngine.start(state,STORY_SCENES,'c3_inspeccion');state.node='insp_invitar_01';
+    StoryEngine.prepare(state,STORY_SCENES);
+    assert(state.affinity.lyra===1,'Una ganancia desde cero debe dar uno');
+  }
   assert(scene.nodes.c2_098.text==='Míralo.', 'Instrucciones de producción en diálogo');
   assert(scene.nodes.c2_099.text==='No hay un remitente ni una hora de envío. Solo un archivo que antes no podía abrir.', 'Instrucciones en narración');
   assert(playable.every(([id])=>covered.has(id)),'Hay diálogos o ramas sin recorrer');

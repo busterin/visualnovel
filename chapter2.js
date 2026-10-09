@@ -68,7 +68,12 @@ STORY_SCENES.vestibulo = {
         "image": "impreso",
         "width": 941,
         "height": 1672,
-        "textBounds": { "x": 320, "y": 603, "width": 402, "height": 432 }
+        "textBounds": {
+          "x": 320,
+          "y": 603,
+          "width": 402,
+          "height": 432
+        }
       },
       "title": "POSADA DEL PUENTE",
       "body": "Calle del Puente, 8\nPreguntar por Ada",
@@ -88,7 +93,9 @@ STORY_SCENES.vestibulo = {
   },
   "nodes": {
     "c2_001": {
-      "meetCompanions": ["lyra"],
+      "meetCompanions": [
+        "lyra"
+      ],
       "type": "dialogue",
       "speaker": null,
       "text": "Sigo a Lyra hasta el vestíbulo. Las taquillas están vacías. Sobre la puerta, un reloj marca una hora que no coincide con la del móvil.",
@@ -105,7 +112,7 @@ STORY_SCENES.vestibulo = {
     "c2_003": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "El reloj volvió a funcionar esta mañana. Solo durante un minuto.",
+      "text": "El reloj volvió a funcionar esta mañana, llevaba años parado.",
       "image": "vestibulo",
       "next": "c2_004"
     },
@@ -119,7 +126,7 @@ STORY_SCENES.vestibulo = {
     "c2_005": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "La primera vez también ocurrió. No estaba segura de que significara lo mismo.",
+      "text": "La primera vez que llegaste también ocurrió. No estaba segura de que significara lo mismo.",
       "image": "vestibulo",
       "next": "c2_006"
     },
@@ -147,7 +154,7 @@ STORY_SCENES.vestibulo = {
     "c2_009A": {
       "type": "dialogue",
       "speaker": null,
-      "text": "No entro. Me inclino lo justo para ver la pared. Hay marcas raspadas, líneas que alguien ha intentado borrar.",
+      "text": "No entro. Me inclino lo justo para ver la pared, hay marcas raspadas, líneas que alguien ha intentado borrar.",
       "image": "muro",
       "next": "c2_010A",
       "wallName": true,
@@ -190,7 +197,7 @@ STORY_SCENES.vestibulo = {
     "c2_014A": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Se parece a tu letra. Pero no te vi hacerlo.",
+      "text": "Se parece a tu letra pero yo no te vi hacerlo.",
       "image": "muro",
       "next": "c2_015A",
       "wallName": true
@@ -206,7 +213,7 @@ STORY_SCENES.vestibulo = {
     "c2_016A": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Podemos volver de día. Ahora salimos.",
+      "text": "Sé cauteloso, podría haber aberraciones cerca…",
       "image": "vestibulo",
       "next": "c2_017"
     },
@@ -223,7 +230,7 @@ STORY_SCENES.vestibulo = {
     "c2_010B": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "No lo sé. Aquí se oyen pasos y voces cuando cae la luz.",
+      "text": "No lo sé, aquí se oyen pasos y voces cuando cae la luz.",
       "image": "vestibulo",
       "next": "c2_011B"
     },
@@ -237,7 +244,7 @@ STORY_SCENES.vestibulo = {
     "c2_012B": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "A veces parecen personas que conocemos. Eso no significa que estén ahí.",
+      "text": "A veces se parecen personas que conocemos… Cada vez hay mas, las llamamos aberraciones.",
       "image": "vestibulo",
       "next": "c2_013B"
     },
@@ -251,7 +258,7 @@ STORY_SCENES.vestibulo = {
     "c2_009C": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Vamos. Ya he tenido suficientes sorpresas.",
+      "text": "Vamos, ya he tenido suficientes sorpresas.",
       "image": "vestibulo",
       "next": "c2_010C"
     },
@@ -314,7 +321,7 @@ STORY_SCENES.vestibulo = {
     "c2_024": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Da unos pasos y se vuelve para comprobar que sigo allí. Todavía camino con las piernas algo inseguras.",
+      "text": "Da unos pasos y se vuelve para comprobar que sigo allí. Aún me tiemblan, ligeramente, las piernas.",
       "image": "camino",
       "next": "c2_e2"
     },
@@ -342,7 +349,7 @@ STORY_SCENES.vestibulo = {
     "c2_028A": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Tú lo encontraste. Pero no vi cómo cruzaste. Cuando llegué al Faro Primordial, ya te habías marchado.",
+      "text": "Tú lo encontraste, pero no vi cómo cruzaste. Cuando llegué al Faro Primordial, ya te habías marchado.",
       "image": "camino",
       "next": "c2_029A"
     },
@@ -356,7 +363,7 @@ STORY_SCENES.vestibulo = {
     "c2_030A": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Sí. Y esta vez procuraré estar allí para escucharlo de ti.",
+      "text": "Sí, y esta vez haré todo lo posible por estar presente.",
       "image": "camino",
       "next": "c2_031"
     },
@@ -384,35 +391,35 @@ STORY_SCENES.vestibulo = {
     "c2_028B": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Hacías preguntas. Encontrabas algo que no encajaba y te costaba dejarlo en paz.",
+      "text": "Es difícil de explicar, eras una suerte de aventurero errante que ayudaba a quien lo necesitase.",
       "image": "camino",
       "next": "c2_029B"
     },
     "c2_029B": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Eso no parece una profesión muy segura.",
+      "text": "Parece que era todo un héroe.",
       "image": "camino",
       "next": "c2_030B"
     },
     "c2_030B": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "No lo era. Pero algunas personas recibieron ayuda porque insististe.",
+      "text": "No te gustaba que te llamasen así pero si, lo eras.",
       "image": "camino",
       "next": "c2_031"
     },
     "c2_025C": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Ya sé que tienes una espada y muy poca paciencia con las estaciones. ¿Algo más?",
+      "text": "Por tu aspecto diría que eres una caballera del reino o algo así ¿no?.",
       "image": "camino",
       "next": "c2_026C"
     },
     "c2_026C": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Escolto caravanas. Conozco casi todos los caminos de esta zona. Y tengo paciencia cuando merece la pena.",
+      "text": "Algo así, si. Me dedico a proteger los caminos y el reino en general.",
       "image": "camino",
       "next": "c2_027C"
     },
@@ -426,28 +433,28 @@ STORY_SCENES.vestibulo = {
     "c2_028C": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Sí. He trabajado, he buscado respuestas y he vuelto a la estación cuando había alguna señal.",
+      "text": "Sí, he trabajado, he ayudado al reino todo lo que he podido y de vez en cuando volvía a la estación, por si regresabas…",
       "image": "camino",
       "next": "c2_029C"
     },
     "c2_029C": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Me alegra que no hayas pasado todo ese tiempo esperando allí.",
+      "text": "Siento que hayas estado tan preocupada por mi.",
       "image": "camino",
       "next": "c2_030C"
     },
     "c2_030C": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "A mí también. Aunque hoy me alegro de haber venido.",
+      "text": "No me arrepiento.",
       "image": "camino",
       "next": "c2_031"
     },
     "c2_031": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Cuidado con ese escalón. La piedra del borde está suelta.",
+      "text": "Cuidado con ese escalón, la piedra del borde está suelta.",
       "image": "camino",
       "next": "c2_032"
     },
@@ -461,21 +468,21 @@ STORY_SCENES.vestibulo = {
     "c2_033": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Por la tuya. Tropezaste dos veces el mismo día.",
+      "text": "Por la tuya, tropezaste dos veces el mismo día.",
       "image": "sonriente",
       "next": "c2_034"
     },
     "c2_034": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Podrías haberte quedado con la versión en la que era valiente y ayudaba a la gente.",
+      "text": "Podrías haberte quedado con la versión en la que era un héroe.",
       "image": "sonriente",
       "next": "c2_035"
     },
     "c2_035": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "También eras capaz de hacer las dos cosas y caerte después.",
+      "text": "Ambas son ciertas. Podías deshacer cualquier tipo de entuerto y caerte después.",
       "image": "sonriente",
       "next": "c2_036"
     },
@@ -489,14 +496,14 @@ STORY_SCENES.vestibulo = {
     "c2_037": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Perdona. Me sale hablarte como si recordaras todo eso.",
+      "text": "Perdona, me sale hablarte como si recordaras todo eso.",
       "image": "sonriente",
       "next": "c2_038"
     },
     "c2_038": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Puedes contármelo. Solo necesitaré tiempo.",
+      "text": "Puedes contármelo, solo necesitaré tiempo.",
       "image": "sonriente",
       "next": "c2_038-1"
     },
@@ -552,14 +559,14 @@ STORY_SCENES.vestibulo = {
     "c2_046": {
       "type": "dialogue",
       "speaker": "Iven",
-      "text": "Lo soy. La gente suele tardar en darse cuenta.",
+      "text": "Lo soy, pero la gente suele tardar en darse cuenta.",
       "image": "carreta",
       "next": "c2_047"
     },
     "c2_047": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Acepto la mano que me ofrece para subir. La cinta tiene una A bordada con puntadas desiguales.",
+      "text": "Acepto la mano que me ofrece para subir, mientras se ríe a carcajadas. La cinta tiene una A bordada con puntadas desiguales.",
       "image": "carreta",
       "next": "c2_048"
     },
@@ -573,7 +580,7 @@ STORY_SCENES.vestibulo = {
     "c2_049": {
       "type": "dialogue",
       "speaker": "Iven",
-      "text": "De mi hija, Alma. Dice que así siempre sé cuál es mi mano buena.",
+      "text": "De mi hija Alma. Dice que así siempre sé cuál es mi mano buena.",
       "image": "carreta",
       "next": "c2_050"
     },
@@ -620,7 +627,7 @@ STORY_SCENES.vestibulo = {
     "c2_055A": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "¿Puedes apuntar que nos mandas tú? Hoy no estoy reteniendo demasiado.",
+      "text": "¿Puedes apuntar que nos mandas tú? Seguro que nos facilita las cosas.",
       "image": "impreso",
       "next": "c2_056A",
       "document": "posada"
@@ -644,7 +651,7 @@ STORY_SCENES.vestibulo = {
     "c2_058A": {
       "type": "dialogue",
       "speaker": "Iven",
-      "text": "Estamos hablando de vuestra habitación.",
+      "text": "No estamos hablando de mi.",
       "image": "impreso",
       "next": "c2_059A",
       "document": "posada"
@@ -667,7 +674,7 @@ STORY_SCENES.vestibulo = {
     "c2_060A": {
       "type": "dialogue",
       "speaker": "Iven",
-      "text": "Ahora ya no puede decir que no conoce al responsable.",
+      "text": "Ahora ya no puede negaros alojamiento.",
       "image": "impreso",
       "next": "c2_061",
       "document": "posada"
@@ -699,7 +706,7 @@ STORY_SCENES.vestibulo = {
     "c2_058B": {
       "type": "dialogue",
       "speaker": "Iven",
-      "text": "Sí. Los demás te dirán que vuelvas mañana. Él te preguntará qué has encontrado.",
+      "text": "Sí, los demás te dirán que vuelvas mañana. Él te preguntará qué has encontrado.",
       "image": "carreta",
       "next": "c2_059B"
     },
@@ -713,7 +720,7 @@ STORY_SCENES.vestibulo = {
     "c2_060B": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Repito el nombre en silencio. Eiden. Un nombre más que recordar.",
+      "text": "Repito el nombre en silencio: Eiden. Un nombre más que recordar.",
       "image": "carreta",
       "next": "c2_061"
     },
@@ -744,21 +751,21 @@ STORY_SCENES.vestibulo = {
     "c2_058C": {
       "type": "dialogue",
       "speaker": "Iven",
-      "text": "Más de lo que deberían. Esta semana han enviado gente de palacio.",
+      "text": "Más de lo que deberían. Esta semana han enviado gente de palacio a revisarlos.",
       "image": "carreta",
       "next": "c2_059C"
     },
     "c2_059C": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "No siempre conviene llamar su atención.",
+      "text": "Antes funcionaban mucho mejor, no entiendo qué está pasando.",
       "image": "carreta",
       "next": "c2_060C"
     },
     "c2_060C": {
       "type": "dialogue",
       "speaker": "Iven",
-      "text": "Ni dejar un fallo sin denunciar.",
+      "text": "Por eso es importante informar cuando un faro falla.",
       "image": "carreta",
       "next": "c2_061"
     },
@@ -772,7 +779,7 @@ STORY_SCENES.vestibulo = {
     "c2_062": {
       "type": "dialogue",
       "speaker": "Iven",
-      "text": "Ada siempre pregunta si he comido. Si os lo pregunta también, aceptad. Discutir da más hambre.",
+      "text": "Ada siempre pregunta si he comido. Si os lo pregunta también a vosotros, aceptad. Discutir con ella da más hambre.",
       "image": "carreta",
       "next": "c2_063"
     },
@@ -786,14 +793,14 @@ STORY_SCENES.vestibulo = {
     "c2_064": {
       "type": "dialogue",
       "speaker": "Iven",
-      "text": "En cuanto entregue esto. Después vuelvo con Alma. Le prometí llevarle un dulce del mercado.",
+      "text": "En cuanto entregue esto volveré con Alma. Le prometí llevarle un dulce del mercado.",
       "image": "carreta",
       "next": "c2_065"
     },
     "c2_065": {
       "type": "dialogue",
       "speaker": null,
-      "text": "La conversación es tan normal que me entran ganas de seguirla hasta olvidarme de la estación.",
+      "text": "La conversación es tan normal que siento como si llevara viviendo aquí toda la vida.",
       "image": "carreta",
       "next": "c2_066"
     },
@@ -808,7 +815,7 @@ STORY_SCENES.vestibulo = {
     "c2_067": {
       "type": "dialogue",
       "speaker": "Iven",
-      "text": "Un momento. Ya casi estamos.",
+      "text": "Un momento, ya casi estamos.",
       "image": "puerta",
       "next": "c2_068"
     },
@@ -822,14 +829,14 @@ STORY_SCENES.vestibulo = {
     "c2_069": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Iven. Espera.",
+      "text": "Iven. ¡Espera!",
       "image": "puerta",
       "next": "c2_apagon"
     },
     "c2_070": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Estoy mirando su cinta azul cuando se apaga la luz.\nCuando vuelve, la cinta está en el suelo.\nIven no.",
+      "text": "Estoy mirando su cinta azul cuando, de repente, se apaga la luz.\nCuando vuelve, la cinta está en el suelo.\nIven no.",
       "image": "ausencia",
       "next": "c2_071"
     },
@@ -850,7 +857,7 @@ STORY_SCENES.vestibulo = {
     "c2_073": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "El hombre que nos ha traído. Estaba ahí.",
+      "text": "El hombre que nos ha traído. Estaba ahí hace unos segundos.",
       "image": "ausencia",
       "next": "c2_074"
     },
@@ -864,7 +871,7 @@ STORY_SCENES.vestibulo = {
     "c2_075": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Su carreta. Acababas de llamarlo.",
+      "text": "Era su carreta. Acababas de hablar con él.",
       "image": "ausencia",
       "next": "c2_076"
     },
@@ -892,7 +899,7 @@ STORY_SCENES.vestibulo = {
     "c2_079A": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Bajo de la carreta. Miro detrás de las cajas y hacia la cuneta. No puede haberse alejado tanto en un segundo.",
+      "text": "Bajo de la carreta y miro detrás de las cajas. No puede haberse alejado tanto en un segundo.",
       "image": "ausencia",
       "next": "c2_080A",
       "effects": {
@@ -924,21 +931,21 @@ STORY_SCENES.vestibulo = {
     "c2_083A": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Esto se lo hizo su hija. Alma.",
+      "text": "Esta cinta se la hizo su hija: Alma.",
       "image": "escucha",
       "next": "c2_084A"
     },
     "c2_084A": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Guárdalo. Y cuéntame todo lo que recuerdas.",
+      "text": "Guárdalo, y cuéntame todo lo que recuerdas.",
       "image": "escucha",
       "next": "c2_085"
     },
     "c2_079B": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Se llama Iven. Su esposa tiene una posada. Su hija le hizo una cinta azul.",
+      "text": "Se llama Iven. Su esposa tiene una posada y su hija le hizo una cinta azul.",
       "image": "escucha",
       "next": "c2_080B",
       "effects": {
@@ -948,14 +955,14 @@ STORY_SCENES.vestibulo = {
     "c2_080B": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Despacio. Empieza por cuando subimos.",
+      "text": "Cuéntamelo con calma. Empieza por cuando subimos.",
       "image": "escucha",
       "next": "c2_081B"
     },
     "c2_081B": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Bromeaste con él. Dijo que Ada siempre le preguntaba si había comido.",
+      "text": "Ya le conocías, bromeaste con él. Dijo que Ada siempre le preguntaba si había comido.",
       "image": "escucha",
       "next": "c2_082B"
     },
@@ -969,7 +976,7 @@ STORY_SCENES.vestibulo = {
     "c2_083B": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "No consigo recordarlo. Pero eso no significa que estés inventándolo.",
+      "text": "No consigo recordarlo, pero eso no significa que estés inventándolo.",
       "image": "escucha",
       "next": "c2_084B"
     },
@@ -1022,7 +1029,7 @@ STORY_SCENES.vestibulo = {
     "c2_084C": {
       "type": "dialogue",
       "speaker": "Guardia",
-      "text": "En inspección. Los dos, esta noche. Dejaré aviso en la oficina.",
+      "text": "Eso debéis hacerlo en inspección.",
       "image": "escucha",
       "next": "c2_084C-2"
     },
@@ -1043,7 +1050,7 @@ STORY_SCENES.vestibulo = {
     "c2_086": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Después de algunos fallos encontramos cosas sin dueño. Camas preparadas. Comida servida para alguien que nadie recuerda.",
+      "text": "Después de algunos fallos en los faros, y sus apagones correspondientes, encontramos cosas sin dueño: Camas preparadas, comida servida para alguien que nadie recuerda…",
       "image": "escucha",
       "next": "c2_087"
     },
@@ -1057,21 +1064,21 @@ STORY_SCENES.vestibulo = {
     "c2_088": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Eso creemos. Pero normalmente ni siquiera sabemos a quién buscar.",
+      "text": "Eso creemos, pero normalmente ni siquiera sabemos a quién buscar.",
       "image": "escucha",
       "next": "c2_089"
     },
     "c2_089": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Yo sí sé a quién.",
+      "text": "Yo sí sé a quién buscar.",
       "image": "escucha",
       "next": "c2_090"
     },
     "c2_090": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Saco el impreso. La dirección sigue escrita. El nombre de Ada también.",
+      "text": "Saco el impreso. La dirección sigue escrita, el nombre de Ada también.",
       "image": "escucha",
       "next": "c2_firma",
       "document": "posada"
@@ -1103,7 +1110,7 @@ STORY_SCENES.vestibulo = {
     "c2_094F": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "No. Pero te creo.",
+      "text": "No, pero te creo.",
       "image": "escucha",
       "next": "c2_095",
       "document": "posada"
@@ -1135,7 +1142,7 @@ STORY_SCENES.vestibulo = {
     "c2_094S": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Sí. Empezaremos por las cosas que ha dejado.",
+      "text": "Sí, tenemos que hablar con ella.",
       "image": "escucha",
       "next": "c2_095",
       "document": "posada"
@@ -1143,7 +1150,7 @@ STORY_SCENES.vestibulo = {
     "c2_095": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Al otro lado de la muralla hay puestos de comida y gente recogiendo toldos. Nadie parece saber que acaba de faltar una persona.",
+      "text": "Al otro lado de la muralla hay puestos de comida y gente recogiendo toldos. Nadie parece saber que acaba de desaparecer una persona.",
       "image": "varda",
       "next": "c2_096"
     },
@@ -1157,7 +1164,7 @@ STORY_SCENES.vestibulo = {
     "c2_097": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "No tiene cobertura.",
+      "text": "Es imposible, no tiene cobertura.",
       "image": "varda",
       "next": "c2_098"
     },
@@ -1206,14 +1213,14 @@ STORY_SCENES.vestibulo = {
     "c2_102": {
       "type": "dialogue",
       "speaker": null,
-      "text": "No prometas que vas a salvarlos a todos.\nYo lo hice.",
+      "text": "No prometas que vas a salvarlos a todos.\nYo lo hice… y no pude.",
       "image": "varda",
       "next": "c2_103",
       "textStyle": "document",
       "document": "archivo",
       "appendDocument": {
         "id": "archivo",
-        "text": "No prometas que vas a salvarlos a todos.\nYo lo hice."
+        "text": "No prometas que vas a salvarlos a todos.\nYo lo hice… y no pude."
       }
     },
     "c2_103": {
@@ -1232,7 +1239,7 @@ STORY_SCENES.vestibulo = {
     "c2_104": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Leo la última línea otra vez. Quien escribió esto sabía que podía volver sin recordar nada.",
+      "text": "Leo la última línea otra vez. Quién escribió esto sabía que podía volver a este lugar sin recordar nada.",
       "image": "varda",
       "next": "c2_105",
       "document": "archivo"
@@ -1272,7 +1279,7 @@ STORY_SCENES.vestibulo = {
     "c2_109A": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Intentaste ayudar a personas que estaban desapareciendo. No sé cuánto llegaste a descubrir. Quizá lo que dejaste allí nos lo explique.",
+      "text": "Intentaste ayudar a personas que estaban desapareciendo. No sé cuánto llegaste a descubrir, quizá lo que dejaste allí nos lo explique.",
       "image": "escucha",
       "next": "c2_110"
     },
@@ -1321,9 +1328,13 @@ STORY_SCENES.vestibulo = {
     "c2_109C": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Quiero que vuelvas a confiar en mí. No puedo exigírtelo.",
+      "text": "No puedo exigírtelo, es tu decisión.",
       "image": "escucha",
-      "next": "c2_110"
+      "next": "c2_110",
+      "affinityGain": {
+        "companion": "lyra",
+        "amount": -1
+      }
     },
     "c2_110": {
       "type": "dialogue",
@@ -1366,7 +1377,7 @@ STORY_SCENES.vestibulo = {
     "c2_113N": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Guardo la nota. Ya he perdido la cinta. No quiero perder también su nombre.",
+      "text": "Guardo la nota. Ya he perdido la cinta, no quiero perder también su nombre.",
       "image": "varda",
       "next": "c2_114",
       "document": "nota"
@@ -1388,7 +1399,7 @@ STORY_SCENES.vestibulo = {
     "c2_116A": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Aprieto el impreso dentro del bolsillo. Ada puede haberlo olvidado. Pero hay alguien que todavía puede contarle que su esposo estuvo aquí.",
+      "text": "Aprieto el impreso dentro del bolsillo. Ada puede haberlo olvidado pero yo aún puedo contarle que su esposo existió.",
       "image": "varda",
       "next": "c2_117"
     },
@@ -1402,7 +1413,7 @@ STORY_SCENES.vestibulo = {
     "c2_115B": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Conozco el camino. Si nos damos prisa, llegaremos antes de la última campana.",
+      "text": "Conozco el camino. Si nos damos prisa, llegaremos antes de la última campanada.",
       "image": "varda",
       "next": "c2_eiden",
       "effects": {
@@ -1419,21 +1430,21 @@ STORY_SCENES.vestibulo = {
     "c2_116B-N": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Necesito saber por qué esperaba que me ocurriera esto.",
+      "text": "Necesito saber más.",
       "image": "varda",
       "next": "c2_117"
     },
     "c2_115C": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Entonces tendremos que decidir cuánto les contamos sobre ti.",
+      "text": "Debemos registrar este incidente.",
       "image": "varda",
       "next": "c2_116C"
     },
     "c2_116C": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Podemos empezar por lo que ha pasado delante de su puerta.",
+      "text": "Empecemos por lo que ha pasado delante de su puerta.",
       "image": "varda",
       "next": "c2_117"
     },

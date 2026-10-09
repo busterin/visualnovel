@@ -112,7 +112,7 @@ function showCompanion(id) {
   portrait.className = "companion-portrait";
   portrait.style.objectPosition = companion.portraitPosition || "center 25%";
   const frame = menuElement("div", "", "companion-portrait-frame");
-  const level = gameState.affinity[id] || 1;
+  const level = gameState.affinity[id] ?? 1;
   const affinity = menuElement("span", "", "companion-affinity");
   affinity.classList.toggle("is-platonic", companion.bondType === "platonic");
   affinity.setAttribute("role", "img");

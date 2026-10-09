@@ -47,7 +47,7 @@
           assert(node.text.length > 0, `Texto vacío en ${id}`);
           const text = StoryEngine.format(node.text, state);
           assert(!text.includes("[Nombre]"), `Nombre sin sustituir en ${id}`);
-          if (id === "5") assert(text === "Álex $& <viajero>…", "Nombre alterado");
+          if (id === "5") assert(text === "Álex $& <viajero>… ¿Eres tú?", "Nombre alterado");
           if (node.speaker === "Protagonista") {
             assert(StoryEngine.format(node.speaker, state) === state.protagonistName, "Hablante sin sustituir");
           }

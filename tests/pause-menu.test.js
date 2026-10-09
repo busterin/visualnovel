@@ -16,6 +16,9 @@
   showCompanion("lyra");
   assert(pauseContent.querySelector(".affinity-level").textContent === "1", "Falta nivel inicial");
   assert(pauseContent.querySelector(".companion-portrait").style.objectPosition === "center top", "Encuadre de Lyra incorrecto");
+  gameState.affinity.lyra = 0; showCompanion("lyra");
+  assert(pauseContent.querySelector(".affinity-level").textContent === "0", "El corazón debe mostrar cero");
+  assert(StoryEngine.restore(gameState, STORY_SCENES).affinity.lyra === 0, "La carga debe conservar cero");
   gameState.affinity.lyra = 3; showCompanion("lyra");
   assert(pauseContent.querySelector(".affinity-level").textContent === "3", "No refleja aumento de afinidad");
   const legacy = JSON.parse(JSON.stringify(gameState));
