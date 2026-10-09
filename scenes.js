@@ -47,7 +47,9 @@ const STORY_SCENES = {
     },
     "nodes": {
       "1": {
-        "meetCompanions": ["lyra"],
+        "meetCompanions": [
+          "lyra"
+        ],
         "type": "dialogue",
         "speaker": "Lyra",
         "text": "No te muevas.",
@@ -57,7 +59,7 @@ const STORY_SCENES = {
       "2": {
         "type": "dialogue",
         "speaker": null,
-        "text": "Me quedo apoyado sobre un codo. La mujer que tengo delante lleva una espada. Su mirada pasa de mi rostro al móvil que todavía sujeto.",
+        "text": "Me quedo apoyado sobre un codo. La mujer que tengo delante lleva una espada, su mirada pasa de mi rostro al móvil que todavía sujeto.",
         "image": "alerta",
         "next": "3"
       },
@@ -78,7 +80,7 @@ const STORY_SCENES = {
       "5": {
         "type": "dialogue",
         "speaker": "Lyra",
-        "text": "[Nombre]…",
+        "text": "[Nombre]… ¿Eres tú?",
         "image": "aliviada",
         "next": "6"
       },
@@ -92,7 +94,7 @@ const STORY_SCENES = {
       "7": {
         "type": "dialogue",
         "speaker": null,
-        "text": "Se acerca un paso. Parece que quiere decir algo, pero tiene que tomar aire antes de conseguirlo.",
+        "text": "Se acerca un paso. Parece que quiere decirme algo, pero tiene que tomar aire antes de conseguirlo.",
         "image": "aliviada",
         "next": "8"
       },
@@ -127,7 +129,7 @@ const STORY_SCENES = {
       "12": {
         "type": "dialogue",
         "speaker": null,
-        "text": "Pelo corto y oscuro. Ojos ámbar. Una pequeña cicatriz en la ceja. Busco algo familiar en su cara.\n\nNo encuentro nada.",
+        "text": "Pelo corto y oscuro, ojos ámbar, una pequeña cicatriz en la ceja... Busco algo familiar en su cara.\n\nNo encuentro nada.",
         "image": "desconcertada",
         "next": "13"
       },
@@ -141,7 +143,7 @@ const STORY_SCENES = {
       "14": {
         "type": "dialogue",
         "speaker": "Lyra",
-        "text": "Has tardado tres años. Dime que al menos esta vez recuerdas mi nombre.",
+        "text": "¿Has tardado tres años en volver y además no me recuerdas?.",
         "image": "desconcertada",
         "next": "first-choice"
       },
@@ -204,14 +206,14 @@ const STORY_SCENES = {
       "15B": {
         "type": "dialogue",
         "speaker": "Lyra",
-        "text": "Sí. Tienes razón.",
+        "text": "Sí, tienes razón.",
         "image": "seria",
         "next": "16B"
       },
       "16B": {
         "type": "dialogue",
         "speaker": "Lyra",
-        "text": "Me llamo Lyra. Estás en la estación de Varda, en Vaelthar.",
+        "text": "Me llamo Lyra. Estás en la estación de Varda, en el reino de Vaelthar.",
         "image": "seria",
         "next": "17B"
       },
@@ -260,7 +262,7 @@ const STORY_SCENES = {
       "17C": {
         "type": "dialogue",
         "speaker": "Lyra",
-        "text": "Una fotografía. Nada más.",
+        "text": "Tranquilo, se trata de una fotografía. Nada más.",
         "image": "seria",
         "next": "18C"
       },
@@ -302,7 +304,7 @@ const STORY_SCENES = {
       "24": {
         "type": "dialogue",
         "speaker": null,
-        "text": "La acerco para verla mejor. Tengo una herida en el mentón y llevo una chaqueta que nunca he visto.\n\nLyra me está mirando a mí, no a la cámara.",
+        "text": "La acerco para verla mejor. Tengo una herida en el mentón y llevo una chaqueta que nunca he visto.\n\nLyra me está mirando a mí, no a la fotografía.",
         "image": "recuerdo",
         "next": "25"
       },
@@ -351,7 +353,7 @@ const STORY_SCENES = {
       "31": {
         "type": "dialogue",
         "speaker": "Lyra",
-        "text": "Sí. Encontraste a alguien que pudo pasarla al papel.",
+        "text": "Sí, encontraste a alguien que pudo pasarla al papel.",
         "image": "recuerdo",
         "next": "32"
       },
@@ -393,7 +395,7 @@ const STORY_SCENES = {
       "37": {
         "type": "dialogue",
         "speaker": "Lyra",
-        "text": "Lo sé. Pero no quiero pedirte que sientas algo solo porque yo lo recuerdo.",
+        "text": "Lo sé, pero no quiero pedirte que sientas algo solo porque yo lo recuerdo.",
         "image": "neutra",
         "next": "38"
       },
@@ -422,14 +424,14 @@ const STORY_SCENES = {
       "41": {
         "type": "dialogue",
         "speaker": "Protagonista",
-        "text": "Todavía tengo preguntas.",
+        "text": "Todavía tengo un montón de preguntas.",
         "image": "alerta",
         "next": "42"
       },
       "42": {
         "type": "dialogue",
         "speaker": "Lyra",
-        "text": "Y podrás hacérmelas. Pero la luz está cayendo y este andén no es seguro.",
+        "text": "Y podrás hacérmelas, pero la luz está cayendo y este andén no es seguro.",
         "image": "alerta",
         "next": "43"
       },
@@ -456,7 +458,7 @@ const STORY_SCENES = {
           },
           {
             "id": "C",
-            "text": "Antes, prométeme que no vas a mentirme.",
+            "text": "Antes, prométeme que me contarás toda la verdad.",
             "next": "44C"
           }
         ]
@@ -520,7 +522,7 @@ const STORY_SCENES = {
       "44C": {
         "type": "dialogue",
         "speaker": "Protagonista",
-        "text": "Antes, prométeme que no vas a mentirme.",
+        "text": "Antes, prométeme que me contarás toda la verdad.",
         "image": "seria",
         "next": "45C"
       },
@@ -534,14 +536,14 @@ const STORY_SCENES = {
       "46C": {
         "type": "dialogue",
         "speaker": "Lyra",
-        "text": "Te diré lo que sé. Y cuando no tenga una respuesta, también te lo diré.",
+        "text": "Te contaré todo lo que sé y cuando no tenga una respuesta, también te lo diré.",
         "image": "seria",
         "next": "47C"
       },
       "47C": {
         "type": "dialogue",
         "speaker": "Protagonista",
-        "text": "Con eso puedo empezar.",
+        "text": "Te lo agradezco mucho.",
         "image": "seria",
         "next": "48C"
       },
@@ -562,7 +564,7 @@ const STORY_SCENES = {
       "50": {
         "type": "dialogue",
         "speaker": "Lyra",
-        "text": "Quédate cerca hasta que lleguemos al camino.",
+        "text": "Quédate cerca mío hasta que lleguemos al camino.",
         "image": "neutra",
         "next": "51"
       },
@@ -583,14 +585,14 @@ const STORY_SCENES = {
       "53": {
         "type": "dialogue",
         "speaker": "Protagonista",
-        "text": "No lo recordaba. Pero ya lo sé.",
+        "text": "No recordaba tu nombre pero ahora ya lo sé.\n\nPrometo no olvidarlo.",
         "image": "neutra",
         "next": "54"
       },
       "54": {
         "type": "dialogue",
         "speaker": "Lyra",
-        "text": "Sí.\n\nEs un comienzo.",
+        "text": "Es un comienzo.",
         "image": "sonriente",
         "next": null
       }
