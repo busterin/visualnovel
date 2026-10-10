@@ -9,28 +9,28 @@ STORY_SCENES.c3_mantenimiento = {
       "src": "imagenes/Escena5/c5_inspeccion_exterior.png",
       "alt": "inspeccion exterior"
     },
-    "c5_mara_ventanilla": {
-      "src": "imagenes/Escena5/c5_mara_ventanilla.png",
+    "c5_inspeccion_mara": {
+      "src": "imagenes/Escena5/c5_inspeccion_mara.png",
       "alt": "mara ventanilla"
     },
-    "c5_registro_apagones": {
-      "src": "imagenes/Escena5/c5_registro_apagones.png",
+    "c5_mara_registro": {
+      "src": "imagenes/Escena5/c5_mara_registro.png",
       "alt": "registro apagones"
     },
-    "c5_entrega_pendiente": {
-      "src": "imagenes/Escena5/c5_entrega_pendiente.png",
+    "c5_mara_expediente": {
+      "src": "imagenes/Escena5/c5_mara_expediente.png",
       "alt": "entrega pendiente"
     },
     "c5_expediente_anterior": {
       "src": "imagenes/Escena5/c5_expediente_anterior.png",
       "alt": "expediente anterior"
     },
-    "c5_denuncia_sellada": {
-      "src": "imagenes/Escena5/c5_denuncia_sellada.png",
+    "c5_mara_firma": {
+      "src": "imagenes/Escena5/c5_mara_firma.png",
       "alt": "denuncia sellada"
     },
-    "c5_inspeccion_salida": {
-      "src": "imagenes/Escena5/c5_inspeccion_salida.png",
+    "c5_lyra_exterior": {
+      "src": "imagenes/Escena5/c5_lyra_exterior.png",
       "alt": "inspeccion salida"
     }
   },
@@ -185,63 +185,63 @@ STORY_SCENES.c3_mantenimiento = {
       "type": "dialogue",
       "speaker": null,
       "text": "Encuentras la fecha.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_02"
     },
     "mant_nueve_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "La hora.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_03"
     },
     "mant_nueve_03": {
       "type": "dialogue",
       "speaker": null,
       "text": "El registro.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_04"
     },
     "mant_nueve_04": {
       "type": "dialogue",
       "speaker": null,
       "text": "Ahí está.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_05"
     },
     "mant_nueve_05": {
       "type": "dialogue",
       "speaker": null,
       "text": "Nueve segundos.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_06"
     },
     "mant_nueve_06": {
       "type": "dialogue",
       "speaker": null,
       "text": "No una aproximación.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_07"
     },
     "mant_nueve_07": {
       "type": "dialogue",
       "speaker": null,
       "text": "No un informe posterior.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_08"
     },
     "mant_nueve_08": {
       "type": "dialogue",
       "speaker": null,
       "text": "El sistema dejó constancia exacta.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_09"
     },
     "mant_nueve_09": {
       "type": "dialogue",
       "speaker": null,
       "text": "INTERRUPCIÓN: 00:00:09\n\nRESTABLECIMIENTO: AUTOMÁTICO",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_10",
       "textStyle": "document"
     },
@@ -249,7 +249,7 @@ STORY_SCENES.c3_mantenimiento = {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Nueve segundos.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_variante",
       "effects": {
         "mantenimiento_corte_comprobado": true,
@@ -261,91 +261,91 @@ STORY_SCENES.c3_mantenimiento = {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Igual que en el informe.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_lyra_02"
     },
     "mant_nueve_lyra_02": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Eso significa que esa parte era cierta.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_lyra_03"
     },
     "mant_nueve_lyra_03": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "La parte interesante es cuál no lo era.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_01"
     },
     "mant_nueve_solo_01": {
       "type": "dialogue",
       "speaker": null,
       "text": "El informe de Mara no estaba equivocado.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_solo_02"
     },
     "mant_nueve_solo_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "El corte ocurrió.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_nueve_solo_03"
     },
     "mant_nueve_solo_03": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lo que sigues sin saber es por qué.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_01"
     },
     "mant_causa_01": {
       "type": "dialogue",
       "speaker": null,
       "text": "Buscas el origen del fallo.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_02"
     },
     "mant_causa_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "No hay sobrecarga registrada.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_03"
     },
     "mant_causa_03": {
       "type": "dialogue",
       "speaker": null,
       "text": "No hay avería previa.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_04"
     },
     "mant_causa_04": {
       "type": "dialogue",
       "speaker": null,
       "text": "No hay aviso de mantenimiento.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_05"
     },
     "mant_causa_05": {
       "type": "dialogue",
       "speaker": null,
       "text": "No hay reparación posterior.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_06"
     },
     "mant_causa_06": {
       "type": "dialogue",
       "speaker": null,
       "text": "Solo una línea.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_07"
     },
     "mant_causa_07": {
       "type": "dialogue",
       "speaker": null,
       "text": "CAUSA: NO DETERMINADA",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_08",
       "textStyle": "document"
     },
@@ -353,7 +353,7 @@ STORY_SCENES.c3_mantenimiento = {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Eso no tiene sentido.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_variante",
       "effects": {
         "mantenimiento_causa": "No determinada",
@@ -366,245 +366,245 @@ STORY_SCENES.c3_mantenimiento = {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Empiezo a pensar que esa frase debería ser el lema de la ciudad.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_lyra_02"
     },
     "mant_causa_lyra_02": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Un sistema falla nueve segundos y se arregla solo.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_lyra_03"
     },
     "mant_causa_lyra_03": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Y nadie sabe por qué.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_lyra_04"
     },
     "mant_causa_lyra_04": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Exactamente.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_lyra_05"
     },
     "mant_causa_lyra_05": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Entonces no fue una avería normal.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar"
     },
     "mant_causa_solo_01": {
       "type": "dialogue",
       "speaker": null,
       "text": "Un fallo sin origen.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_solo_02"
     },
     "mant_causa_solo_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "Un restablecimiento sin intervención.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_causa_solo_03"
     },
     "mant_causa_solo_03": {
       "type": "dialogue",
       "speaker": null,
       "text": "Nueve segundos que oficialmente no tienen explicación.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar"
     },
     "mant_comparar_lyra_01": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Iven iba a entregar documentos a Inspección.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_02"
     },
     "mant_comparar_lyra_02": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Sí.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_03"
     },
     "mant_comparar_lyra_03": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Sus manifiestos tenían irregularidades.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_04"
     },
     "mant_comparar_lyra_04": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Sí.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_05"
     },
     "mant_comparar_lyra_05": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "El faro falla exactamente cuando desaparece.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_06"
     },
     "mant_comparar_lyra_06": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Sí.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_07"
     },
     "mant_comparar_lyra_07": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Y ese fallo no tiene una causa registrada.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_08"
     },
     "mant_comparar_lyra_08": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Sí.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_09"
     },
     "mant_comparar_lyra_09": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra cruza los brazos.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_10"
     },
     "mant_comparar_lyra_10": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Estoy empezando a odiar esa palabra.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_11"
     },
     "mant_comparar_lyra_11": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "¿Cuál?",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_12"
     },
     "mant_comparar_lyra_12": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Sí.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_cierre_01"
     },
     "mant_comparar_solo_01": {
       "type": "dialogue",
       "speaker": null,
       "text": "Repasas mentalmente lo que sabes.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_solo_02"
     },
     "mant_comparar_solo_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "Iven tenía documentación para Inspección.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_solo_03"
     },
     "mant_comparar_solo_03": {
       "type": "dialogue",
       "speaker": null,
       "text": "Sus manifiestos no cuadraban.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_solo_04"
     },
     "mant_comparar_solo_04": {
       "type": "dialogue",
       "speaker": null,
       "text": "Desapareció.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_solo_05"
     },
     "mant_comparar_solo_05": {
       "type": "dialogue",
       "speaker": null,
       "text": "El faro se apagó durante nueve segundos.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_solo_06"
     },
     "mant_comparar_solo_06": {
       "type": "dialogue",
       "speaker": null,
       "text": "Y nadie sabe qué provocó el fallo.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_solo_07"
     },
     "mant_comparar_solo_07": {
       "type": "dialogue",
       "speaker": null,
       "text": "Por separado son anomalías.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_comparar_solo_08"
     },
     "mant_comparar_solo_08": {
       "type": "dialogue",
       "speaker": null,
       "text": "Juntas empiezan a parecer otra cosa.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_cierre_01"
     },
     "mant_cierre_01": {
       "type": "dialogue",
       "speaker": null,
       "text": "Guardas las copias y anotaciones.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_cierre_02"
     },
     "mant_cierre_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "Nueve segundos.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_cierre_03"
     },
     "mant_cierre_03": {
       "type": "dialogue",
       "speaker": null,
       "text": "Eso es todo lo que duró.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_cierre_04"
     },
     "mant_cierre_04": {
       "type": "dialogue",
       "speaker": null,
       "text": "Y, sin embargo, alrededor de esos nueve segundos hay una carreta vacía, un hombre desaparecido, documentos que nunca llegaron a su destino y testimonios de personas que empezaron a olvidar.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_cierre_05"
     },
     "mant_cierre_05": {
       "type": "dialogue",
       "speaker": null,
       "text": "El fallo del faro ya no parece un accidente aislado.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_cierre_06"
     },
     "mant_cierre_06": {
       "type": "dialogue",
       "speaker": null,
       "text": "Parece parte de algo.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_cierre_07"
     },
     "mant_cierre_07": {
       "type": "dialogue",
       "speaker": null,
       "text": "El problema es que todavía no sabes de qué.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "mant_destinos"
     },
     "mant_acompanante": {
@@ -637,7 +637,7 @@ STORY_SCENES.c3_mantenimiento = {
     },
     "mant_destinos": {
       "type": "choice",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "completeRoute": true,
       "effects": {
         "mantenimiento_completado": true

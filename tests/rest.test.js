@@ -1,10 +1,10 @@
 (() => {
   const assert=(v,m)=>{if(!v)throw Error(m)};
-  for(const variant of ['solo','abrazo','sin_abrazo']) for(const completed of [[],['c3_archivo'],['c3_posada'],['c3_archivo','c3_posada']]) {
-    let state=StoryEngine.createState();state.protagonistName='Álex';state.completedScenes=[...completed];
+  for(const variant of ['solo','abrazo','sin_abrazo']) {
+    let state=StoryEngine.createState();state.protagonistName='Álex';state.completedScenes=['c3_archivo','c3_posada'];
     StoryEngine.start(state,STORY_SCENES,'c3_inspeccion');state.node='insp_salida';
-    state.acceso_mantenimiento_autorizado=true;StoryEngine.prepare(state,STORY_SCENES);
-    StoryEngine.choose(state,STORY_SCENES,'descansar');
+    StoryEngine.prepare(state,STORY_SCENES);
+    assert(state.node==='descanso_decision_01','No enlaza automáticamente el descanso');
     const path=[];let steps=0;
     while(state.scene!=='c3_ropa_ada') {
       assert(++steps<250,'Bucle descanso');path.push(state.node);

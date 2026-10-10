@@ -4,7 +4,6 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
-  { label: "Mantenimiento · Con Lyra", scene: "c3_mantenimiento", preset: "maintenance" },
   { label: "Descanso · Un lugar donde descansar", scene: "c3_inspeccion", node: "descanso_decision_01", preset: "rest" },
   { label: "La mañana · La ropa de Ada", scene: "c3_ropa_ada", preset: "clothes" },
   { label: "La revelación · Cincuenta días", scene: "c3_diosa", preset: "revelation" },
@@ -17,9 +16,9 @@ function prepareReviewStart(state, preset) {
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
     archivo_completado: true, posada_completada: true, ruta_inspeccion_completada: true,
-    acceso_mantenimiento_autorizado: true, ada_lagunas_iven: true,
+    acceso_mantenimiento_autorizado: false, ada_lagunas_iven: true,
     manifiestos_iven_revisados: true, iven_entrega_inspeccion: true,
-    iven_denuncia_manifiestos: true, inspeccion_corte_segundos: 9,
+    iven_informes_aberraciones: true, inspeccion_corte_segundos: 9,
     metCompanions: ["lyra", "ada", "alma"], affinity: { lyra: 1, ada: 1, alma: 1 },
     mantenimiento_con_lyra: preset === "maintenance",
   });

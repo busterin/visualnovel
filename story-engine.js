@@ -12,6 +12,8 @@ const StoryEngine = {
       protagonistOutfit: "original", ropa_ada_recibida: false,
       ropa_original_guardada: false, revelacion_diosa_completada: false,
       mara_conocida: false, ruta_inspeccion_completada: false,
+      inspeccion_guion_version: 2, iven_informes_aberraciones: false,
+      inspeccion_explicacion_oscuridad: false, inspeccion_explicacion_aberraciones: false,
       iven_desaparicion_revisada: false, inspeccion_corte_segundos: null,
       inspeccion_causa_oficial: null, inspeccion_restablecimiento: null,
       iven_entrega_inspeccion: false, iven_denuncia_manifiestos: false,
@@ -186,6 +188,9 @@ const StoryEngine = {
     const state = Object.assign(this.createState(), JSON.parse(JSON.stringify(saved)), { version: 2 });
     state.calendar = { ...StoryCalendar.create(), ...(saved.calendar || {}) };
     state.alliances = saved.alliances || {};
+    // La revisión de Inspección elimina la autorización automática de la versión anterior.
+    if (saved.inspeccion_guion_version !== 2) state.acceso_mantenimiento_autorizado = false;
+    state.inspeccion_guion_version = 2;
     if (!Array.isArray(state.metCompanions)) state.metCompanions = [];
     if (!state.affinity || typeof state.affinity !== "object" || Array.isArray(state.affinity)) state.affinity = {};
     // Iven se incluyó como compañero en las primeras partidas de prueba.

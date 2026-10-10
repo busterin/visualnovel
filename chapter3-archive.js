@@ -1894,14 +1894,6 @@ STORY_SCENES.c3_archivo = {
           "text": "Vamos a inspección. Necesito respuestas sobre el faro.",
           "destination": "c3_inspeccion",
           "hideIfCompleted": "c3_inspeccion"
-        },
-        {
-          "id": "mantenimiento",
-          "text": "Ir a mantenimiento.",
-          "destination": "c3_mantenimiento",
-          "hideIfCompleted": "c3_mantenimiento",
-          "requiresFlag": "acceso_mantenimiento_autorizado",
-          "hideIfFlag": "ropa_ada_recibida"
         }
       ]
     }

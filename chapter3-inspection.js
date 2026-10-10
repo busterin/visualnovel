@@ -1,37 +1,17 @@
 "use strict";
 
 STORY_SCENES.c3_inspeccion = {
-  "title": "Lo que dejé atrás · Una incidencia sin nombre",
-  "chapter": 3,
+  "title": "Lo que dejé atrás · Inspección",
+  "chapter": 5,
   "start": "insp_entrada_01",
   "assets": {
     "c5_inspeccion_exterior": {
       "src": "imagenes/Escena5/c5_inspeccion_exterior.png",
       "alt": "inspeccion exterior"
     },
-    "c5_mara_ventanilla": {
-      "src": "imagenes/Escena5/c5_mara_ventanilla.png",
-      "alt": "mara ventanilla"
-    },
-    "c5_registro_apagones": {
-      "src": "imagenes/Escena5/c5_registro_apagones.png",
-      "alt": "registro apagones"
-    },
-    "c5_entrega_pendiente": {
-      "src": "imagenes/Escena5/c5_entrega_pendiente.png",
-      "alt": "entrega pendiente"
-    },
     "c5_expediente_anterior": {
       "src": "imagenes/Escena5/c5_expediente_anterior.png",
       "alt": "expediente anterior"
-    },
-    "c5_denuncia_sellada": {
-      "src": "imagenes/Escena5/c5_denuncia_sellada.png",
-      "alt": "denuncia sellada"
-    },
-    "c5_inspeccion_salida": {
-      "src": "imagenes/Escena5/c5_inspeccion_salida.png",
-      "alt": "inspeccion salida"
     },
     "c6_abrazo_lyra": {
       "src": "imagenes/Escena6/c6_abrazo_lyra.png",
@@ -56,13 +36,57 @@ STORY_SCENES.c3_inspeccion = {
     "c6_ada_llave": {
       "src": "imagenes/Escena6/c6_ada_llave.png",
       "alt": "Ada ofrece una llave en la posada."
+    },
+    "c5_inspeccion_mara": {
+      "src": "imagenes/Escena5/c5_inspeccion_mara.png",
+      "alt": "inspeccion mara"
+    },
+    "c5_mara_registro": {
+      "src": "imagenes/Escena5/c5_mara_registro.png",
+      "alt": "mara registro"
+    },
+    "c5_mara_expediente": {
+      "src": "imagenes/Escena5/c5_mara_expediente.png",
+      "alt": "mara expediente"
+    },
+    "c5_mara_notas": {
+      "src": "imagenes/Escena5/c5_mara_notas.png",
+      "alt": "mara notas"
+    },
+    "c5_mara_firma": {
+      "src": "imagenes/Escena5/c5_mara_firma.png",
+      "alt": "mara firma"
+    },
+    "c5_lyraymara_documentos": {
+      "src": "imagenes/Escena5/c5_lyraymara_documentos.png",
+      "alt": "lyraymara documentos"
+    },
+    "c5_explicacion_lyra1": {
+      "src": "imagenes/Escena5/c5_explicacion_lyra1.png",
+      "alt": "explicacion lyra1"
+    },
+    "c5_lyra_exterior": {
+      "src": "imagenes/Escena5/c5_lyra_exterior.png",
+      "alt": "lyra exterior"
+    },
+    "c5_explicacion_lyra2": {
+      "src": "imagenes/Escena5/c5_explicacion_lyra2.png",
+      "alt": "explicacion lyra2"
+    },
+    "c5_maraylyra_conversacion": {
+      "src": "imagenes/Escena5/c5_maraylyra_conversacion.png",
+      "alt": "Mara y Lyra conversan sobre la desaparición de Iven."
+    },
+    "c5_mara_muestraexpediente": {
+      "src": "imagenes/Escena5/c5_mara_muestraexpediente.png",
+      "alt": "Mara muestra el expediente de un caso anterior."
     }
   },
   "nodes": {
     "insp_entrada_01": {
       "type": "dialogue",
       "speaker": null,
-      "text": "El edificio de Inspección tiene exactamente el aspecto que esperabas.",
+      "text": "El edificio de Inspección tiene exactamente el aspecto que esperaba.",
       "image": "c5_inspeccion_exterior",
       "next": "insp_entrada_02",
       "meetCompanions": [
@@ -100,7 +124,7 @@ STORY_SCENES.c3_inspeccion = {
     "insp_entrada_06": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Todavía podemos fingir que nos hemos equivocado de puerta.",
+      "text": "Odio la burocracia. Todavía podemos fingir que nos hemos equivocado de puerta.",
       "image": "c5_inspeccion_exterior",
       "next": "insp_entrada_07"
     },
@@ -136,28 +160,28 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": null,
       "text": "El vestíbulo está casi vacío.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_exterior",
       "next": "insp_mostrador_02"
     },
     "insp_mostrador_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "Detrás de uno de los mostradores, una mujer revisa varios documentos.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_03"
     },
     "insp_mostrador_03": {
       "type": "dialogue",
       "speaker": null,
       "text": "Levanta la vista cuando os acercáis.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_04"
     },
     "insp_mostrador_04": {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "¿En qué puedo ayudaros?",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_05",
       "effects": {
         "mara_conocida": true
@@ -167,288 +191,174 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Queremos consultar una incidencia.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_06"
     },
     "insp_mostrador_06": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "Eso describe aproximadamente la mitad de este edificio.",
-      "image": "c5_mara_ventanilla",
+      "text": "Eso describe más de la mitad de mi trabajo.",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_07"
     },
     "insp_mostrador_07": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "La desaparición de un transportista.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_08"
     },
     "insp_mostrador_08": {
       "type": "dialogue",
       "speaker": null,
       "text": "Mara deja la pluma.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_09"
     },
     "insp_mostrador_09": {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "Nombre.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_10"
     },
     "insp_mostrador_10": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Iven.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_11"
     },
     "insp_mostrador_11": {
       "type": "dialogue",
       "speaker": null,
       "text": "La expresión de Mara cambia ligeramente.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_12"
     },
     "insp_mostrador_12": {
       "type": "dialogue",
       "speaker": null,
       "text": "Mara busca entre varios registros.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_13"
     },
     "insp_mostrador_13": {
       "type": "dialogue",
       "speaker": null,
       "text": "Después abre un cajón.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_14"
     },
     "insp_mostrador_14": {
       "type": "dialogue",
       "speaker": null,
       "text": "Saca un expediente.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_inspeccion_mara",
       "next": "insp_mostrador_15"
     },
     "insp_mostrador_15": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "Sí.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_mostrador_16"
+      "text": "Sí. Recuerdo este caso.",
+      "image": "c5_mara_expediente",
+      "next": "insp_faros_01"
     },
     "insp_mostrador_16": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Recuerdo este caso.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_denuncia_01"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_faros_01"
     },
     "insp_denuncia_01": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Mara abre el expediente sobre el mostrador.",
-      "image": "c5_registro_apagones",
+      "text": "Mara consulta un extenso registro.",
+      "image": "c5_mara_registro",
       "next": "insp_denuncia_02"
     },
     "insp_denuncia_02": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "Iven desapareció durante un traslado.",
-      "image": "c5_registro_apagones",
+      "text": "¿Iven desapareció durante un traslado?",
+      "image": "c5_mara_registro",
       "next": "insp_denuncia_03"
     },
     "insp_denuncia_03": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Su carreta apareció después.",
-      "image": "c5_registro_apagones",
+      "text": "Así es.",
+      "image": "c5_mara_registro",
       "next": "insp_denuncia_04"
     },
     "insp_denuncia_04": {
       "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Sí.",
-      "image": "c5_registro_apagones",
+      "speaker": null,
+      "text": "Mara señala una anotación.",
+      "image": "c5_mara_registro",
       "next": "insp_denuncia_05"
     },
     "insp_denuncia_05": {
       "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "¿Y el faro?",
-      "image": "c5_registro_apagones",
+      "speaker": "Mara",
+      "text": "Interrupción del servicio. Mirad los registros horarios.",
+      "image": "c5_mara_registro",
       "next": "insp_denuncia_06"
     },
     "insp_denuncia_06": {
       "type": "dialogue",
-      "speaker": null,
-      "text": "Mara pasa varias páginas.",
-      "image": "c5_registro_apagones",
+      "speaker": "Protagonista",
+      "text": "Coincide con la desaparición de Iven.",
+      "image": "c5_mara_registro",
       "next": "insp_denuncia_07"
     },
     "insp_denuncia_07": {
       "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Aquí consta.",
-      "image": "c5_registro_apagones",
+      "speaker": null,
+      "text": "Mara mira el registro.",
+      "image": "c5_mara_registro",
       "next": "insp_denuncia_08"
     },
     "insp_denuncia_08": {
       "type": "dialogue",
-      "speaker": null,
-      "text": "Señala una anotación.",
-      "image": "c5_registro_apagones",
+      "speaker": "Mara",
+      "text": "La interrupción duró nueve segundos, pero me temo que es suficiente para hacer desaparecer a alguien.",
+      "image": "c5_mara_registro",
       "next": "insp_denuncia_09"
     },
     "insp_denuncia_09": {
       "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Interrupción del servicio.",
-      "image": "c5_registro_apagones",
+      "speaker": null,
+      "text": "Silencio.",
+      "image": "c5_mara_registro",
       "next": "insp_denuncia_10"
     },
     "insp_denuncia_10": {
       "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿Cuánto tiempo?",
-      "image": "c5_registro_apagones",
+      "speaker": null,
+      "text": "Protagonista consulta las anotaciones del registro.",
+      "image": "c5_mara_registro",
       "next": "insp_denuncia_11"
     },
     "insp_denuncia_11": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Mara mira el registro.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_12"
+      "text": "CORTE DE SERVICIO: 9 SEGUNDOS\n\nCAUSA: ORIGEN NO DETERMINADO\n\nRESTABLECIMIENTO: AUTOMÁTICO",
+      "image": "c5_mara_registro",
+      "next": "insp_denuncia_12",
+      "textStyle": "document"
     },
     "insp_denuncia_12": {
       "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Nueve segundos.",
-      "image": "c5_registro_apagones",
+      "speaker": "Protagonista",
+      "text": "“Origen no determinado.”",
+      "image": "c5_mara_registro",
       "next": "insp_denuncia_13"
     },
     "insp_denuncia_13": {
       "type": "dialogue",
-      "speaker": null,
-      "text": "Silencio.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_14"
-    },
-    "insp_denuncia_14": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "¿Solo nueve?",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_15"
-    },
-    "insp_denuncia_15": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Nueve exactamente.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_16"
-    },
-    "insp_denuncia_16": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿Y eso bastó para provocar lo que pasó?",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_17"
-    },
-    "insp_denuncia_17": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "No debería.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_18"
-    },
-    "insp_denuncia_18": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "Pero pasó.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_19"
-    },
-    "insp_denuncia_19": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Sí.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_20"
-    },
-    "insp_denuncia_20": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "El protagonista mira el documento.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_21"
-    },
-    "insp_denuncia_21": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "CORTE DE SERVICIO: 9 SEGUNDOS\n\nCAUSA: ORIGEN NO DETERMINADO\n\nRESTABLECIMIENTO: AUTOMÁTICO",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_22",
-      "textStyle": "document"
-    },
-    "insp_denuncia_22": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "“Origen no determinado.”",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_23"
-    },
-    "insp_denuncia_23": {
-      "type": "dialogue",
       "speaker": "Mara",
       "text": "Eso dice el informe.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_24"
-    },
-    "insp_denuncia_24": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "¿Y tú te lo crees?",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_25"
-    },
-    "insp_denuncia_25": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Mara levanta la vista.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_26"
-    },
-    "insp_denuncia_26": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Yo no estoy aquí para creer informes.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_27"
-    },
-    "insp_denuncia_27": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Estoy aquí para archivarlos.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_28"
-    },
-    "insp_denuncia_28": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "Conveniente.",
-      "image": "c5_registro_apagones",
-      "next": "insp_denuncia_29"
-    },
-    "insp_denuncia_29": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "A veces.",
-      "image": "c5_registro_apagones",
+      "image": "c5_mara_registro",
       "next": "insp_desaparicion_01",
       "effects": {
         "inspeccion_corte_segundos": 9,
@@ -457,570 +367,556 @@ STORY_SCENES.c3_inspeccion = {
         "iven_desaparicion_revisada": true
       }
     },
+    "insp_denuncia_14": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_15": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_16": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_17": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_18": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_19": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_20": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_21": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_22": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_23": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_24": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_25": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_26": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_27": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_28": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
+    "insp_denuncia_29": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_denuncia_13"
+    },
     "insp_desaparicion_01": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "El expediente quedó abierto.",
-      "image": "c5_mara_ventanilla",
+      "text": "Por lo que veo, parece que Iven tenía que venir hasta aquí.",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_desaparicion_02"
     },
     "insp_desaparicion_02": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "¿Nunca encontraron a Iven?",
-      "image": "c5_mara_ventanilla",
+      "text": "¿Y qué transportaba?",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_desaparicion_03"
     },
     "insp_desaparicion_03": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "No.",
-      "image": "c5_mara_ventanilla",
+      "text": "Documentos, pero no unos documentos cualquiera…",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_desaparicion_04"
     },
     "insp_desaparicion_04": {
       "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿Ni cuerpo?",
-      "image": "c5_mara_ventanilla",
+      "speaker": "Lyra",
+      "text": "¿De qué se trataba?",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_desaparicion_05"
     },
     "insp_desaparicion_05": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "No.",
-      "image": "c5_mara_ventanilla",
+      "text": "Eran informes de aberraciones. Llevábamos tiempo esperando por ellos.",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_desaparicion_06"
     },
     "insp_desaparicion_06": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "¿Ni rastro?",
-      "image": "c5_mara_ventanilla",
+      "text": "Antes usaste ese término, Lyra, pero no acabo de entenderlo?",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_desaparicion_07"
     },
     "insp_desaparicion_07": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "La carreta.",
-      "image": "c5_mara_ventanilla",
+      "text": "¿En serio? ¿Pero de dónde sale este tipo?",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_desaparicion_08"
     },
     "insp_desaparicion_08": {
       "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Y parte de la carga.",
-      "image": "c5_mara_ventanilla",
+      "speaker": "Lyra",
+      "text": "Es una historia larga, Protagonista. Las aberraciones son monstruos producto de la oscuridad.",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_desaparicion_09"
     },
     "insp_desaparicion_09": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "¿Parte?",
-      "image": "c5_mara_ventanilla",
+      "text": "Cuánta más oscuridad, más probabilidad de que aparezcan. Muchos dicen que se trata de los “borrados”, que vuelven como monstruos.",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_desaparicion_10"
     },
     "insp_desaparicion_10": {
       "type": "dialogue",
-      "speaker": null,
-      "text": "Mara pasa otra página.",
-      "image": "c5_mara_ventanilla",
+      "speaker": "Lyra",
+      "text": "Pero no es algo que se haya podido demostrar. El problema es que cada vez hay más aberraciones.",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_desaparicion_11"
     },
     "insp_desaparicion_11": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "Había discrepancias.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_tiene_manifiestos"
+      "text": "Coincide con el aumento de fallos en los faros…",
+      "image": "c5_maraylyra_conversacion",
+      "next": "insp_tiene_manifiestos",
+      "effects": {
+        "iven_entrega_inspeccion": true,
+        "iven_informes_aberraciones": true,
+        "inspeccion_explicacion_aberraciones": true
+      }
     },
     "insp_copias_manifiestos_01": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "También las encontramos en sus manifiestos.",
-      "image": "c5_mara_ventanilla",
+      "text": "También encontramos información en sus documentos, en la posada.",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_copias_manifiestos_02"
     },
     "insp_copias_manifiestos_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "Mara se queda quieta.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_copias_manifiestos_03"
     },
     "insp_copias_manifiestos_03": {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "¿Tenéis esos documentos?",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_copias_manifiestos_04"
     },
     "insp_copias_manifiestos_04": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Copias.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_copias_manifiestos_05"
     },
     "insp_copias_manifiestos_05": {
       "type": "dialogue",
       "speaker": null,
       "text": "Mara extiende la mano.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_copias_manifiestos_06"
     },
     "insp_copias_manifiestos_06": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra se las entrega.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_copias_manifiestos_07"
     },
     "insp_copias_manifiestos_07": {
       "type": "dialogue",
       "speaker": null,
       "text": "Mara compara algunos datos.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_copias_manifiestos_08"
     },
     "insp_copias_manifiestos_08": {
       "type": "dialogue",
       "speaker": null,
       "text": "Su expresión se vuelve más seria.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_copias_manifiestos_09"
     },
     "insp_copias_manifiestos_09": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "Esto coincide.",
-      "image": "c5_mara_ventanilla",
+      "text": "No aclara mucho, aquí falta mucha información. Lo que sí que es evidente es que la carga transportada por Iven era realmente importante.",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_copias_manifiestos_10"
     },
     "insp_copias_manifiestos_10": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "¿Con qué?",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_entrega_01"
+      "text": "¿Y habría alguien a quien no le interesase que los entregase?",
+      "image": "c5_maraylyra_conversacion",
+      "next": "insp_copias_manifiestos_11"
     },
     "insp_entrega_01": {
       "type": "dialogue",
       "speaker": null,
       "text": "Mara gira una hoja hacia vosotros.",
-      "image": "c5_entrega_pendiente",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_entrega_02"
     },
     "insp_entrega_02": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "Iven tenía una entrega pendiente aquí.",
-      "image": "c5_entrega_pendiente",
+      "text": "La documentación que Iven debía traer era de suma importancia.",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_entrega_03"
     },
     "insp_entrega_03": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "¿En Inspección?",
-      "image": "c5_entrega_pendiente",
+      "text": "¿Pueden haberlo hecho desaparecer adrede?",
+      "image": "c5_maraylyra_conversacion",
       "next": "insp_entrega_04"
     },
     "insp_entrega_04": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "Sí.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_entrega_05"
+      "text": "Nunca ha pasado, que sepamos, pero todo es posible…",
+      "image": "c5_maraylyra_conversacion",
+      "next": "insp_antiguo_01"
     },
     "insp_entrega_05": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "¿Qué entregaba?",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_entrega_06"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_entrega_06": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Mara revisa la referencia.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_entrega_07"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_entrega_07": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Documentación.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_entrega_08"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_entrega_08": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿Sobre qué?",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_entrega_09"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_entrega_09": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Discrepancias entre manifiestos.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_entrega_10"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_entrega_10": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Silencio.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_entrega_11"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_entrega_11": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "Así que sabía que algo no cuadraba.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_entrega_12"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_entrega_12": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Al menos sabía lo suficiente como para venir a denunciarlo.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_01"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_01": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Mara extrae una hoja del expediente.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_02"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_02": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Hay otro problema.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_03"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_03": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "Empiezo a acostumbrarme.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_04"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_04": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "La entrega nunca se completó.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_05"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_05": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "Porque desapareció.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_06"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_06": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Eso parece.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_07"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_07": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Señala la parte inferior.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_08"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_08": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "No hay firma de recepción.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_09"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_09": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿Quién debía recibirla?",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_10"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_10": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Inspección.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_11"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_11": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "Eso no responde mucho.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_12"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_12": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Porque el registro tampoco.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_13"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_13": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "¿No aparece ningún inspector?",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_14"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_14": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "No.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_15"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_15": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Y eso no es normal.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_16"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_16": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Iven no solo desapareció mientras transportaba mercancía.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_17"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_17": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Iba a entregar documentación sobre irregularidades.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_sin_firma_18"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_sin_firma_18": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Y nunca llegó a firmarse su recepción.",
-      "image": "c5_entrega_pendiente",
-      "next": "insp_antiguo_01",
-      "effects": {
-        "iven_entrega_inspeccion": true,
-        "iven_denuncia_manifiestos": true,
-        "inspeccion_firma_recepcion_ausente": true
-      }
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_01"
     },
     "insp_antiguo_01": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Mara cierra el expediente de Iven.",
-      "image": "c5_expediente_anterior",
+      "text": "Mara nos extiende un documento oficial.",
+      "image": "c5_mara_muestraexpediente",
       "next": "insp_antiguo_02"
     },
     "insp_antiguo_02": {
       "type": "dialogue",
-      "speaker": null,
-      "text": "Pero no lo guarda.",
-      "image": "c5_expediente_anterior",
+      "speaker": "Mara",
+      "text": "Mirad esto. Hubo otro caso hace poco.",
+      "image": "c5_mara_muestraexpediente",
       "next": "insp_antiguo_03"
     },
     "insp_antiguo_03": {
       "type": "dialogue",
-      "speaker": null,
-      "text": "En cambio, se levanta.",
-      "image": "c5_expediente_anterior",
+      "speaker": "Protagonista",
+      "text": "¿Relacionado con el faro?",
+      "image": "c5_mara_muestraexpediente",
       "next": "insp_antiguo_04"
     },
     "insp_antiguo_04": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "Esperad.",
-      "image": "c5_expediente_anterior",
+      "text": "Indirectamente.",
+      "image": "c5_mara_muestraexpediente",
       "next": "insp_antiguo_05"
     },
     "insp_antiguo_05": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Se dirige a uno de los archivadores del fondo.",
-      "image": "c5_expediente_anterior",
+      "text": "Consultamos el documento.",
+      "image": "c5_mara_muestraexpediente",
       "next": "insp_antiguo_06"
     },
     "insp_antiguo_06": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Busca durante unos segundos.",
-      "image": "c5_expediente_anterior",
+      "text": "Dentro hay registros de:",
+      "image": "c5_mara_muestraexpediente",
       "next": "insp_antiguo_07"
     },
     "insp_antiguo_07": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Regresa con una carpeta bastante más antigua.",
-      "image": "c5_expediente_anterior",
+      "text": "mercancías que no coincidían con su documentación;",
+      "image": "c5_mara_muestraexpediente",
       "next": "insp_antiguo_08"
     },
     "insp_antiguo_08": {
       "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Hubo otro caso.",
-      "image": "c5_expediente_anterior",
+      "speaker": null,
+      "text": "pertenencias sin propietario identificado;",
+      "image": "c5_mara_muestraexpediente",
       "next": "insp_antiguo_09"
     },
     "insp_antiguo_09": {
       "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿Relacionado con el faro?",
-      "image": "c5_expediente_anterior",
+      "speaker": null,
+      "text": "testimonios que posteriormente fueron rectificados.",
+      "image": "c5_mara_muestraexpediente",
       "next": "insp_antiguo_10"
     },
     "insp_antiguo_10": {
       "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Indirectamente.",
-      "image": "c5_expediente_anterior",
+      "speaker": "Lyra",
+      "text": "Esto parece bastante parecido.",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_antiguo_11"
     },
     "insp_antiguo_11": {
       "type": "dialogue",
-      "speaker": null,
-      "text": "Abre la carpeta.",
-      "image": "c5_expediente_anterior",
+      "speaker": "Mara",
+      "text": "Eso pensé.",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_antiguo_12"
     },
     "insp_antiguo_12": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Dentro hay registros de:\n\nmercancías que no coincidían con sus manifiestos;\npertenencias sin propietario identificado;\ntestimonios que posteriormente fueron rectificados.",
-      "image": "c5_expediente_anterior",
+      "text": "Mara señala una línea concreta.",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_antiguo_13"
     },
     "insp_antiguo_13": {
       "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "Esto parece bastante parecido.",
-      "image": "c5_expediente_anterior",
+      "speaker": "Mara",
+      "text": "Aquí.",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_antiguo_14"
     },
     "insp_antiguo_14": {
       "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Eso pensé.",
-      "image": "c5_expediente_anterior",
+      "speaker": null,
+      "text": "El documento incluye una rectificación posterior.",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_antiguo_15"
     },
     "insp_antiguo_15": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Mara separa una declaración.",
-      "image": "c5_expediente_anterior",
-      "next": "insp_antiguo_16"
+      "text": "No puedo recordar a la persona que describí.",
+      "image": "c5_lyraymara_documentos",
+      "next": "insp_antiguo_16",
+      "textStyle": "document"
     },
     "insp_antiguo_16": {
       "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Aquí.",
-      "image": "c5_expediente_anterior",
+      "speaker": null,
+      "text": "Silencio.",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_antiguo_17"
     },
     "insp_antiguo_17": {
       "type": "dialogue",
-      "speaker": null,
-      "text": "El documento incluye una rectificación posterior.",
-      "image": "c5_expediente_anterior",
+      "speaker": "Protagonista",
+      "text": "¿Qué?",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_antiguo_18"
     },
     "insp_antiguo_18": {
       "type": "dialogue",
-      "speaker": null,
-      "text": "No puedo recordar a la persona que describí.",
-      "image": "c5_expediente_anterior",
-      "next": "insp_antiguo_19",
-      "textStyle": "document"
+      "speaker": "Mara",
+      "text": "El testigo dio una descripción bastante detallada.",
+      "image": "c5_lyraymara_documentos",
+      "next": "insp_antiguo_19"
     },
     "insp_antiguo_19": {
       "type": "dialogue",
-      "speaker": null,
-      "text": "Silencio.",
-      "image": "c5_expediente_anterior",
+      "speaker": "Mara",
+      "text": "Después regresó y pidió rectificarla.",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_antiguo_20"
     },
     "insp_antiguo_20": {
       "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿Qué?",
-      "image": "c5_expediente_anterior",
+      "speaker": "Lyra",
+      "text": "¿Porque se había equivocado?",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_antiguo_21"
     },
     "insp_antiguo_21": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "El testigo dio una descripción bastante detallada.",
-      "image": "c5_expediente_anterior",
+      "text": "No.",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_antiguo_22"
     },
     "insp_antiguo_22": {
       "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Después regresó y pidió rectificarla.",
-      "image": "c5_expediente_anterior",
+      "speaker": null,
+      "text": "Mara señala la frase.",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_antiguo_23"
     },
     "insp_antiguo_23": {
       "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "¿Porque se había equivocado?",
-      "image": "c5_expediente_anterior",
-      "next": "insp_antiguo_24"
-    },
-    "insp_antiguo_24": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "No.",
-      "image": "c5_expediente_anterior",
-      "next": "insp_antiguo_25"
-    },
-    "insp_antiguo_25": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Mara señala la frase.",
-      "image": "c5_expediente_anterior",
-      "next": "insp_antiguo_26"
-    },
-    "insp_antiguo_26": {
-      "type": "dialogue",
       "speaker": "Mara",
       "text": "Porque afirmaba que ya no podía recordar a la persona.",
-      "image": "c5_expediente_anterior",
-      "next": "insp_antiguo_27"
-    },
-    "insp_antiguo_27": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "Eso no tiene sentido.",
-      "image": "c5_expediente_anterior",
-      "next": "insp_antiguo_28"
-    },
-    "insp_antiguo_28": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "No.",
-      "image": "c5_expediente_anterior",
-      "next": "insp_antiguo_29"
-    },
-    "insp_antiguo_29": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Pero está firmado.",
-      "image": "c5_expediente_anterior",
+      "image": "c5_lyraymara_documentos",
       "next": "insp_maleta_01",
       "effects": {
         "inspeccion_expediente_antiguo": true,
@@ -1028,6 +924,36 @@ STORY_SCENES.c3_inspeccion = {
         "inspeccion_testimonio_rectificado": true,
         "inspeccion_rectificacion": "No puedo recordar a la persona que describí."
       }
+    },
+    "insp_antiguo_24": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_23"
+    },
+    "insp_antiguo_25": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_23"
+    },
+    "insp_antiguo_26": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_23"
+    },
+    "insp_antiguo_27": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_23"
+    },
+    "insp_antiguo_28": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_23"
+    },
+    "insp_antiguo_29": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_antiguo_23"
     },
     "insp_maleta_01": {
       "type": "dialogue",
@@ -1130,7 +1056,7 @@ STORY_SCENES.c3_inspeccion = {
     "insp_maleta_15": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "A veces es muy poco.",
+      "text": "Y muchas veces es muy poco.",
       "image": "c5_expediente_anterior",
       "next": "insp_declaracion_01",
       "effects": {
@@ -1141,49 +1067,49 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "Quiero registrar también vuestra declaración.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_declaracion_02"
     },
     "insp_declaracion_02": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "¿Sobre Iven?",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_declaracion_03"
     },
     "insp_declaracion_03": {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "Sobre todo lo que recordéis.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_declaracion_04"
     },
     "insp_declaracion_04": {
       "type": "dialogue",
       "speaker": null,
       "text": "El protagonista guarda silencio.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_declaracion_05"
     },
     "insp_declaracion_05": {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "Aunque sea poco.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_declaracion_06"
     },
     "insp_declaracion_06": {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "Especialmente si es poco.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_eleccion_declaracion"
     },
     "insp_decl_carreta_01": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Recuerdo la carreta.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_carreta_02",
       "grantDocument": "declaracion_inspeccion",
       "documentPatch": {
@@ -1195,42 +1121,42 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Y recuerdo que algo no encajaba.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_carreta_03"
     },
     "insp_decl_carreta_03": {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "¿Qué?",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_carreta_04"
     },
     "insp_decl_carreta_04": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "No puedo explicarlo mejor.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_carreta_05"
     },
     "insp_decl_carreta_05": {
       "type": "dialogue",
       "speaker": null,
       "text": "Mara anota.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_carreta_06"
     },
     "insp_decl_carreta_06": {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "No hace falta.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_numerada_01"
     },
     "insp_decl_iven_01": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Recuerdo a Iven.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_iven_02",
       "grantDocument": "declaracion_inspeccion",
       "documentPatch": {
@@ -1242,42 +1168,42 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "¿Con claridad?",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_iven_03"
     },
     "insp_decl_iven_03": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "No.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_iven_04"
     },
     "insp_decl_iven_04": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Pero sé quién era.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_iven_05"
     },
     "insp_decl_iven_05": {
       "type": "dialogue",
       "speaker": null,
       "text": "Mara anota.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_iven_06"
     },
     "insp_decl_iven_06": {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "Eso ya es más de lo que figura aquí.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_numerada_01"
     },
     "insp_decl_faro_01": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Antes de declarar nada quiero entender qué ocurrió con el faro.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_faro_02",
       "grantDocument": "declaracion_inspeccion",
       "documentPatch": {
@@ -1288,78 +1214,78 @@ STORY_SCENES.c3_inspeccion = {
     "insp_decl_faro_02": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "Entonces vas a necesitar acceso a mantenimiento.",
-      "image": "c5_mara_ventanilla",
+      "text": "Pa ello vas a necesitar acceso a la zona de mantenimiento.",
+      "image": "c5_mara_notas",
       "next": "insp_decl_faro_03"
     },
     "insp_decl_faro_03": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Eso suena prometedor.",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "next": "insp_decl_faro_04"
     },
     "insp_decl_faro_04": {
       "type": "dialogue",
       "speaker": "Mara",
-      "text": "No pretendía que lo fuera.",
-      "image": "c5_mara_ventanilla",
+      "text": "Pero me temo que ahora no podéis acceder, el acceso está restringido. Pero os recomiendo echar un vistazo más adelante.",
+      "image": "c5_mara_notas",
       "next": "insp_numerada_01"
     },
     "insp_numerada_01": {
       "type": "dialogue",
       "speaker": null,
       "text": "Mara termina de escribir.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_02"
     },
     "insp_numerada_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "Coloca el documento frente a ti.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_03"
     },
     "insp_numerada_03": {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "Lee antes de firmar.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_04"
     },
     "insp_numerada_04": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "¿La gente no suele hacerlo?",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_05"
     },
     "insp_numerada_05": {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "Te sorprendería.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_06"
     },
     "insp_numerada_06": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lees.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_07"
     },
     "insp_numerada_07": {
       "type": "dialogue",
       "speaker": null,
       "text": "No hay nada que no hayas dicho.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_08"
     },
     "insp_numerada_08": {
       "type": "dialogue",
       "speaker": null,
       "text": "Firmas.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_09",
       "documentPatch": {
         "id": "declaracion_inspeccion",
@@ -1370,14 +1296,14 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": null,
       "text": "Mara estampa un sello.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_10"
     },
     "insp_numerada_10": {
       "type": "dialogue",
       "speaker": null,
       "text": "Después hace una copia.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_11",
       "document": "declaracion_inspeccion"
     },
@@ -1385,7 +1311,7 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": null,
       "text": "En la esquina aparece un número de registro.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_12",
       "document": "declaracion_inspeccion"
     },
@@ -1393,7 +1319,7 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "Guárdala.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_13",
       "document": "declaracion_inspeccion"
     },
@@ -1401,7 +1327,7 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "¿Por qué?",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_14",
       "document": "declaracion_inspeccion"
     },
@@ -1409,7 +1335,7 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "Porque ahora existe oficialmente.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_15",
       "document": "declaracion_inspeccion"
     },
@@ -1417,7 +1343,7 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": "Mara",
       "text": "Y porque a veces los papeles duran más que los recuerdos.",
-      "image": "c5_denuncia_sellada",
+      "image": "c5_mara_firma",
       "next": "insp_numerada_16",
       "document": "declaracion_inspeccion"
     },
@@ -1425,159 +1351,116 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": null,
       "text": "Silencio.",
-      "image": "c5_denuncia_sellada",
-      "next": "insp_autorizacion_01",
+      "image": "c5_mara_firma",
+      "next": "insp_salida",
       "document": "declaracion_inspeccion",
       "effects": {
         "declaracion_inspeccion_registrada": true,
         "inspeccion_copia_numerada": true,
-        "inspeccion_numero_registro": "0001"
+        "inspeccion_numero_registro": "0001",
+        "ruta_inspeccion_completada": true,
+        "acceso_mantenimiento_autorizado": false
       }
     },
     "insp_autorizacion_01": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Mara vuelve al expediente del faro.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_02"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_02": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "No puedo daros acceso directo a todos los registros técnicos.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_03"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_03": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "Imaginaba que habría una frase como esa.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_04"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_04": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Pero puedo solicitar una autorización limitada.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_05"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_05": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿Para qué?",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_06"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_06": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Para mantenimiento.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_07"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_07": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿Del faro?",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_08"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_08": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "De la estación que controla su servicio.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_09"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_09": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Si queréis saber qué pasó durante esos nueve segundos, es el siguiente lugar al que iría yo.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_10"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_10": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "¿Y cuánto tardará esa autorización?",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_11"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_11": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Mara sella otro documento.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_12"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_12": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "Nada.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_13"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_13": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Se lo entrega.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_14"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_14": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "Empiezo a caerte bien.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_autorizacion_15"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_autorizacion_15": {
-      "type": "dialogue",
-      "speaker": "Mara",
-      "text": "No te emociones.",
-      "image": "c5_mara_ventanilla",
-      "next": "insp_salida",
-      "effects": {
-        "acceso_mantenimiento_autorizado": true,
-        "ruta_inspeccion_completada": true
-      }
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_directo_01": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "Bien.",
-      "image": "c5_inspeccion_salida",
-      "next": "insp_directo_02"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_directo_02": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "Antes de que alguien cambie de opinión.",
-      "image": "c5_inspeccion_salida",
-      "next": "insp_directo_03"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_directo_03": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "Eso sonaba muy específico.",
-      "image": "c5_inspeccion_salida",
-      "next": "insp_directo_04"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_directo_04": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "Estoy aprendiendo de ti.",
-      "image": "c5_inspeccion_salida",
-      "next": "insp_directo_05"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_directo_05": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Ambos se dirigen a mantenimiento.",
-      "image": "c5_inspeccion_salida",
-      "next": null,
-      "destination": "c3_mantenimiento"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "insp_salida"
     },
     "insp_tiene_manifiestos": {
       "type": "condition",
@@ -1588,7 +1471,7 @@ STORY_SCENES.c3_inspeccion = {
     },
     "insp_eleccion_declaracion": {
       "type": "choice",
-      "image": "c5_mara_ventanilla",
+      "image": "c5_mara_notas",
       "options": [
         {
           "id": "carreta",
@@ -1618,31 +1501,30 @@ STORY_SCENES.c3_inspeccion = {
     },
     "insp_salida": {
       "type": "choice",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
+      "completeRoute": true,
+      "effects": {
+        "ruta_inspeccion_completada": true,
+        "acceso_mantenimiento_autorizado": false
+      },
       "options": [
         {
-          "id": "directo",
-          "text": "Vamos ahora a mantenimiento.",
-          "next": "insp_directo_01",
-          "effects": {
-            "mantenimiento_con_lyra": true
-          }
+          "id": "posada",
+          "text": "Vamos a la posada. Quiero hablar con Ada.",
+          "destination": "c3_posada",
+          "hideIfCompleted": "c3_posada"
         },
         {
-          "id": "descansar",
-          "text": "Necesito descansar primero.",
-          "next": "descanso_decision_01",
-          "effects": {
-            "inspeccion_descanso": true,
-            "mantenimiento_con_lyra": false
-          }
+          "id": "archivo",
+          "text": "Vamos al Archivo.",
+          "destination": "c3_archivo",
+          "hideIfCompleted": "c3_archivo"
         }
-      ],
-      "completeRoute": true
+      ]
     },
     "insp_invitar": {
       "type": "choice",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "options": [
         {
           "id": "con_lyra",
@@ -1685,93 +1567,95 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_decision_01": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Necesito parar un rato.",
-      "image": "c5_inspeccion_salida",
+      "text": "Necesito descansar un rato.",
+      "image": "c5_lyra_exterior",
       "next": "descanso_decision_02",
-      "effects": {"inspeccion_descanso": true}
+      "effects": {
+        "inspeccion_descanso": true
+      }
     },
     "descanso_decision_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra lo observa durante unos segundos.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_decision_03"
     },
     "descanso_decision_03": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "No es una mala idea.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_decision_04"
     },
     "descanso_decision_04": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Eso ha sonado sospechosamente sensato.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_decision_05"
     },
     "descanso_decision_05": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "No te acostumbres.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_decision_06"
     },
     "descanso_decision_06": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Ada tendrá alguna habitación libre.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_decision_07"
     },
     "descanso_decision_07": {
       "type": "dialogue",
       "speaker": null,
       "text": "El protagonista asiente.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "insp_invitar"
     },
     "descanso_invitar_01": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra se sorprende ligeramente.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_invitar_02"
     },
     "descanso_invitar_02": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "¿Quieres compañía?",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_invitar_03"
     },
     "descanso_invitar_03": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Después del día que llevamos, sí.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_invitar_04"
     },
     "descanso_invitar_04": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra lo observa un instante.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_invitar_05"
     },
     "descanso_invitar_05": {
       "type": "dialogue",
       "speaker": null,
       "text": "Después sonríe ligeramente.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "insp_invitar_01"
     },
     "insp_invitar_01": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Está bien.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_invitar_07",
       "affinityGain": {
         "companion": "lyra",
@@ -1782,77 +1666,77 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": null,
       "text": "Ambos van juntos a la posada.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_llegada_01"
     },
     "descanso_despedida_01": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Creo que necesito estar solo un rato.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_despedida_02"
     },
     "descanso_despedida_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra asiente.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_despedida_03"
     },
     "descanso_despedida_03": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Lo entiendo.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_despedida_04"
     },
     "descanso_despedida_04": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Nos vemos mañana.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_despedida_05"
     },
     "descanso_despedida_05": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Descansa.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_despedida_06"
     },
     "descanso_despedida_06": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "De verdad.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_despedida_07"
     },
     "descanso_despedida_07": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Haré un esfuerzo revolucionario.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_despedida_08"
     },
     "descanso_despedida_08": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra sonríe.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_despedida_09"
     },
     "descanso_despedida_09": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Buenas noches.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_despedida_10"
     },
     "descanso_despedida_10": {
       "type": "dialogue",
       "speaker": null,
       "text": "El protagonista va solo a la posada.",
-      "image": "c5_inspeccion_salida",
+      "image": "c5_lyra_exterior",
       "next": "descanso_llegada_01"
     },
     "descanso_llegada_01": {
@@ -3179,6 +3063,121 @@ STORY_SCENES.c3_inspeccion = {
       "equals": true,
       "ifTrue": "descanso_manana_01",
       "ifFalse": "descanso_manana_01"
+    },
+    "insp_faros_01": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Mientras consulta el expediente, me gustaría saber más acerca de los faros.",
+      "image": "c5_mara_expediente",
+      "next": "insp_faros_02"
+    },
+    "insp_faros_02": {
+      "type": "dialogue",
+      "speaker": "Lyra",
+      "text": "¿Qué quieres saber exactamente?",
+      "image": "c5_mara_expediente",
+      "next": "insp_faros_03"
+    },
+    "insp_faros_03": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Todo.",
+      "image": "c5_mara_expediente",
+      "next": "insp_faros_04"
+    },
+    "insp_faros_04": {
+      "type": "dialogue",
+      "speaker": "Mara",
+      "text": "¿No sabes qué son los faros? ¿Has estado viviendo en una cueva todo este tiempo?",
+      "image": "c5_mara_expediente",
+      "next": "insp_faros_05"
+    },
+    "insp_faros_05": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Es complicado.",
+      "image": "c5_mara_expediente",
+      "next": "insp_oscuridad_01"
+    },
+    "insp_oscuridad_01": {
+      "type": "dialogue",
+      "speaker": "Lyra",
+      "text": "La oscuridad se cierne sobre nuestro mundo. Nadie sabe cómo surgió pero cada vez se hacía más fuerte.",
+      "image": "c5_explicacion_lyra1",
+      "next": "insp_oscuridad_02"
+    },
+    "insp_oscuridad_02": {
+      "type": "dialogue",
+      "speaker": "Lyra",
+      "text": "La oscuridad hacía desaparecer a las personas. Y lo peor es que las borraban para siempre.",
+      "image": "c5_explicacion_lyra1",
+      "next": "insp_oscuridad_03"
+    },
+    "insp_oscuridad_03": {
+      "type": "dialogue",
+      "speaker": "Lyra",
+      "text": "Pero no solo desaparecían, sino que todos los olvidaban, como si nunca hubiesen existido.",
+      "image": "c5_explicacion_lyra1",
+      "next": "insp_oscuridad_04"
+    },
+    "insp_oscuridad_04": {
+      "type": "dialogue",
+      "speaker": "Lyra",
+      "text": "Sin embargo, sus cosas quedaban atrás. Ropa, documentos… Eso no desaparecía y nadie entendía que sucedía.",
+      "image": "c5_explicacion_lyra1",
+      "next": "insp_oscuridad_05"
+    },
+    "insp_oscuridad_05": {
+      "type": "dialogue",
+      "speaker": "Lyra",
+      "text": "Como no podíamos recordar a los desaparecidos, no entendíamos de dónde habían salido las cosas que dejaron atrás.",
+      "image": "c5_explicacion_lyra1",
+      "next": "insp_oscuridad_06"
+    },
+    "insp_oscuridad_06": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Ya empiezo a entender. Si te quedas a oscuras, lo más probable es que desaparezca.",
+      "image": "c5_explicacion_lyra1",
+      "next": "insp_oscuridad_07"
+    },
+    "insp_oscuridad_07": {
+      "type": "dialogue",
+      "speaker": "Lyra",
+      "text": "Más o menos funciona así, si. Por eso se crearon los faros, para que nunca existiera una zona sin iluminar.",
+      "image": "c5_explicacion_lyra2",
+      "next": "insp_oscuridad_08"
+    },
+    "insp_oscuridad_08": {
+      "type": "dialogue",
+      "speaker": "Lyra",
+      "text": "En lugares cerrados, la oscuridad no puede llegar. En una casa u otro edificio, la gente debería estar a salvo. Al menos de momento.",
+      "image": "c5_explicacion_lyra2",
+      "next": "insp_oscuridad_09"
+    },
+    "insp_oscuridad_09": {
+      "type": "dialogue",
+      "speaker": "Lyra",
+      "text": "¿Y ahora los faros están comenzando a fallar?",
+      "image": "c5_explicacion_lyra2",
+      "next": "insp_oscuridad_10"
+    },
+    "insp_oscuridad_10": {
+      "type": "dialogue",
+      "speaker": "Lyra",
+      "text": "Así es, y no sabemos por qué…",
+      "image": "c5_explicacion_lyra2",
+      "next": "insp_denuncia_01",
+      "effects": {
+        "inspeccion_explicacion_oscuridad": true
+      }
+    },
+    "insp_copias_manifiestos_11": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "A la oscuridad…",
+      "image": "c5_maraylyra_conversacion",
+      "next": "insp_entrega_01"
     }
   },
   "documents": {
@@ -3188,5 +3187,6 @@ STORY_SCENES.c3_inspeccion = {
       "signed": false,
       "signature": "Firma: [Nombre]"
     }
-  }
+  },
+  "nextScene": "c3_transicion"
 };
