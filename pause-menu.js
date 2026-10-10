@@ -48,10 +48,8 @@ function selectPauseSection(section) {
   pauseContent.scrollTop = 0;
 }
 
-function showHistory() {
-  selectPauseSection("history");
-  pauseContent.append(menuElement("h2", "Historia"));
-  let previousScene = null;
+function historyChapters() {
+  const chapters = new Map();
   for (const key of gameState.appliedNodes) {
     const [sceneId, nodeId] = key.split(":");
     const scene = STORY_SCENES[sceneId];
@@ -59,17 +57,53 @@ function showHistory() {
     const decision = gameState.decisions.find(item => item.scene === sceneId && item.choice === nodeId);
     const text = node?.type === "dialogue" ? node.text : decision?.text;
     if (!text) continue;
-    if (previousScene !== sceneId) {
-      pauseContent.append(menuElement("h3", scene.title));
-      previousScene = sceneId;
-    }
+    const isRest = sceneId === "c3_inspeccion" &&
+      (/^descanso_/.test(nodeId) || /^(insp_invitar|insp_elegir_abrazo|insp_abrazo)/.test(nodeId));
+    const chapterId = isRest ? "descanso" : sceneId;
+    if (!chapters.has(chapterId)) chapters.set(chapterId, {
+      id: chapterId, title: isRest ? "Un lugar donde descansar" : scene.title, entries: [],
+    });
+    chapters.get(chapterId).entries.push({ text, speaker: decision ? gameState.protagonistName : node.speaker });
+  }
+  return [...chapters.values()];
+}
+
+function showHistory(focusId = null) {
+  selectPauseSection("history");
+  pauseContent.append(menuElement("h2", "Historia"));
+  const chapters = historyChapters();
+  if (!chapters.length) pauseContent.append(menuElement("p", "Todavía no hay historia registrada."));
+  const list = menuElement("div", "", "history-chapters");
+  for (const chapter of chapters) {
+    const button = menuElement("button", chapter.title, "text-button history-chapter");
+    button.type = "button";
+    button.addEventListener("click", () => showHistoryChapter(chapter.id));
+    list.append(button);
+    if (chapter.id === focusId) queueMicrotask(() => button.focus());
+  }
+  pauseContent.append(list);
+}
+
+function showHistoryChapter(id) {
+  const chapter = historyChapters().find(chapter => chapter.id === id);
+  if (!chapter) return;
+  selectPauseSection("history");
+  const back = menuElement("button", "←", "menu-back");
+  back.type = "button";
+  back.setAttribute("aria-label", "Volver a capítulos");
+  back.title = "Volver a capítulos";
+  back.addEventListener("click", () => showHistory(id));
+  const heading = menuElement("div", "", "companion-heading");
+  heading.append(back, menuElement("h2", chapter.title));
+  pauseContent.append(heading);
+  for (const { text, speaker } of chapter.entries) {
     const entry = menuElement("article", "", "history-entry");
-    const speakerName = decision ? gameState.protagonistName : node.speaker;
+    const speakerName = speaker;
     if (speakerName) entry.append(menuElement("strong", formatStoryText(speakerName)));
     entry.append(menuElement("p", formatStoryText(text), speakerName ? "" : "history-narration"));
     pauseContent.append(entry);
   }
-  pauseContent.scrollTop = pauseContent.scrollHeight;
+  back.focus({ preventScroll: true });
 }
 
 function showCompanions() {
@@ -135,7 +169,7 @@ function showCompanion(id) {
   back.focus();
 }
 
-historyButton.addEventListener("click", showHistory);
+historyButton.addEventListener("click", () => showHistory());
 companionsButton.addEventListener("click", showCompanions);
 resumeButton.addEventListener("click", () => closePauseMenu());
 pauseMenu.addEventListener("keydown", event => {

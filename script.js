@@ -7,7 +7,7 @@ const REVIEW_STARTS = [
   { label: "Descanso · Un lugar donde descansar", scene: "c3_inspeccion", node: "descanso_decision_01", preset: "rest" },
   { label: "La mañana · La ropa de Ada", scene: "c3_ropa_ada", preset: "clothes" },
   { label: "La revelación · Cincuenta días", scene: "c3_diosa", preset: "revelation" },
-  { label: "Capítulo 4 · Los días que quedan", scene: "c4_actividades", preset: "countdown" },
+  { label: "Cuenta atrás · Los días que quedan", scene: "c4_actividades", preset: "countdown" },
 ];
 let startingNode = null;
 
@@ -17,7 +17,7 @@ function prepareReviewStart(state, preset) {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
     archivo_completado: true, posada_completada: true, ruta_inspeccion_completada: true,
     acceso_mantenimiento_autorizado: false, ada_lagunas_iven: true,
-    manifiestos_iven_revisados: true, iven_entrega_inspeccion: true,
+    documentos_aberraciones_iven_revisados: true, iven_entrega_inspeccion: true,
     iven_informes_aberraciones: true, inspeccion_corte_segundos: 9,
     metCompanions: ["lyra", "ada", "alma"], affinity: { lyra: 1, ada: 1, alma: 1 },
     mantenimiento_con_lyra: preset === "maintenance",

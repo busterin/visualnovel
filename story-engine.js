@@ -32,6 +32,8 @@ const StoryEngine = {
       mantenimiento_sin_sobrecarga: false, mantenimiento_sin_averia_previa: false,
       mantenimiento_sin_reparacion: false,
       darven_conocido: false, posada_completada: false,
+      documentos_aberraciones_iven_revisados: false, agentes_lunares_conocidos: false,
+      iven_agente_lunar_sospecha: false, alma_recuerda_cinta: false,
       iven_esposo_ada: false, iven_padre_alma: false, iven_transportista: false,
       iven_desaparecido_fallo_faro: false, dormitorio_ada_iven: false,
       ada_lagunas_iven: false, alma_recuerda_iven: false,

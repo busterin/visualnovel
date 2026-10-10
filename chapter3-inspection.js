@@ -80,6 +80,10 @@ STORY_SCENES.c3_inspeccion = {
     "c5_mara_muestraexpediente": {
       "src": "imagenes/Escena5/c5_mara_muestraexpediente.png",
       "alt": "Mara muestra el expediente de un caso anterior."
+    },
+    "c4_lyra_canal": {
+      "src": "imagenes/Escena4/c4_lyra_canal.png",
+      "alt": "Lyra junto al canal de Varda por la noche."
     }
   },
   "nodes": {
@@ -480,7 +484,7 @@ STORY_SCENES.c3_inspeccion = {
       "speaker": "Mara",
       "text": "Eran informes de aberraciones. Llevábamos tiempo esperando por ellos.",
       "image": "c5_maraylyra_conversacion",
-      "next": "insp_desaparicion_06"
+      "next": "insp_ya_oyo_aberraciones"
     },
     "insp_desaparicion_06": {
       "type": "dialogue",
@@ -1464,7 +1468,7 @@ STORY_SCENES.c3_inspeccion = {
     },
     "insp_tiene_manifiestos": {
       "type": "condition",
-      "flag": "manifiestos_iven_revisados",
+      "flag": "documentos_aberraciones_iven_revisados",
       "equals": true,
       "ifTrue": "insp_copias_manifiestos_01",
       "ifFalse": "insp_entrega_01"
@@ -1524,7 +1528,7 @@ STORY_SCENES.c3_inspeccion = {
     },
     "insp_invitar": {
       "type": "choice",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "options": [
         {
           "id": "con_lyra",
@@ -1568,7 +1572,7 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Necesito descansar un rato.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_decision_02",
       "effects": {
         "inspeccion_descanso": true
@@ -1578,84 +1582,84 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra lo observa durante unos segundos.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_decision_03"
     },
     "descanso_decision_03": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "No es una mala idea.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_decision_04"
     },
     "descanso_decision_04": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Eso ha sonado sospechosamente sensato.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_decision_05"
     },
     "descanso_decision_05": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "No te acostumbres.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_decision_06"
     },
     "descanso_decision_06": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Ada tendrá alguna habitación libre.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_decision_07"
     },
     "descanso_decision_07": {
       "type": "dialogue",
       "speaker": null,
       "text": "El protagonista asiente.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "insp_invitar"
     },
     "descanso_invitar_01": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra se sorprende ligeramente.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_invitar_02"
     },
     "descanso_invitar_02": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "¿Quieres compañía?",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_invitar_03"
     },
     "descanso_invitar_03": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Después del día que llevamos, sí.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_invitar_04"
     },
     "descanso_invitar_04": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra lo observa un instante.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_invitar_05"
     },
     "descanso_invitar_05": {
       "type": "dialogue",
       "speaker": null,
       "text": "Después sonríe ligeramente.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "insp_invitar_01"
     },
     "insp_invitar_01": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Está bien.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_invitar_07",
       "affinityGain": {
         "companion": "lyra",
@@ -1666,77 +1670,77 @@ STORY_SCENES.c3_inspeccion = {
       "type": "dialogue",
       "speaker": null,
       "text": "Ambos van juntos a la posada.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_llegada_01"
     },
     "descanso_despedida_01": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Creo que necesito estar solo un rato.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_despedida_02"
     },
     "descanso_despedida_02": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra asiente.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_despedida_03"
     },
     "descanso_despedida_03": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Lo entiendo.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_despedida_04"
     },
     "descanso_despedida_04": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Nos vemos mañana.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_despedida_05"
     },
     "descanso_despedida_05": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Descansa.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_despedida_06"
     },
     "descanso_despedida_06": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "De verdad.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_despedida_07"
     },
     "descanso_despedida_07": {
       "type": "dialogue",
       "speaker": "Protagonista",
       "text": "Haré un esfuerzo revolucionario.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_despedida_08"
     },
     "descanso_despedida_08": {
       "type": "dialogue",
       "speaker": null,
       "text": "Lyra sonríe.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_despedida_09"
     },
     "descanso_despedida_09": {
       "type": "dialogue",
       "speaker": "Lyra",
       "text": "Buenas noches.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_despedida_10"
     },
     "descanso_despedida_10": {
       "type": "dialogue",
       "speaker": null,
       "text": "El protagonista va solo a la posada.",
-      "image": "c5_lyra_exterior",
+      "image": "c4_lyra_canal",
       "next": "descanso_llegada_01"
     },
     "descanso_llegada_01": {
@@ -1976,7 +1980,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_solo_05": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Los manifiestos.",
+      "text": "Los informes sobre aberraciones.",
       "image": "c6_habitacion_noche",
       "next": "descanso_solo_06"
     },
@@ -2812,14 +2816,12 @@ STORY_SCENES.c3_inspeccion = {
       "speaker": "Ada",
       "text": "Entonces es mejor que ayer.",
       "image": "c6_ada_llave",
-      "next": "descanso_desayuno_08"
+      "next": "descanso_desayuno_09"
     },
     "descanso_desayuno_08": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Le deja algo sencillo para desayunar o beber.",
-      "image": "c6_ada_llave",
-      "next": "descanso_desayuno_09"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "descanso_desayuno_09"
     },
     "descanso_desayuno_09": {
       "type": "dialogue",
@@ -2831,7 +2833,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_desayuno_10": {
       "type": "dialogue",
       "speaker": null,
-      "text": "El protagonista piensa en la autorización de Mara.",
+      "text": "El protagonista piensa en lo que ha descubierto y en las preguntas que siguen sin respuesta.",
       "image": "c6_ada_llave",
       "next": null,
       "effects": {
@@ -3157,7 +3159,7 @@ STORY_SCENES.c3_inspeccion = {
     },
     "insp_oscuridad_09": {
       "type": "dialogue",
-      "speaker": "Lyra",
+      "speaker": "Protagonista",
       "text": "¿Y ahora los faros están comenzando a fallar?",
       "image": "c5_explicacion_lyra2",
       "next": "insp_oscuridad_10"
@@ -3178,6 +3180,27 @@ STORY_SCENES.c3_inspeccion = {
       "text": "A la oscuridad…",
       "image": "c5_maraylyra_conversacion",
       "next": "insp_entrega_01"
+    },
+    "insp_ya_oyo_aberraciones": {
+      "type": "condition",
+      "flag": "c2_pista_muro",
+      "equals": true,
+      "ifTrue": "insp_desaparicion_06",
+      "ifFalse": "insp_advertencia_aberraciones"
+    },
+    "insp_advertencia_aberraciones": {
+      "type": "condition",
+      "flag": "c2_advertencia_estacion",
+      "equals": true,
+      "ifTrue": "insp_desaparicion_06",
+      "ifFalse": "insp_pregunta_aberraciones"
+    },
+    "insp_pregunta_aberraciones": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "¿Qué son las aberraciones?",
+      "image": "c5_maraylyra_conversacion",
+      "next": "insp_desaparicion_07"
     }
   },
   "documents": {

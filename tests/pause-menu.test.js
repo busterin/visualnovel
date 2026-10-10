@@ -26,6 +26,9 @@
   assert(StoryEngine.restore(legacy, STORY_SCENES).affinity.lyra === 1, "No migra afinidad antigua");
   assert(StoryEngine.restore(gameState, STORY_SCENES).affinity.lyra === 3, "No conserva nivel guardado");
   showHistory();
+  assert(!pauseContent.querySelector('.history-entry'), "Listado muestra todo el texto");
+  assert(pauseContent.querySelectorAll('.history-chapter').length === 1, "Capítulos no visitados visibles");
+  pauseContent.querySelector('.history-chapter').click();
   assert(pauseContent.textContent.includes(STORY_SCENES.vestibulo.nodes.c2_001.text), "Falta historia leída");
   assert(!pauseContent.textContent.includes(STORY_SCENES.vestibulo.nodes.c2_002.text), "Historia adelanta texto");
   closePauseMenu();
@@ -48,5 +51,21 @@
   assert(gameState.decisions.length === count, "Elección activa durante pausa");
   closePauseMenu(); choicesPanel.firstElementChild.click();
   assert(gameState.decisions.length === count + 1, "Elección no se reanuda");
-  return "OK pausa: bloqueo, reanudación, historial sin spoilers, encuentros, afinidad y migración de partidas.";
+  const progress = JSON.parse(JSON.stringify(gameState));
+  StoryEngine.start(gameState, STORY_SCENES, 'c3_inspeccion');
+  gameState.node = 'descanso_decision_01'; StoryEngine.prepare(gameState, STORY_SCENES);
+  gameState = StoryEngine.restore(gameState, STORY_SCENES);
+  showHistory();
+  assert(pauseContent.querySelectorAll('.history-chapter').length === 3, 'Capítulos y descanso no separados al cargar');
+  assert(!pauseContent.querySelector('.history-entry'), 'Texto acumulado en listado');
+  const before = JSON.stringify(gameState);
+  showHistoryChapter('descanso');
+  assert(pauseContent.textContent.includes('Necesito descansar un rato.'), 'Falta descanso');
+  assert(!pauseContent.textContent.includes('El edificio de Inspección'), 'Mezcla capítulos');
+  pauseContent.querySelector('.menu-back').click();
+  assert(pauseContent.querySelectorAll('.history-chapter').length === 3, 'Flecha no vuelve a capítulos');
+  assert(JSON.stringify(gameState) === before, 'Leer historial cambia progreso');
+  assert(!document.getElementById('advance-dialogue').textContent.includes('Continuar'), 'Continúa mostrando la etiqueta');
+  gameState = StoryEngine.restore(progress, STORY_SCENES);
+  return "OK pausa: capítulos desplegados por separado, descanso, carga, lectura sin alterar progreso, bloqueo, compañeros y afinidad.";
 })()

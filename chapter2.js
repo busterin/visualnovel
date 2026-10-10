@@ -931,7 +931,7 @@ STORY_SCENES.vestibulo = {
     "c2_083A": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Esta cinta se la hizo su hija: Alma.",
+      "text": "Esta cinta estaba relacionada con su hija: Alma.",
       "image": "escucha",
       "next": "c2_084A"
     },
@@ -945,7 +945,7 @@ STORY_SCENES.vestibulo = {
     "c2_079B": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Se llama Iven. Su esposa tiene una posada y su hija le hizo una cinta azul.",
+      "text": "Se llama Iven. Su esposa tiene una posada y llevaba una cinta azul con una A.",
       "image": "escucha",
       "next": "c2_080B",
       "effects": {
@@ -1369,7 +1369,7 @@ STORY_SCENES.vestibulo = {
     "c2_113R": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Guardo la nota y toco la cinta en mi bolsillo. Al menos su hija podrá reconocer algo que hizo con sus manos.",
+      "text": "Guardo la nota y toco la cinta en mi bolsillo. Al menos su hija podrá reconocer algo que perteneció a su padre.",
       "image": "varda",
       "next": "c2_114",
       "document": "nota"

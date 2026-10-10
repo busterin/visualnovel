@@ -528,7 +528,8 @@ STORY_SCENES.c3_archivo = {
       "text": "Número diecisiete.",
       "image": "c3_eiden_lyra_consulta",
       "effects": {
-        "archivo_eiden_conocido": true
+        "archivo_eiden_conocido": true,
+        "c2_lyra_conoce_archivo": true
       },
       "next": "archivo_066"
     },
@@ -1744,7 +1745,7 @@ STORY_SCENES.c3_archivo = {
     "archivo_229": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Pero antes de desaparecer dejaste constancia escrita de que pretendías regresar.",
+      "text": "Pero dejaste constancia escrita de que pretendías regresar.",
       "image": "c3_documento_retorno",
       "next": "archivo_230",
       "document": "solicitud_retorno"
@@ -1752,7 +1753,7 @@ STORY_SCENES.c3_archivo = {
     "archivo_230": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Eso significa que, cuando te fuiste...",
+      "text": "En algún momento...",
       "image": "c3_documento_retorno",
       "next": "archivo_231",
       "document": "solicitud_retorno"
@@ -1760,7 +1761,7 @@ STORY_SCENES.c3_archivo = {
     "archivo_231": {
       "type": "dialogue",
       "speaker": null,
-      "text": "sabías que ibas a alguna parte.",
+      "text": "supiste desde dónde querías volver.",
       "image": "c3_documento_retorno",
       "effects": {
         "archivo_solicitud_retorno": true,

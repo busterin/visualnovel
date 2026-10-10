@@ -3,7 +3,7 @@
   const orders=[['archivo','posada','inspeccion'],['archivo','inspeccion','posada'],['posada','archivo','inspeccion'],['posada','inspeccion','archivo'],['inspeccion','archivo','posada'],['inspeccion','posada','archivo']];
   const covered=new Set(); let runs=0;
   for(const order of orders)for(const declaration of ['carreta','iven','faro'])for(const variant of ['solo','abrazo','sin_abrazo']){
-    let state=StoryEngine.createState();state.protagonistName='Álex $&';
+    let state=StoryEngine.createState();state.protagonistName='Álex $&';state.c2_advertencia_estacion=declaration==='carreta';
     StoryEngine.start(state,STORY_SCENES,'c3_'+order[0]);
     let steps=0, revealed=false;
     while(state.node){

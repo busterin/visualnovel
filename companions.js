@@ -8,14 +8,14 @@ const COMPANIONS = {
     portrait: "imagenes/Escena4/c4_ada_lyra_comedor.png",
     avatarSize: "280% auto", avatarPosition: "16% 18%",
     portraitPosition: "center top",
-    description: "Trabaja en la posada del Puente. Intentas hablar con ella para conocer más sobre tu antigua vida.",
+    description: "Regenta la posada del Puente. Es la esposa de Iven, el transportista desaparecido.",
   },
   alma: {
     name: "Alma", bondType: "platonic",
     portrait: "imagenes/Escena4/c4_alma_umbral.png",
     avatarSize: "300% auto", avatarPosition: "88% 26%",
     portraitPosition: "center 23%",
-    description: "La hija de Ada e Iven. Conserva recuerdos de su padre y presta atención a las cosas que los demás pasan por alto.",
+    description: "La hija de Ada e Iven. Sus recuerdos de su padre también se están desvaneciendo. Algunos objetos todavía le resultan familiares.",
   },
   lyra: {
     name: "Lyra",

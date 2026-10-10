@@ -435,7 +435,7 @@ STORY_SCENES.c3_mantenimiento = {
     "mant_comparar_lyra_03": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Sus manifiestos tenían irregularidades.",
+      "text": "Llevaba informes sobre aberraciones.",
       "image": "c5_mara_registro",
       "next": "mant_comparar_lyra_04"
     },
@@ -519,7 +519,7 @@ STORY_SCENES.c3_mantenimiento = {
     "mant_comparar_solo_03": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Sus manifiestos no cuadraban.",
+      "text": "Llevaba informes sobre aberraciones.",
       "image": "c5_mara_registro",
       "next": "mant_comparar_solo_04"
     },
