@@ -45,6 +45,10 @@ STORY_SCENES.c3_posada = {
     "c4_revision_papeles": {
       "src": "imagenes/Escena4/c4_revision_papeles.png",
       "alt": "revision papeles"
+    },
+    "c4_ada_notaiven": {
+      "src": "imagenes/Escena4/c4_ada_notaiven.png",
+      "alt": "La nota de Iven en el comedor de la posada de Ada."
     }
   },
   "nodes": {
@@ -285,7 +289,7 @@ STORY_SCENES.c3_posada = {
       "speaker": "Lyra",
       "text": "Lo sé. Y aún así, los recuerda…",
       "image": "c4_ada_plato",
-      "next": "posada_v2_ada_22"
+      "next": "posada_nota_intro_01"
     },
     "posada_v2_ada_22": {
       "type": "dialogue",
@@ -2930,7 +2934,157 @@ STORY_SCENES.c3_posada = {
       "text": "Con permiso de Ada, guardáis copias de los documentos. La conversación se va agotando poco a poco. Finalmente, os despedís de Ada y Alma y abandonáis el lugar.",
       "next": "posada_v2_exterior_02",
       "image": "c4_alma_umbral"
+    },
+    "posada_nota_intro_01": {
+      "type": "dialogue",
+      "speaker": null,
+      "text": "Saco del bolsillo el impreso que Iven me entregó en la carreta.",
+      "image": "c4_ada_plato",
+      "next": "posada_nota_intro_02",
+      "grantDocument": "posada"
+    },
+    "posada_nota_intro_02": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "También nos dio esto. Es la dirección de tu posada.",
+      "image": "c4_ada_plato",
+      "next": "posada_nota_firmada"
+    },
+    "posada_nota_firmada": {
+      "type": "condition",
+      "flag": "c2_recomendacion_firmada",
+      "equals": true,
+      "ifTrue": "posada_nota_con_firma_01",
+      "ifFalse": "posada_nota_sin_firma_01"
+    },
+    "posada_nota_con_firma_01": {
+      "type": "dialogue",
+      "speaker": null,
+      "text": "Le doy la vuelta al papel y se lo acerco. La recomendación y la firma siguen allí.",
+      "image": "c4_ada_notaiven",
+      "next": "posada_nota_con_firma_02",
+      "document": "posada",
+      "documentPatch": {
+        "id": "posada",
+        "signed": true
+      }
+    },
+    "posada_nota_con_firma_02": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Le pedí que lo escribiera. Lo hizo delante de mí.",
+      "image": "c4_ada_notaiven",
+      "next": "posada_nota_con_firma_03",
+      "document": "posada"
+    },
+    "posada_nota_con_firma_03": {
+      "type": "dialogue",
+      "speaker": "Ada",
+      "text": "«Ada: una habitación para Lyra y su acompañante. Invito yo. — Iven».",
+      "image": "c4_ada_notaiven",
+      "next": "posada_nota_con_firma_04",
+      "document": "posada"
+    },
+    "posada_nota_con_firma_04": {
+      "type": "dialogue",
+      "speaker": null,
+      "text": "Ada pasa un dedo junto a la firma, sin tocar la tinta.",
+      "image": "c4_ada_notaiven",
+      "next": "posada_nota_con_firma_05",
+      "document": "posada"
+    },
+    "posada_nota_con_firma_05": {
+      "type": "dialogue",
+      "speaker": "Ada",
+      "text": "Veo su nombre. Pero sigo sin poder recordarlo.",
+      "image": "c4_ada_notaiven",
+      "next": "posada_nota_con_firma_06",
+      "document": "posada"
+    },
+    "posada_nota_con_firma_06": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "No tienes que conseguirlo ahora. Quería que pudieras verlo.",
+      "image": "c4_ada_notaiven",
+      "next": "posada_nota_cierre_01",
+      "document": "posada"
+    },
+    "posada_nota_sin_firma_01": {
+      "type": "dialogue",
+      "speaker": null,
+      "text": "Ada mira el nombre de la posada y la dirección. Después gira el impreso. El reverso está en blanco.",
+      "image": "c4_ada_notaiven",
+      "next": "posada_nota_sin_firma_02",
+      "document": "posada"
+    },
+    "posada_nota_sin_firma_02": {
+      "type": "dialogue",
+      "speaker": "Ada",
+      "text": "Es uno de nuestros impresos.",
+      "image": "c4_ada_notaiven",
+      "next": "posada_nota_sin_firma_03",
+      "document": "posada"
+    },
+    "posada_nota_sin_firma_03": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Me dijo que preguntara por ti. Que eras su esposa.",
+      "image": "c4_ada_notaiven",
+      "next": "posada_nota_sin_firma_04",
+      "document": "posada"
+    },
+    "posada_nota_sin_firma_04": {
+      "type": "dialogue",
+      "speaker": "Ada",
+      "text": "El papel no lleva su nombre.",
+      "image": "c4_ada_notaiven",
+      "next": "posada_nota_sin_firma_05",
+      "document": "posada"
+    },
+    "posada_nota_sin_firma_05": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "No. No le pedí que escribiera nada. Pero recuerdo que me lo dio él.",
+      "image": "c4_ada_notaiven",
+      "next": "posada_nota_cierre_01",
+      "document": "posada"
+    },
+    "posada_nota_cierre_01": {
+      "type": "dialogue",
+      "speaker": null,
+      "text": "Ada me devuelve el impreso. Lo guardo con cuidado.",
+      "image": "c4_ada_plato",
+      "next": "posada_nota_cierre_02"
+    },
+    "posada_nota_cierre_02": {
+      "type": "dialogue",
+      "speaker": "Ada",
+      "text": "Quiero entender qué ha pasado. Aunque todavía no consiga recordarlo.",
+      "image": "c4_ada_plato",
+      "next": "posada_v2_ada_22",
+      "effects": {
+        "posada_impreso_mostrado": true
+      }
     }
   },
-  "nextScene": "c3_transicion"
+  "nextScene": "c3_transicion",
+  "documents": {
+    "posada": {
+      "presentation": {
+        "image": "c4_ada_notaiven",
+        "width": 1024,
+        "height": 1536,
+        "textBounds": {
+          "x": 350,
+          "y": 575,
+          "width": 390,
+          "height": 360
+        }
+      },
+      "title": "POSADA DEL PUENTE",
+      "body": "Calle del Puente, 8\nPreguntar por Ada",
+      "signed": false,
+      "signature": "Ada: una habitación para Lyra y su acompañante. Invito yo. — Iven"
+    }
+  }
 };

@@ -3,8 +3,8 @@
  const scenes={...STORY_SCENES};delete scenes.c3_transicion;
  const covered=new Set();let runs=0;
  for(const previous of [[],['c3_archivo'],['c3_inspeccion'],['c3_archivo','c3_inspeccion']])
- for(const greeting of ['ada','cerveza'])for(const ribbon of [false,true])for(const who of ribbon?['ada','alma']:['ninguno']){
-  let s=StoryEngine.createState();s.protagonistName='Álex';s.completedScenes=[...previous];s.c2_cinta_recuperada=ribbon;
+ for(const signed of [false,true])for(const greeting of ['ada','cerveza'])for(const ribbon of [false,true])for(const who of ribbon?['ada','alma']:['ninguno']){
+  let s=StoryEngine.createState();s.protagonistName='Álex';s.completedScenes=[...previous];s.c2_cinta_recuperada=ribbon;s.c2_recomendacion_firmada=signed;s.documents.posada=JSON.parse(JSON.stringify(scenes.vestibulo.documents.posada));s.documents.posada.signed=signed;const originalPaper=JSON.stringify(s.documents.posada);
   StoryEngine.start(s,scenes,'c3_posada');let steps=0;const visited=[];
   while(s.node && s.node!=='posada_destinos'){
    assert(++steps<220,'Bucle posada');const id=s.node,n=StoryEngine.current(s,scenes);covered.add(id);visited.push(id);
@@ -16,6 +16,9 @@
   assert(visited.includes('posada_v2_cofre_previo_01')===previous.includes('c3_inspeccion'),'Variante Inspección');
   assert(visited.includes('posada_v2_cerveza_01')===(greeting==='cerveza'),'Variante cerveza');
   assert(visited.includes('posada_cinta_eleccion')===ribbon,'Cinta no recuperada ofrecida');
+  assert(visited.includes('posada_nota_con_firma_01')===signed && visited.includes('posada_nota_sin_firma_01')===!signed,'Rama de recomendación');
+  assert(visited.indexOf('posada_nota_cierre_02')<visited.indexOf('posada_v2_habitacion_01'),'Nota después de subir');
+  assert(JSON.stringify(s.documents.posada)===originalPaper&&s.posada_impreso_mostrado,'Impresa alterada o no registrada');
   assert(s.cinta_guardada_por===(ribbon?who:null),'Propietario cinta');
   assert(s.affinity.ada===(who==='ada'?2:1)&&s.affinity.alma===(who==='alma'?2:1)&&s.affinity.lyra===1,'Afinidad');
   assert(COMPANIONS.ada.bondType==='platonic'&&COMPANIONS.alma.bondType==='platonic','Romance indebido');
