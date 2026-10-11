@@ -311,9 +311,9 @@ STORY_SCENES.c3_diosa = {
     "mal_05": {
       "type": "dialogue",
       "speaker": "¿?",
-      "text": "Debes forjar grandes alianzas antes de que llegue. Necesitarás personas que decidan quedarse a tu lado cuando comprendan lo que arriesgan.",
+      "text": "Debes forjar grandes alianzas antes de que llegue.",
       "image": "c7_diosa_revelacion",
-      "next": "diosa_eleccion"
+      "next": "mal_06"
     },
     "elegido_01": {
       "type": "dialogue",
@@ -346,7 +346,7 @@ STORY_SCENES.c3_diosa = {
     "luchar_01": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "¿Cómo se lucha contra algo que puede borrarte?",
+      "text": "¿Cómo se lucha contra eso?",
       "image": "c7_diosa_revelacion",
       "next": "luchar_02"
     },
@@ -374,9 +374,9 @@ STORY_SCENES.c3_diosa = {
     "cierre_01": {
       "type": "dialogue",
       "speaker": "¿?",
-      "text": "No confundas conocer a alguien con poder contar con esa persona. Las alianzas se construyen con lo que hagas.",
+      "text": "No confundas conocer a alguien con poder contar con esa persona.",
       "image": "c7_diosa_revelacion",
-      "next": "cierre_02"
+      "next": "cierre_alianzas"
     },
     "cierre_02": {
       "type": "dialogue",
@@ -415,7 +415,7 @@ STORY_SCENES.c3_diosa = {
         },
         {
           "id": "luchar",
-          "text": "¿Cómo se lucha contra algo que puede borrarte?",
+          "text": "¿Cómo se lucha contra eso?",
           "next": "luchar_01"
         },
         {
@@ -470,6 +470,20 @@ STORY_SCENES.c3_diosa = {
       "text": "Y pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
       "image": "nuevodia",
       "next": null
+    },
+    "mal_06": {
+      "type": "dialogue",
+      "speaker": "¿?",
+      "text": "Necesitarás personas que decidan quedarse a tu lado cuando comprendan lo que arriesgan.",
+      "image": "c7_diosa_revelacion",
+      "next": "diosa_eleccion"
+    },
+    "cierre_alianzas": {
+      "type": "dialogue",
+      "speaker": "¿?",
+      "text": "Las alianzas se construyen con lo que hagas.",
+      "image": "c7_diosa_revelacion",
+      "next": "cierre_02"
     }
   },
   "nextScene": "c4_actividades"
