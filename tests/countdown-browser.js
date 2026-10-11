@@ -10,18 +10,32 @@
       images.add(n.image);assert(await loadSceneImage(STORY_SCENES[gameState.scene].assets[n.image].src),'Falta imagen '+n.image);
     }
     assert(document.getElementById('day-counter').hidden===!gameState.calendar.active,'Contador visible antes de tiempo');
-    if(n.type==='choice')choicesPanel.children[1].click();else advanceDialogue();
+    if(n.type==='event'){
+      const checkpoint=gameState.node;advanceDialogue();
+      assert(gameState.node===checkpoint,'Permite saltar el destello');
+      assert(storyEvent.classList.contains('is-light-flash'),'Destello sin tratamiento de luz');
+      for(let i=0;i<100 && eventRunning;i++)await new Promise(r=>setTimeout(r,25));
+      assert(!eventRunning && gameState.node!==checkpoint,'Destello no termina');
+    } else if(n.type==='choice')choicesPanel.children[1].click();else advanceDialogue();
   }
-  renderScene();assert(images.size===4,'Faltan imágenes nuevas');
+  renderScene();assert(images.size===6,'Faltan imágenes nuevas');
+  assert(requestedImage===STORY_SCENES.c4_actividades.assets.nuevodia.src,'La selección diaria no muestra nuevodia');
   assert(choicesPanel.textContent.includes('1 día al terminar'),'No muestra coste');
   assert(document.getElementById('day-counter').textContent==='50 días restantes','Contador incorrecto');
   openPauseMenu();assert(document.getElementById('protagonist-portrait').classList.contains('has-travel-clothes'),'Retrato antiguo');
   assert(gameState.calendar.remaining===50,'Menú consume día');closePauseMenu();
-  choicesPanel.firstElementChild.click();
+  [...choicesPanel.children].find(b=>b.textContent.startsWith('Ir a mantenimiento.')).click();
   assert(gameState.node==='mant_solo_01' && gameState.calendar.remaining===50,'Destino incorrecto');
   showLoadNotice();assert(gameState.calendar.activity && gameState.calendar.remaining===50,'Guardado pierde actividad');
   while(gameState.scene==='c3_mantenimiento'){assert(++steps<220,'Bucle mantenimiento');advanceDialogue();}
   assert(document.getElementById('day-counter').textContent==='49 días restantes','No descuenta al acabar');
-  assert(!sceneEnding.hidden,'No termina el contenido disponible');
-  return 'OK interfaz: cuatro imágenes, vestuario en menú, coste visible, contador 50→49 y carga durante mantenimiento.';
+  assert(!choicesPanel.hidden && choicesPanel.children.length===3,'No muestra las tres actividades pendientes');
+  const originalAlert=window.alert;let notices=0;window.alert=()=>notices++;
+  try{const before=JSON.stringify(gameState);for(const button of choicesPanel.children){assert(button.textContent.includes('1 día al terminar'),'Falta coste diario');button.click();assert(JSON.stringify(gameState)===before,'Actividad pendiente cambia el estado');}assert(notices===3,'Falta aviso');}finally{window.alert=originalAlert;}
+  assert(requestedImage===STORY_SCENES.c4_actividades.assets.nuevodia.src,'El siguiente día no vuelve a nuevodia');
+  gameState=StoryEngine.restore(JSON.parse(JSON.stringify(gameState)),STORY_SCENES);renderScene();
+  assert(gameState.calendar.remaining===49 && requestedImage===STORY_SCENES.c4_actividades.assets.nuevodia.src,'Cargar el día cambia el tiempo o el fondo');
+  await new Promise(r=>setTimeout(r,500));
+  assert([...sceneImages].some(img=>img.classList.contains('is-visible') && img.src.endsWith('/nuevodia.png')),'No se ve la imagen del nuevo día');
+  return 'OK interfaz: seis imágenes, vestuario en menú, coste visible, contador 50→49 y carga durante mantenimiento.';
 })()

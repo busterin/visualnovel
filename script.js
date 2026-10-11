@@ -34,14 +34,15 @@ function prepareReviewStart(state, preset) {
   }
 }
 const menuOptions = [
-  { label: "Nuevo juego", image: "imagenes/Nuevo%20juego.png", action: openChapterSelector },
-  { label: "Cargar", image: "imagenes/Cargar.png", action: showLoadNotice },
+  { label: "Nuevo juego", action: openChapterSelector },
+  { label: "Cargar", action: showLoadNotice },
+  { label: "Opciones", action: () => {} },
 ];
 
 const coverScreen = document.getElementById("cover-screen");
 const gameScreen = document.getElementById("game-screen");
 const menuButton = document.getElementById("menu-option");
-const optionImage = document.getElementById("option-image");
+const optionLabel = document.getElementById("option-label");
 const announcement = document.getElementById("menu-announcement");
 const introScreen = document.getElementById("intro-screen");
 const introVideo = document.getElementById("intro-video");
@@ -99,13 +100,10 @@ let audioContext = null;
 let selectedOption = 0;
 let gameState = null;
 
-// Precarga los dos botones para que el cambio sea inmediato.
-menuOptions.forEach(({ image }) => { new Image().src = image; });
-
 function changeOption(direction) {
   selectedOption = (selectedOption + direction + menuOptions.length) % menuOptions.length;
   const option = menuOptions[selectedOption];
-  optionImage.src = option.image;
+  optionLabel.textContent = option.label;
   menuButton.setAttribute("aria-label", option.label);
   announcement.textContent = option.label;
 }
@@ -480,7 +478,11 @@ function renderScene() {
   pauseToCover.hidden = !node || node.type === "event";
   if (!node) {
     document.getElementById("ending-heading").textContent = gameState.calendar.expired ? "El plazo de 50 días ha terminado." : "Continuará";
-    imageRequest += 1;
+    if (chapter?.endingImage && !gameState.calendar.expired) {
+      showSceneImage(chapter.endingImage);
+    } else {
+      imageRequest += 1;
+    }
     dialoguePanel.hidden = true;
     choicesPanel.hidden = true;
     sceneEnding.hidden = false;
@@ -506,6 +508,8 @@ function renderScene() {
   dialoguePanel.hidden = isChoice;
   choicesPanel.hidden = !isChoice;
   choicesPanel.replaceChildren();
+  choicesPanel.classList.toggle("is-daily-choices", isChoice &&
+    StoryEngine.availableOptions(gameState, STORY_SCENES).some(option => StoryCalendar.cost(gameState, option) === 1));
   if (isChoice) {
     StoryEngine.availableOptions(gameState, STORY_SCENES).forEach((option) => {
       const button = document.createElement("button");
@@ -522,6 +526,7 @@ function renderScene() {
       button.addEventListener("click", (event) => {
         event.stopPropagation();
         if (isGamePaused) return;
+        if (option.comingSoon) { window.alert("En construcción"); return; }
         if (StoryEngine.choose(gameState, STORY_SCENES, option.id)) {
           renderScene();
           gameScreen.focus({ preventScroll: true });
@@ -591,6 +596,7 @@ async function runStoryEvent(node) {
   const active = () => request === eventRequest && !gameScreen.hidden;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   storyEvent.classList.toggle("is-memory-flash", node.style === "memory");
+  storyEvent.classList.toggle("is-light-flash", node.style === "light");
   StoryEngine.beginEvent(gameState, STORY_SCENES);
   saveGame();
   const fade = async (from, to, duration) => {
@@ -619,7 +625,7 @@ async function runStoryEvent(node) {
       }
     } else {
       eventImage.hidden = true;
-      storyEvent.hidden = false;
+      storyEvent.hidden = reduced && node.style === "light";
       await fade(0, 1, reduced ? 0 : node.fadeDurationMs);
       if (!active()) return;
       if (!reduced && node.durationMs) await wait(node.durationMs);

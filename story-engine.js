@@ -45,6 +45,7 @@ const StoryEngine = {
       ada_tercer_plato_iven: false, alma_confirma_silla_iven: false,
       archivo_completado: false, archivo_eiden_conocido: false, archivo_deposito_17: false,
       archivo_cuaderno: false, archivo_plano_varda: false, archivo_carta: false,
+      archivo_caja_recibida: false, eiden_investiga_por_su_cuenta: false,
       archivo_solicitud_retorno: false, archivo_retorno_estado: null,
       archivo_firma_protagonista: false, archivo_copias: false,
       archivo_darven_presente: false, archivo_reaccion_darven_sospechosa: false,
@@ -159,7 +160,7 @@ const StoryEngine = {
     const node = this.current(state, scenes);
     if (!node || node.type !== "choice") return false;
     const option = this.availableOptions(state, scenes).find((item) => item.id === optionId);
-    if (!option) return false;
+    if (!option || option.comingSoon) return false;
     if (!StoryCalendar.begin(state, option)) return false;
     state.decisions.push({ scene: state.scene, choice: state.node, answer: option.id, text: option.text });
     Object.assign(state, option.effects || {});
@@ -208,6 +209,11 @@ const StoryEngine = {
     // Recuperar encuentros en partidas guardadas antes de añadir el menú.
     if (state.documents.nota?.body) state.documents.nota.body = state.documents.nota.body.replace('Hermana: Ada', 'Esposa: Ada');
     if (state.archivo_darven_presente) state.darven_conocido = true;
+    // Eiden pasa a tener ficha de vínculo también en partidas que ya lo conocían.
+    if (state.archivo_eiden_conocido) {
+      if (!state.metCompanions.includes("eiden")) state.metCompanions.push("eiden");
+      state.affinity.eiden ??= 1;
+    }
     for (const key of state.appliedNodes) {
       const [sceneId, nodeId] = key.split(":");
       for (const companion of scenes[sceneId]?.nodes[nodeId]?.meetCompanions || []) {

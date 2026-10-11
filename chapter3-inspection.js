@@ -1623,21 +1623,21 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_invitar_01": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Lyra se sorprende ligeramente.",
+      "text": "Lyra se sorprende.",
       "image": "c4_lyra_canal",
       "next": "descanso_invitar_02"
     },
     "descanso_invitar_02": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "¿Quieres compañía?",
+      "text": "¿Quieres que te acompañe?",
       "image": "c4_lyra_canal",
       "next": "descanso_invitar_03"
     },
     "descanso_invitar_03": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Después del día que llevamos, sí.",
+      "text": "Lo agradecería mucho.",
       "image": "c4_lyra_canal",
       "next": "descanso_invitar_04"
     },
@@ -1819,7 +1819,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_ada_lyra_03": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Ada os observa.",
+      "text": "Ada os observa y se ríe.",
       "image": "c6_ada_llave",
       "next": "descanso_ada_lyra_04"
     },
@@ -1945,7 +1945,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_habitacion_08": {
       "type": "dialogue",
       "speaker": null,
-      "text": "El cuerpo parece recordar de golpe que está cansado.",
+      "text": "Tu cuerpo parece recordar de golpe que está cansado.",
       "image": "c6_habitacion_noche",
       "next": "descanso_habitacion_acompanante"
     },
@@ -2085,14 +2085,14 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_armadura_11": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Eso desmonta varias teorías.",
+      "text": "Eso no me lo esperaba.",
       "image": "c6_lyra_llegada",
       "next": "descanso_armadura_12"
     },
     "descanso_armadura_12": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "No quiero saber ninguna.",
+      "text": "Soy una caja de sorpresas.",
       "image": "c6_lyra_llegada",
       "next": "descanso_armadura_13"
     },
@@ -2239,7 +2239,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_ada_recuerdo_01": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Lo de Ada.",
+      "text": "Lo de Ada…",
       "image": "c6_lyra_conversacion",
       "next": "descanso_ada_recuerdo_02"
     },
@@ -2309,7 +2309,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_confianza_05": {
       "type": "dialogue",
       "speaker": null,
-      "text": "El protagonista la mira.",
+      "text": "Protagonista la mira.",
       "image": "c6_lyra_conversacion",
       "next": "descanso_confianza_06"
     },
@@ -2414,7 +2414,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_abrazo_11": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Eso dices mucho.",
+      "text": "Dices mucho eso.",
       "image": "c6_abrazo_lyra",
       "next": "descanso_abrazo_12"
     },
@@ -2428,7 +2428,7 @@ STORY_SCENES.c3_inspeccion = {
     "insp_abrazo_02": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "También.",
+      "text": "Llevas razón.",
       "image": "c6_abrazo_lyra",
       "next": "descanso_abrazo_14",
       "affinityGain": {
@@ -2460,7 +2460,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_abrazo_17": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Yo también.",
+      "text": "Tranquilo, yo también.",
       "image": "c6_lyra_conversacion",
       "next": "descanso_marcha_01"
     },
@@ -2481,7 +2481,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_sin_abrazo_03": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Probablemente.",
+      "text": "Probablemente…",
       "image": "c6_lyra_conversacion",
       "next": "descanso_marcha_01"
     },
@@ -2523,7 +2523,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_marcha_06": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "No empieces.",
+      "text": "No creo que sea la mejor idea.",
       "image": "c6_lyra_conversacion",
       "next": "descanso_marcha_07"
     },
@@ -2586,23 +2586,21 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_marcha_15": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Ada te ha pagado para decirme eso.",
+      "text": "¿Ada te ha pagado para decirme eso?",
       "image": "c6_lyra_conversacion",
       "next": "descanso_marcha_16"
     },
     "descanso_marcha_16": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "No.",
-      "image": "c6_lyra_conversacion",
-      "next": "descanso_marcha_17"
-    },
-    "descanso_marcha_17": {
-      "type": "dialogue",
-      "speaker": "Lyra",
-      "text": "Pero debería.",
+      "text": "No, pero debería.",
       "image": "c6_lyra_conversacion",
       "next": "descanso_marcha_18"
+    },
+    "descanso_marcha_17": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "descanso_marcha_18"
     },
     "descanso_marcha_18": {
       "type": "dialogue",
@@ -2614,68 +2612,58 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_marcha_19": {
       "type": "dialogue",
       "speaker": null,
-      "text": "La puerta se cierra.",
+      "text": "La puerta se cierra y por primera vez desde que empezó todo, estás completamente solo.",
       "image": "c6_habitacion_noche",
-      "next": "descanso_dormir_01",
+      "next": "descanso_dormir_02",
       "effects": {
         "lyra_se_marcho_descanso": true
       }
     },
     "descanso_dormir_01": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Por primera vez desde que empezó todo, estás completamente solo.",
-      "image": "c6_habitacion_noche",
-      "next": "descanso_dormir_02"
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "descanso_dormir_02"
     },
     "descanso_dormir_02": {
       "type": "dialogue",
       "speaker": null,
-      "text": "No hay preguntas.",
-      "image": "c6_habitacion_noche",
-      "next": "descanso_dormir_03"
-    },
-    "descanso_dormir_03": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "No hay documentos.",
+      "text": "No hay preguntas.\nNo hay documentos.",
       "image": "c6_habitacion_noche",
       "next": "descanso_dormir_04"
+    },
+    "descanso_dormir_03": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "descanso_dormir_04"
     },
     "descanso_dormir_04": {
       "type": "dialogue",
       "speaker": null,
-      "text": "No hay nadie esperando una respuesta.",
-      "image": "c6_habitacion_noche",
-      "next": "descanso_dormir_05"
-    },
-    "descanso_dormir_05": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Solo una cama.",
-      "image": "c6_habitacion_noche",
-      "next": "descanso_dormir_06"
-    },
-    "descanso_dormir_06": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Y cansancio.",
+      "text": "No hay nadie esperando una respuesta.\nSolo una cama y mucho cansancio acumulado.",
       "image": "c6_habitacion_noche",
       "next": "descanso_dormir_07"
+    },
+    "descanso_dormir_05": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "descanso_dormir_07"
+    },
+    "descanso_dormir_06": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "descanso_dormir_07"
     },
     "descanso_dormir_07": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Te tumbas.",
-      "image": "c6_habitacion_noche",
-      "next": "descanso_dormir_08"
-    },
-    "descanso_dormir_08": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "El sueño tarda menos de lo esperado.",
+      "text": "Te tumbas.\nEl sueño tarda menos de lo esperado.",
       "image": "c6_habitacion_noche",
       "next": "descanso_manana_01"
+    },
+    "descanso_dormir_08": {
+      "type": "redirect",
+      "destination": "c3_inspeccion",
+      "destinationNode": "descanso_manana_01"
     },
     "descanso_manana_01": {
       "type": "dialogue",
@@ -2833,7 +2821,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_desayuno_10": {
       "type": "dialogue",
       "speaker": null,
-      "text": "El protagonista piensa en lo que ha descubierto y en las preguntas que siguen sin respuesta.",
+      "text": "Protagonista piensa en lo que ha descubierto y en las preguntas que siguen sin respuesta.",
       "image": "c6_ada_llave",
       "next": null,
       "effects": {

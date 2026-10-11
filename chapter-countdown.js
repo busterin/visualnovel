@@ -37,7 +37,7 @@ STORY_SCENES.c3_ropa_ada = {
     "ropa_02": {
       "type": "dialogue",
       "speaker": "Ada",
-      "text": "También te he buscado algo que ponerte.",
+      "text": "Te he buscado algo que ponerte.",
       "image": "c7_ada_ropajes",
       "next": "ropa_03"
     },
@@ -185,6 +185,14 @@ STORY_SCENES.c3_diosa = {
     "c7_diosa_revelacion": {
       "src": "imagenes/Escena7/c7_diosa_revelacion.png",
       "alt": "La diosa revela la llegada del Gran Mal."
+    },
+    "c7_exterior": {
+      "src": "imagenes/Escena7/c7_exterior.png",
+      "alt": "La calle y el canal de Varda a la luz de la mañana."
+    },
+    "nuevodia": {
+      "src": "imagenes/Escena7/nuevodia.png",
+      "alt": "El protagonista preparado para una nueva jornada en la posada."
     }
   },
   "nodes": {
@@ -192,12 +200,12 @@ STORY_SCENES.c3_diosa = {
       "type": "dialogue",
       "speaker": null,
       "text": "Al salir, oyes una voz junto al canal.",
-      "image": "c7_diosa_aparicion",
-      "next": "voz_02"
+      "image": "c7_exterior",
+      "next": "diosa_destello_entrada"
     },
     "voz_02": {
       "type": "dialogue",
-      "speaker": "Diosa",
+      "speaker": "¿?",
       "text": "Por fin puedes escucharme.",
       "image": "c7_diosa_aparicion",
       "next": "voz_03"
@@ -205,14 +213,14 @@ STORY_SCENES.c3_diosa = {
     "voz_03": {
       "type": "dialogue",
       "speaker": null,
-      "text": "El sonido del canal se apaga. Una gota queda suspendida en el aire. Las personas alrededor permanecen inmóviles.",
+      "text": "El sonido del canal se apaga, una gota queda suspendida en el aire. Las personas alrededor permanecen inmóviles.",
       "image": "c7_diosa_aparicion",
       "next": "voz_04"
     },
     "voz_04": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Una mujer aparece entre los reflejos del agua. Su figura no parece ocupar del todo la calle.",
+      "text": "Una mujer aparece entre los reflejos del agua. Desprende un aura mágica imponente.",
       "image": "c7_diosa_aparicion",
       "next": "voz_05"
     },
@@ -225,7 +233,7 @@ STORY_SCENES.c3_diosa = {
     },
     "voz_06": {
       "type": "dialogue",
-      "speaker": "Diosa",
+      "speaker": "¿?",
       "text": "La que te trajo a este mundo.",
       "image": "c7_diosa_aparicion",
       "next": "voz_07"
@@ -240,27 +248,27 @@ STORY_SCENES.c3_diosa = {
     "voz_08": {
       "type": "dialogue",
       "speaker": null,
-      "text": "La diosa tarda en contestar.",
+      "text": "La mujer tarda en contestar.",
       "image": "c7_diosa_aparicion",
       "next": "voz_09"
     },
     "voz_09": {
       "type": "dialogue",
-      "speaker": "Diosa",
-      "text": "Te elegí porque vienes de otro mundo. Hay cosas aquí que todavía no pueden arrancarte de la memoria.",
+      "speaker": "¿?",
+      "text": "No te elegí solo por ser de otro mundo. Eres especial. Y me temo que aún no es momento de regresar.",
       "image": "c7_diosa_aparicion",
       "next": "voz_10"
     },
     "voz_10": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "¿Como Iven?",
+      "text": "¿Qué ha pasado con Iven?",
       "image": "c7_diosa_aparicion",
       "next": "voz_11"
     },
     "voz_11": {
       "type": "dialogue",
-      "speaker": "Diosa",
+      "speaker": "¿?",
       "text": "Lo que le ocurrió es un comienzo.",
       "image": "c7_diosa_aparicion",
       "next": "voz_12"
@@ -274,7 +282,7 @@ STORY_SCENES.c3_diosa = {
     },
     "mal_01": {
       "type": "dialogue",
-      "speaker": "Diosa",
+      "speaker": "¿?",
       "text": "Dentro de cincuenta días llegará el Gran Mal. Borrará a todos de la existencia. No quedarán nombres, recuerdos ni nadie que pueda llorarlos.",
       "image": "c7_diosa_revelacion",
       "next": "mal_02"
@@ -288,21 +296,21 @@ STORY_SCENES.c3_diosa = {
     },
     "mal_03": {
       "type": "dialogue",
-      "speaker": "Diosa",
-      "text": "Solo, no podrás.",
+      "speaker": "¿?",
+      "text": "Debes detenerlo pero tú solo no podrás.",
       "image": "c7_diosa_revelacion",
       "next": "mal_04"
     },
     "mal_04": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Da un paso hacia él.",
+      "text": "Da un paso hacia ti.",
       "image": "c7_diosa_revelacion",
       "next": "mal_05"
     },
     "mal_05": {
       "type": "dialogue",
-      "speaker": "Diosa",
+      "speaker": "¿?",
       "text": "Debes forjar grandes alianzas antes de que llegue. Necesitarás personas que decidan quedarse a tu lado cuando comprendan lo que arriesgan.",
       "image": "c7_diosa_revelacion",
       "next": "diosa_eleccion"
@@ -316,22 +324,22 @@ STORY_SCENES.c3_diosa = {
     },
     "elegido_02": {
       "type": "dialogue",
-      "speaker": "Diosa",
-      "text": "Porque vienes de otro mundo. Eso importa, aunque todavía no comprendas por qué.",
+      "speaker": "¿?",
+      "text": "Ya te lo he dicho. Eres especial. Pronto comprenderás esa “especialidad”.",
       "image": "c7_diosa_revelacion",
       "next": "elegido_03"
     },
     "elegido_03": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "No es toda la respuesta.",
+      "text": "No es una buena respuesta.",
       "image": "c7_diosa_revelacion",
       "next": "elegido_04"
     },
     "elegido_04": {
       "type": "dialogue",
-      "speaker": "Diosa",
-      "text": "No. Todavía no.",
+      "speaker": "¿?",
+      "text": "Es la única que puedo darte ahora.",
       "image": "c7_diosa_revelacion",
       "next": "cierre_01"
     },
@@ -344,7 +352,7 @@ STORY_SCENES.c3_diosa = {
     },
     "luchar_02": {
       "type": "dialogue",
-      "speaker": "Diosa",
+      "speaker": "¿?",
       "text": "Reúne conocimientos, recursos y aliados. Ninguna persona tiene por sí sola la respuesta.",
       "image": "c7_diosa_revelacion",
       "next": "cierre_01"
@@ -358,14 +366,14 @@ STORY_SCENES.c3_diosa = {
     },
     "determinacion_02": {
       "type": "dialogue",
-      "speaker": "Diosa",
-      "text": "Entonces necesitarás algo más que esa determinación. Necesitarás a los demás.",
+      "speaker": "¿?",
+      "text": "Entonces necesitarás algo más que esa determinación. Necesitarás alianzas.",
       "image": "c7_diosa_revelacion",
       "next": "cierre_01"
     },
     "cierre_01": {
       "type": "dialogue",
-      "speaker": "Diosa",
+      "speaker": "¿?",
       "text": "No confundas conocer a alguien con poder contar con esa persona. Las alianzas se construyen con lo que hagas.",
       "image": "c7_diosa_revelacion",
       "next": "cierre_02"
@@ -375,21 +383,21 @@ STORY_SCENES.c3_diosa = {
       "speaker": null,
       "text": "La figura se desvanece entre los reflejos.",
       "image": "c7_diosa_revelacion",
-      "next": "cierre_03"
+      "next": "diosa_destello_salida"
     },
     "cierre_03": {
       "type": "dialogue",
       "speaker": null,
       "text": "El agua vuelve a caer. Regresan los pasos, las conversaciones y el ruido del canal.",
-      "image": "c7_diosa_revelacion",
+      "image": "c7_exterior",
       "next": "cierre_04"
     },
     "cierre_04": {
       "type": "dialogue",
       "speaker": null,
       "text": "50 días restantes.",
-      "image": "c7_diosa_revelacion",
-      "next": null,
+      "image": "c7_exterior",
+      "next": "planificar_01",
       "textStyle": "document",
       "startCountdown": true,
       "effects": {
@@ -416,6 +424,52 @@ STORY_SCENES.c3_diosa = {
           "next": "determinacion_01"
         }
       ]
+    },
+    "diosa_destello_entrada": {
+      "type": "event",
+      "event": "diosa_destello_entrada",
+      "style": "light",
+      "image": "c7_diosa_aparicion",
+      "fadeDurationMs": 350,
+      "durationMs": 60,
+      "next": "voz_02"
+    },
+    "diosa_destello_salida": {
+      "type": "event",
+      "event": "diosa_destello_salida",
+      "style": "light",
+      "image": "c7_exterior",
+      "fadeDurationMs": 350,
+      "durationMs": 60,
+      "next": "cierre_03"
+    },
+    "planificar_01": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Debo administrar bien mi tiempo cada día, no puedo llegar a todas partes así que debo planificarme bien.",
+      "image": "nuevodia",
+      "next": "planificar_02"
+    },
+    "planificar_02": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Tengo un recuerdo fugaz del palacio. Creo que he colaborado con el Rey en mas de una ocasión. Quizás me recuerde.",
+      "image": "nuevodia",
+      "next": "planificar_03"
+    },
+    "planificar_03": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Lyra también podría ayudarme con todo esto.",
+      "image": "nuevodia",
+      "next": "planificar_04"
+    },
+    "planificar_04": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Y pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
+      "image": "nuevodia",
+      "next": null
     }
   },
   "nextScene": "c4_actividades"
@@ -544,14 +598,45 @@ STORY_SCENES.c4_actividades = {
     "c7_diosa_revelacion": {
       "src": "imagenes/Escena7/c7_diosa_revelacion.png",
       "alt": "La diosa revela la llegada del Gran Mal."
+    },
+    "nuevodia": {
+      "src": "imagenes/Escena7/nuevodia.png",
+      "alt": "El protagonista preparado para una nueva jornada en la posada."
     }
   },
   "nodes": {
     "actividades": {
       "type": "choice",
-      "image": "c7_protagonista_atuendo",
+      "image": "nuevodia",
       "completeRoute": true,
       "options": [
+        {
+          "id": "palacio",
+          "text": "Visitar al Rey en el Palacio de Varda.",
+          "activity": {
+            "id": "palacio"
+          },
+          "dayCost": 1,
+          "comingSoon": true
+        },
+        {
+          "id": "lyra",
+          "text": "Ir a ver a Lyra.",
+          "activity": {
+            "id": "lyra"
+          },
+          "dayCost": 1,
+          "comingSoon": true
+        },
+        {
+          "id": "capital",
+          "text": "Pasear por la capital.",
+          "activity": {
+            "id": "capital"
+          },
+          "dayCost": 1,
+          "comingSoon": true
+        },
         {
           "id": "mantenimiento",
           "text": "Ir a mantenimiento.",
@@ -567,5 +652,6 @@ STORY_SCENES.c4_actividades = {
         }
       ]
     }
-  }
+  },
+  "endingImage": "nuevodia"
 };

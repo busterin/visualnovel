@@ -3,6 +3,13 @@
 // Solo compañeros de la aventura, no todos los personajes del guion.
 // Fichas sin revelaciones posteriores al primer encuentro.
 const COMPANIONS = {
+  eiden: {
+    name: "Eiden", bondType: "romantic",
+    portrait: "imagenes/Escena3/c3_eiden_inicio.png",
+    avatarSize: "240% auto", avatarPosition: "52% 23%",
+    portraitPosition: "center 25%",
+    description: "Un joven del Archivo de Varda con una gran curiosidad por los misterios. Tu pérdida de memoria ha llamado su atención.",
+  },
   ada: {
     name: "Ada", bondType: "platonic",
     portrait: "imagenes/Escena4/c4_ada_lyra_comedor.png",

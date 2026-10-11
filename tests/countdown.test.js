@@ -14,13 +14,17 @@
     while(s.scene!=='c4_actividades'){
       assert(++count<100,'Bucle revelación');const n=StoryEngine.current(s,STORY_SCENES);
       if(n.type==='choice')assert(StoryEngine.choose(s,STORY_SCENES,s.scene==='c3_ropa_ada'?clothing:reply),'Respuesta inexistente');
-      else StoryEngine.advance(s,STORY_SCENES);
+      else if(n.type==='event'){
+        assert(!StoryEngine.advance(s,STORY_SCENES),'Permite saltar el destello');
+        StoryEngine.beginEvent(s,STORY_SCENES);
+      } else StoryEngine.advance(s,STORY_SCENES);
       s=StoryEngine.restore(JSON.parse(JSON.stringify(s)),STORY_SCENES);
     }
     assert(s.calendar.active && s.calendar.remaining===50 && s.affinity.lyra===2,'Diálogo gasta tiempo/vínculo');
     assert(s.ropa_original_guardada && s.protagonistOutfit==='vaelthar','Vestuario no guardado');
-    if(maintenanceDone){assert(s.node===null,'Repite mantenimiento completado');continue;}
-    const option=StoryEngine.availableOptions(s,STORY_SCENES)[0];assert(StoryCalendar.cost(s,option)===1,'No avisa coste');
+    for(const pending of StoryEngine.availableOptions(s,STORY_SCENES).filter(o=>o.comingSoon)){const before=JSON.stringify(s);assert(!StoryEngine.choose(s,STORY_SCENES,pending.id) && JSON.stringify(s)===before,'Opción pendiente altera la partida');}
+    if(maintenanceDone){assert(StoryEngine.availableOptions(s,STORY_SCENES).every(o=>o.comingSoon),'Repite mantenimiento completado');continue;}
+    const option=StoryEngine.availableOptions(s,STORY_SCENES).find(o=>o.id==='mantenimiento');assert(StoryCalendar.cost(s,option)===1,'No avisa coste');
     StoryEngine.choose(s,STORY_SCENES,'mantenimiento');assert(s.node==='mant_solo_01' && s.calendar.remaining===50,'Cobra al entrar o va con Lyra');
     while(s.scene==='c3_mantenimiento'){
       assert(++count<220,'Bucle mantenimiento');
@@ -29,7 +33,7 @@
     }
     assert(s.calendar.remaining===49 && s.calendar.settled.length===1,'Carga duplica gasto');
     StoryEngine.prepare(s,STORY_SCENES);s=StoryEngine.restore(s,STORY_SCENES);
-    assert(s.calendar.remaining===49 && s.node===null,'Repite revelación/calendario');
+    assert(s.calendar.remaining===49 && s.node==='actividades','Repite revelación/calendario');
   }
   // Actividades futuras: una jornada entre escenas, vencimiento y hechos para alianzas.
   const s=StoryEngine.createState();StoryCalendar.activate(s);

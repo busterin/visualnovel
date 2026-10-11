@@ -29,7 +29,26 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
           </button>
           <button class="menu-option" id="menu-option" type="button" aria-label="Nuevo juego">
-            <img id="option-image" src="imagenes/Nuevo%20juego.png" alt="" draggable="false">
+            <span class="menu-art">
+              <svg class="menu-frame" viewBox="0 0 800 300" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="menu-gold" x2="0" y2="1"><stop stop-color="#fff1b5"/><stop offset=".35" stop-color="#d68e30"/><stop offset=".6" stop-color="#fff0b1"/><stop offset="1" stop-color="#aa661e"/></linearGradient>
+                  <radialGradient id="menu-blue"><stop stop-color="#080e20"/><stop offset=".75" stop-color="#101c39"/><stop offset="1" stop-color="#263f65"/></radialGradient>
+                  <g id="menu-scroll" fill="none" stroke="url(#menu-gold)" stroke-width="2">
+                    <path d="M75 94 C24 104 22 142 65 150 C30 159 25 191 75 207 M65 150 C34 135 43 113 58 120 C72 128 49 141 48 125 M65 150 C35 166 44 190 58 181 C70 173 48 163 48 178 M65 150 H16 M40 143 L26 150 L40 157"/>
+                  </g>
+                </defs>
+                <path d="M80 87 H720 L772 135 V165 L720 213 H80 L28 165 V135Z" fill="url(#menu-blue)" stroke="url(#menu-gold)" stroke-width="3"/>
+                <path d="M86 95 H714 L759 139 V161 L714 205 H86 L41 161 V139Z" fill="none" stroke="#ffdc8c" stroke-width="1.4"/>
+                <use href="#menu-scroll"/><use href="#menu-scroll" transform="translate(800 0) scale(-1 1)"/>
+                <g fill="url(#menu-gold)" stroke="#ffdf99" stroke-width="1">
+                  <path d="M400 51 L404 80 L422 87 L404 92 L400 119 L396 92 L378 87 L396 80Z"/>
+                  <path d="M400 197 L404 209 L421 213 L405 219 L400 247 L395 219 L379 213 L396 209Z"/>
+                </g>
+                <circle cx="400" cy="87" r="16" fill="none" stroke="#e8b465" stroke-width="1"/>
+              </svg>
+              <span id="option-label" class="menu-label">Nuevo juego</span>
+            </span>
           </button>
           <button class="arrow" id="next-option" type="button" aria-label="Opción siguiente">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>

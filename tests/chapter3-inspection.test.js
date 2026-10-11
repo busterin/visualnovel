@@ -20,7 +20,7 @@
       const before=state.affinity.lyra;state=StoryEngine.restore(state,STORY_SCENES);
       assert(state.affinity.lyra===before,'Vínculo duplicado al cargar');
       if(node.type==='choice'){
-        const choices={insp_eleccion_declaracion:declaration,insp_invitar:variant==='solo'?'solo':'con_lyra',insp_elegir_abrazo:variant==='abrazo'?'abrazo':'descansar',posada_cinta_eleccion:'alma',ropa_eleccion:'gracias',diosa_eleccion:'luchar'};
+        const choices={archivo_v2_optimismo:'B',archivo_v2_curiosidad:'C',archivo_v2_despedida:'C',insp_eleccion_declaracion:declaration,insp_invitar:variant==='solo'?'solo':'con_lyra',insp_elegir_abrazo:variant==='abrazo'?'abrazo':'descansar',posada_cinta_eleccion:'alma',ropa_eleccion:'gracias',diosa_eleccion:'luchar'};
         const options=StoryEngine.availableOptions(state,STORY_SCENES);
         const pending=order.find(route=>!state.completedScenes.includes('c3_'+route) && options.some(o=>o.id===route));
         const answer=choices[id] || pending || (options.some(o=>o.id==='mantenimiento')?'mantenimiento':options[0]?.id);
