@@ -23,7 +23,7 @@
     assert(s.calendar.active && s.calendar.remaining===50 && s.affinity.lyra===2,'Diálogo gasta tiempo/vínculo');
     assert(s.ropa_original_guardada && s.protagonistOutfit==='vaelthar','Vestuario no guardado');
     for(const pending of StoryEngine.availableOptions(s,STORY_SCENES).filter(o=>o.comingSoon)){const before=JSON.stringify(s);assert(!StoryEngine.choose(s,STORY_SCENES,pending.id) && JSON.stringify(s)===before,'Opción pendiente altera la partida');}
-    if(maintenanceDone){assert(StoryEngine.availableOptions(s,STORY_SCENES).every(o=>o.comingSoon),'Repite mantenimiento completado');continue;}
+    if(maintenanceDone){assert(!StoryEngine.availableOptions(s,STORY_SCENES).some(o=>o.id==='mantenimiento'),'Repite mantenimiento completado');continue;}
     const option=StoryEngine.availableOptions(s,STORY_SCENES).find(o=>o.id==='mantenimiento');assert(StoryCalendar.cost(s,option)===1,'No avisa coste');
     StoryEngine.choose(s,STORY_SCENES,'mantenimiento');assert(s.node==='mant_solo_01' && s.calendar.remaining===50,'Cobra al entrar o va con Lyra');
     while(s.scene==='c3_mantenimiento'){

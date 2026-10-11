@@ -638,7 +638,8 @@ STORY_SCENES.c4_actividades = {
             "id": "palacio"
           },
           "dayCost": 1,
-          "comingSoon": true
+          "destination": "c8_palacio",
+          "hideIfCompleted": "c8_palacio"
         },
         {
           "id": "lyra",

@@ -4,6 +4,7 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { label: "Capítulo 8 · Visita a palacio", scene: "c8_palacio", preset: "palace" },
   { label: "Descanso · Un lugar donde descansar", scene: "c3_inspeccion", node: "descanso_decision_01", preset: "rest" },
   { label: "La mañana · La ropa de Ada", scene: "c3_ropa_ada", preset: "clothes" },
   { label: "La revelación · Cincuenta días", scene: "c3_diosa", preset: "revelation" },
@@ -12,6 +13,8 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const palace = preset === "palace";
+  if (palace) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -31,6 +34,7 @@ function prepareReviewStart(state, preset) {
   if (preset === "countdown") {
     state.revelacion_diosa_completada = true;
     StoryCalendar.activate(state);
+    if (palace) StoryCalendar.begin(state, { destination: "c8_palacio", activity: { id: "palacio" }, dayCost: 1 });
   }
 }
 const menuOptions = [
@@ -510,6 +514,7 @@ function renderScene() {
     return;
   }
   sceneEnding.hidden = true;
+  dialoguePanel.classList.toggle("is-danger", node.tone === "danger");
   if (node.type === "event") {
     dialoguePanel.hidden = true;
     choicesPanel.hidden = true;

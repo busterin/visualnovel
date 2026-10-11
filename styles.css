@@ -31,7 +31,7 @@ body {
 .pause-header { text-align: center; flex-shrink: 0; }
 .pause-header h1 { margin: 8px 0 4px; font-size: 24px; overflow-wrap: anywhere; }
 .pause-header p { margin: 0; color: #b9b3a7; font-size: 14px; }
-.protagonist-portrait { margin: auto; width: clamp(72px, 12dvh, 112px); aspect-ratio: 1; border-radius: 50%; border: 2px solid #c5a56d; background: #243047 url("imagenes/Portada.png") 52% 40% / 380% auto no-repeat; }
+.protagonist-portrait { margin: auto; width: clamp(72px, 12dvh, 112px); aspect-ratio: 1; border-radius: 50%; border: 2px solid #c5a56d; background: #243047 url("imagenes/Portada.png") 36% 29% / 380% auto no-repeat; }
 .pause-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .pause-tabs [aria-pressed="true"] { background: #725c38; border-color: #f3d293; }
 .pause-content { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 4px; line-height: 1.55; color: #eee2c9; }
@@ -288,3 +288,5 @@ button:focus-visible { outline: 2px solid #ffe2a3; outline-offset: 4px; }
   .scene-image { transition: none; }
   .scene-ending { animation: none; }
 }
+
+.dialogue-panel.is-danger { background: #3b1019f5; border-color: #ef8181; box-shadow: 0 8px 36px #0009, inset 3px 0 0 #ef8181; }
