@@ -66,7 +66,15 @@ const StoryEngine = {
     state.node = scenes[sceneId].start;
     this.prepare(state, scenes);
   },
-  current(state, scenes) { return scenes[state.scene]?.nodes[state.node] || null; },
+  current(state, scenes) {
+    const node = scenes[state.scene]?.nodes[state.node] || null;
+    const pending = state.pendingChoice;
+    const option = pending?.scene === state.scene && pending.node === state.node &&
+      node?.options?.find(item => item.id === pending.option && item.requiresConfirmation);
+    if (!option) return node;
+    return { type: "choice", image: node.image, prompt: "¿Estás seguro?", detail: option.text,
+      options: [{ id: "confirm_yes", text: "Sí" }, { id: "confirm_no", text: "No" }] };
+  },
   availableOptions(state, scenes, node = this.current(state, scenes)) {
     return (node?.options || []).filter(option =>
       (!option.hideIfCompleted || !state.completedScenes.includes(option.hideIfCompleted)) &&
@@ -164,11 +172,21 @@ const StoryEngine = {
     }
     return true;
   },
-  choose(state, scenes, optionId) {
+  choose(state, scenes, optionId, confirmed = false) {
+    const pending = state.pendingChoice;
+    if (pending && pending.scene === state.scene && pending.node === state.node) {
+      if (!["confirm_yes", "confirm_no"].includes(optionId)) return false;
+      delete state.pendingChoice;
+      return optionId === "confirm_no" || this.choose(state, scenes, pending.option, true);
+    }
     const node = this.current(state, scenes);
     if (!node || node.type !== "choice") return false;
     const option = this.availableOptions(state, scenes).find((item) => item.id === optionId);
     if (!option || option.comingSoon) return false;
+    if (option.requiresConfirmation && !confirmed) {
+      state.pendingChoice = { scene: state.scene, node: state.node, option: option.id };
+      return true;
+    }
     if (!StoryCalendar.begin(state, option)) return false;
     state.decisions.push({ scene: state.scene, choice: state.node, answer: option.id, text: option.text });
     Object.assign(state, option.effects || {});

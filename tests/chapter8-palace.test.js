@@ -12,7 +12,7 @@
    assert(STORY_SCENES.c8_palacio.assets[n.image],'Imagen inexistente');
    if(s.node==='014')assert(StoryEngine.format(n.text,s).includes('Álex'),'No sustituye nombre');
    if(s.node==='077')assert(n.tone==='danger','Falta aviso rojo');
-   if(n.type==='choice')StoryEngine.choose(s,STORY_SCENES,s.node==='presentacion'?reply:saved);
+   if(n.type==='choice')StoryEngine.choose(s,STORY_SCENES,n.prompt?'confirm_yes':s.node==='presentacion'?reply:saved);
    else StoryEngine.advance(s,STORY_SCENES);
    s=StoryEngine.restore(JSON.parse(JSON.stringify(s)),STORY_SCENES);
   }

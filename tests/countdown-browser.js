@@ -28,7 +28,7 @@
   [...choicesPanel.children].find(b=>b.textContent.startsWith('Visitar al Rey')).click();
   assert(gameState.scene==='c8_palacio' && gameState.node==='001' && gameState.calendar.remaining===50,'Destino incorrecto');
   showLoadNotice();assert(gameState.calendar.activity && gameState.calendar.remaining===50,'Guardado pierde actividad');
-  while(gameState.scene==='c8_palacio'){assert(++steps<260,'Bucle palacio');if(StoryEngine.current(gameState,STORY_SCENES).type==='choice')choicesPanel.firstElementChild.click();else advanceDialogue();}
+  while(gameState.scene==='c8_palacio'){assert(++steps<260,'Bucle palacio');if(StoryEngine.current(gameState,STORY_SCENES).type==='choice')choicesPanel.querySelector('button').click();else advanceDialogue();}
   while(StoryEngine.current(gameState,STORY_SCENES)?.type==='dialogue')advanceDialogue();
   assert(document.getElementById('day-counter').textContent==='49 días restantes','No descuenta al acabar');
   assert(!choicesPanel.hidden && choicesPanel.children.length===3,'No muestra las tres actividades pendientes');

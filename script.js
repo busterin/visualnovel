@@ -540,6 +540,16 @@ function renderScene() {
   choicesPanel.classList.toggle("is-daily-choices", isChoice &&
     StoryEngine.availableOptions(gameState, STORY_SCENES).some(option => StoryCalendar.cost(gameState, option) === 1));
   if (isChoice) {
+    if (node.prompt) {
+      const prompt = document.createElement("p");
+      prompt.className = "choice-prompt";
+      prompt.textContent = node.prompt;
+      choicesPanel.append(prompt);
+      const detail = document.createElement("p");
+      detail.className = "choice-detail";
+      detail.textContent = node.detail || "";
+      choicesPanel.append(detail);
+    }
     StoryEngine.availableOptions(gameState, STORY_SCENES).forEach((option) => {
       const button = document.createElement("button");
       button.type = "button";
@@ -565,7 +575,7 @@ function renderScene() {
       });
       choicesPanel.append(button);
     });
-    choicesPanel.firstElementChild.focus({ preventScroll: true });
+    choicesPanel.querySelector("button")?.focus({ preventScroll: true });
   } else {
     speaker.hidden = !node.speaker;
     dialogueText.classList.toggle("is-narration", !node.speaker && node.textStyle !== "document");

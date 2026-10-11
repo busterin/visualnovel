@@ -293,3 +293,6 @@ button:focus-visible { outline: 2px solid #ffe2a3; outline-offset: 4px; }
 
 .day-heading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; margin: 0; padding: 10px 24px; color: #fff0cf; font-family: Georgia, "Times New Roman", serif; font-size: clamp(32px, 7vw, 48px); letter-spacing: .08em; white-space: nowrap; text-shadow: 0 2px 6px #000, 0 0 22px #000; background: radial-gradient(ellipse, #080b1499, transparent 72%); pointer-events: none; }
 .choices-panel.is-daily-choices { z-index: 2; }
+
+.choice-prompt { margin: 2px 0 0; color: #ffe0a5; font-size: 21px; font-weight: bold; }
+.choice-detail { margin: 0 0 4px; font-size: 17px; }

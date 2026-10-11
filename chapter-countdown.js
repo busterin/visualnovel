@@ -602,7 +602,7 @@ STORY_SCENES.c4_actividades = {
   "title": "Los días que quedan",
   "chapter": 4,
   "hideFromSelector": true,
-  "start": "briefing_0",
+  "start": "reflexion_diaria",
   "assets": {
     "c7_ada_ropajes": {
       "src": "imagenes/Escena7/c7_ada_ropajes.png",
@@ -812,6 +812,13 @@ STORY_SCENES.c4_actividades = {
       "text": "Ir a mantenimiento.",
       "image": "nuevodia",
       "next": "actividades"
+    },
+    "reflexion_diaria": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "El tiempo corre, debo pensar bien mis movimientos. Veamos que puedo hacer:",
+      "image": "nuevodia",
+      "next": "briefing_0"
     }
   },
   "endingImage": "nuevodia"

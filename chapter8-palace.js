@@ -634,7 +634,8 @@ STORY_SCENES.c8_palacio = {
           "effects": {
             "palacio_superviviente": "jairen",
             "palacio_fallecido": "seren"
-          }
+          },
+          "requiresConfirmation": true
         },
         {
           "id": "seren",
@@ -643,7 +644,8 @@ STORY_SCENES.c8_palacio = {
           "effects": {
             "palacio_superviviente": "seren",
             "palacio_fallecido": "jairen"
-          }
+          },
+          "requiresConfirmation": true
         }
       ]
     },
