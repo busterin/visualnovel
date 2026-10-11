@@ -43,9 +43,9 @@ body {
 .history-narration { font-style: italic; }
 .history-chapters { display: grid; gap: 12px; padding-bottom: 8px; }
 .history-chapter { width: 100%; text-align: left; white-space: normal; overflow-wrap: anywhere; }
-.companions-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 20px 12px; padding: 6px; }
+.companions-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 12px; padding: 6px; }
 .companion-button { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; padding: 8px; border: 0; border-radius: 12px; background: transparent; color: inherit; }
-.companion-avatar { display: block; width: clamp(72px, 12dvh, 112px); aspect-ratio: 1; border-radius: 50%; border: 2px solid #c5a56d; background-color: #243047; background-repeat: no-repeat; }
+.companion-avatar { display: block; width: clamp(72px, 12dvh, 112px); max-width: 100%; aspect-ratio: 1; border-radius: 50%; border: 2px solid #c5a56d; background-color: #243047; background-repeat: no-repeat; }
 .companion-button:hover .companion-avatar, .companion-button:focus-visible .companion-avatar { border-color: #ffe3a8; box-shadow: 0 0 0 3px #c5a56d33; }
 .companion-portrait-frame { position: relative; }
 .companion-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
