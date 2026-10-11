@@ -67,11 +67,13 @@ const StoryEngine = {
     this.prepare(state, scenes);
   },
   current(state, scenes) { return scenes[state.scene]?.nodes[state.node] || null; },
-  availableOptions(state, scenes) {
-    return (this.current(state, scenes)?.options || []).filter(option =>
+  availableOptions(state, scenes, node = this.current(state, scenes)) {
+    return (node?.options || []).filter(option =>
       (!option.hideIfCompleted || !state.completedScenes.includes(option.hideIfCompleted)) &&
       (!option.requiresFlag || state[option.requiresFlag] === true) &&
-      (!option.hideIfFlag || !state[option.hideIfFlag]) && StoryCalendar.available(state, option));
+      (!option.hideIfFlag || !state[option.hideIfFlag]) && StoryCalendar.available(state, option) &&
+      (!node.optionLimit || !state.calendar.completed.includes(option.activity?.id)))
+      .slice(0, node.optionLimit || Infinity);
   },
   goToScene(state, scenes, destination, destinationNode) {
     state.node = null;
@@ -86,6 +88,12 @@ const StoryEngine = {
     for (let hops = 0; hops < 100; hops++) {
       const node = this.current(state, scenes);
       if (!node) return;
+      if (node.type === "briefing") {
+        const choice = scenes[state.scene].nodes[node.choice];
+        const option = this.availableOptions(state, scenes, choice)[node.index];
+        state.node = option ? option.briefingPrefix + node.index : node.choice;
+        continue;
+      }
       if (node.type === "redirect") {
         this.goToScene(state, scenes, node.destination, node.destinationNode);
         return;

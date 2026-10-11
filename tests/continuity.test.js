@@ -45,7 +45,7 @@
   for(const flag of ['archivo_plano_varda','archivo_carta','archivo_solicitud_retorno','archivo_firma_protagonista','archivo_copias'])assert(!s[flag],'Pista antigua del Archivo '+flag);
   assert(!s.documents.solicitud_retorno,'Solicitud retirada reaparece');
   assert(s.documents.declaracion_inspeccion.signed,'Declaración no guardada');
-  const restored=StoryEngine.restore(s,STORY_SCENES);assert(restored.node==='actividades'&&restored.calendar.remaining===50,'Carga del final repite contenido');
+  const restored=StoryEngine.restore(s,STORY_SCENES);assert(restored.node===s.node&&restored.calendar.remaining===50,'Carga del final repite contenido');
   runs++;
  }
  return `OK continuidad: ${runs} partidas desde el capítulo 1, seis órdenes de investigación, Inspección obligatoria, cinta, secretos, declaración, descanso y carga.`;

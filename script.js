@@ -486,6 +486,10 @@ function renderScene() {
   const dayCounter = document.getElementById("day-counter");
   dayCounter.hidden = !gameState.calendar.active;
   dayCounter.textContent = `${gameState.calendar.remaining} ${gameState.calendar.remaining === 1 ? "día restante" : "días restantes"}`;
+  const dayHeading = document.getElementById("day-heading");
+  dayHeading.hidden = !(gameState.calendar.active && !gameState.calendar.expired &&
+    gameState.scene === "c4_actividades" && Boolean(node));
+  dayHeading.textContent = `DÍA ${gameState.calendar.elapsed + 1}`;
   const affinityNotice = document.getElementById("affinity-notice");
   affinityNotice.hidden = !node?.affinityGain;
   affinityNotice.textContent = node?.affinityGain
@@ -543,10 +547,12 @@ function renderScene() {
       button.textContent = formatStoryText(option.text);
       if (gameState.calendar.active) {
         const cost = StoryCalendar.cost(gameState, option);
-        const label = document.createElement("small");
-        label.className = "activity-cost";
-        label.textContent = cost ? `${cost} día al terminar` : option.continueActivity ? "Misma jornada · sin coste adicional" : "Sin coste de días";
-        button.append(label);
+        if (cost || option.continueActivity) {
+          const label = document.createElement("small");
+          label.className = "activity-cost";
+          label.textContent = cost ? `${cost} día al terminar` : "Misma jornada · sin coste adicional";
+          button.append(label);
+        }
       }
       button.addEventListener("click", (event) => {
         event.stopPropagation();

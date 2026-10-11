@@ -8,7 +8,7 @@
     assert(StoryEngine.availableOptions(s,STORY_SCENES).length===1,'Destino completado reaparece');
   }
   for(const clothing of ['humor','gracias','extrana'])for(const reply of ['elegido','luchar','determinacion'])for(const maintenanceDone of [true,false]){
-    let s=StoryEngine.createState();s.protagonistName='Álex';s.affinity.lyra=2;s.completedScenes=[...routes];s.descanso_completado=true;s.acceso_mantenimiento_autorizado=true;
+    let s=StoryEngine.createState();s.protagonistName='Álex';s.affinity.lyra=2;s.completedScenes=[...routes];s.descanso_completado=true;s.acceso_mantenimiento_autorizado=true;s.calendar.completed=['lyra','capital'];
     if(maintenanceDone){s.completedScenes.push('c3_mantenimiento');s.mantenimiento_completado=true;}
     StoryEngine.start(s,STORY_SCENES,'c3_transicion');let count=0;
     while(s.scene!=='c4_actividades'){
@@ -20,6 +20,8 @@
       } else StoryEngine.advance(s,STORY_SCENES);
       s=StoryEngine.restore(JSON.parse(JSON.stringify(s)),STORY_SCENES);
     }
+    s.calendar.completed=['lyra','capital'];
+    while(StoryEngine.current(s,STORY_SCENES)?.type==='dialogue')StoryEngine.advance(s,STORY_SCENES);
     assert(s.calendar.active && s.calendar.remaining===50 && s.affinity.lyra===2,'Diálogo gasta tiempo/vínculo');
     assert(s.ropa_original_guardada && s.protagonistOutfit==='vaelthar','Vestuario no guardado');
     for(const pending of StoryEngine.availableOptions(s,STORY_SCENES).filter(o=>o.comingSoon)){const before=JSON.stringify(s);assert(!StoryEngine.choose(s,STORY_SCENES,pending.id) && JSON.stringify(s)===before,'Opción pendiente altera la partida');}
@@ -31,6 +33,7 @@
       assert(StoryEngine.current(s,STORY_SCENES).speaker!=='Lyra','Lyra presente');
       StoryEngine.advance(s,STORY_SCENES);s=StoryEngine.restore(JSON.parse(JSON.stringify(s)),STORY_SCENES);
     }
+    while(StoryEngine.current(s,STORY_SCENES)?.type==='dialogue')StoryEngine.advance(s,STORY_SCENES);
     assert(s.calendar.remaining===49 && s.calendar.settled.length===1,'Carga duplica gasto');
     StoryEngine.prepare(s,STORY_SCENES);s=StoryEngine.restore(s,STORY_SCENES);
     assert(s.calendar.remaining===49 && s.node==='actividades','Repite revelación/calendario');

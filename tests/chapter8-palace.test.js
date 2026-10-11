@@ -3,6 +3,7 @@
  for(const reply of ['A','B','C'])for(const saved of ['seren','jairen']){
   let s=StoryEngine.createState();s.protagonistName='Álex';StoryCalendar.activate(s);
   StoryEngine.start(s,STORY_SCENES,'c4_actividades');
+  while(StoryEngine.current(s,STORY_SCENES)?.type==='dialogue')StoryEngine.advance(s,STORY_SCENES);
   assert(StoryEngine.choose(s,STORY_SCENES,'palacio'),'Palacio no disponible');
   const affinity=JSON.stringify(s.affinity),path=[];let steps=0;
   while(s.scene==='c8_palacio'){
@@ -15,6 +16,7 @@
    else StoryEngine.advance(s,STORY_SCENES);
    s=StoryEngine.restore(JSON.parse(JSON.stringify(s)),STORY_SCENES);
   }
+  while(StoryEngine.current(s,STORY_SCENES)?.type==='dialogue')StoryEngine.advance(s,STORY_SCENES);
   assert(s.scene==='c4_actividades'&&s.calendar.remaining===49&&s.calendar.settled.length===1,'No regresa al siguiente día o duplica gasto');
   assert(s.palacio_completado&&s.completedScenes.includes('c8_palacio'),'No completa ruta');
   assert(s.palacio_superviviente===saved&&s.palacio_fallecido===(saved==='seren'?'jairen':'seren'),'Consecuencias incorrectas');

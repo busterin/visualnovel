@@ -448,7 +448,7 @@ STORY_SCENES.c3_diosa = {
       "speaker": "Protagonista",
       "text": "Debo administrar bien mi tiempo cada día, no puedo llegar a todas partes así que debo planificarme bien.",
       "image": "nuevodia",
-      "next": "planificar_02"
+      "next": null
     },
     "planificar_02": {
       "type": "dialogue",
@@ -602,7 +602,7 @@ STORY_SCENES.c4_actividades = {
   "title": "Los días que quedan",
   "chapter": 4,
   "hideFromSelector": true,
-  "start": "actividades",
+  "start": "briefing_0",
   "assets": {
     "c7_ada_ropajes": {
       "src": "imagenes/Escena7/c7_ada_ropajes.png",
@@ -639,7 +639,8 @@ STORY_SCENES.c4_actividades = {
           },
           "dayCost": 1,
           "destination": "c8_palacio",
-          "hideIfCompleted": "c8_palacio"
+          "hideIfCompleted": "c8_palacio",
+          "briefingPrefix": "introduccion_palacio_"
         },
         {
           "id": "lyra",
@@ -648,7 +649,8 @@ STORY_SCENES.c4_actividades = {
             "id": "lyra"
           },
           "dayCost": 1,
-          "comingSoon": true
+          "comingSoon": true,
+          "briefingPrefix": "introduccion_lyra_"
         },
         {
           "id": "capital",
@@ -657,7 +659,19 @@ STORY_SCENES.c4_actividades = {
             "id": "capital"
           },
           "dayCost": 1,
-          "comingSoon": true
+          "comingSoon": true,
+          "briefingPrefix": "introduccion_capital_"
+        },
+        {
+          "id": "eiden",
+          "text": "Ir al archivo a ver a Eiden.",
+          "activity": {
+            "id": "eiden",
+            "fromDay": 2
+          },
+          "dayCost": 1,
+          "comingSoon": true,
+          "briefingPrefix": "introduccion_eiden_"
         },
         {
           "id": "mantenimiento",
@@ -670,9 +684,134 @@ STORY_SCENES.c4_actividades = {
           },
           "effects": {
             "mantenimiento_con_lyra": false
-          }
+          },
+          "briefingPrefix": "introduccion_mantenimiento_"
         }
-      ]
+      ],
+      "optionLimit": 3
+    },
+    "briefing_0": {
+      "type": "briefing",
+      "choice": "actividades",
+      "index": 0,
+      "next": "briefing_1"
+    },
+    "briefing_1": {
+      "type": "briefing",
+      "choice": "actividades",
+      "index": 1,
+      "next": "briefing_2"
+    },
+    "briefing_2": {
+      "type": "briefing",
+      "choice": "actividades",
+      "index": 2,
+      "next": "actividades"
+    },
+    "introduccion_palacio_0": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Tengo un recuerdo fugaz del palacio. Creo que he colaborado con el Rey en mas de una ocasión. Quizás me recuerde.",
+      "image": "nuevodia",
+      "next": "briefing_1"
+    },
+    "introduccion_palacio_1": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Tengo un recuerdo fugaz del palacio. Creo que he colaborado con el Rey en mas de una ocasión. Quizás me recuerde.",
+      "image": "nuevodia",
+      "next": "briefing_2"
+    },
+    "introduccion_palacio_2": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Tengo un recuerdo fugaz del palacio. Creo que he colaborado con el Rey en mas de una ocasión. Quizás me recuerde.",
+      "image": "nuevodia",
+      "next": "actividades"
+    },
+    "introduccion_lyra_0": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Lyra también podría ayudarme con todo esto.",
+      "image": "nuevodia",
+      "next": "briefing_1"
+    },
+    "introduccion_lyra_1": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Lyra también podría ayudarme con todo esto.",
+      "image": "nuevodia",
+      "next": "briefing_2"
+    },
+    "introduccion_lyra_2": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Lyra también podría ayudarme con todo esto.",
+      "image": "nuevodia",
+      "next": "actividades"
+    },
+    "introduccion_capital_0": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Y pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
+      "image": "nuevodia",
+      "next": "briefing_1"
+    },
+    "introduccion_capital_1": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Y pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
+      "image": "nuevodia",
+      "next": "briefing_2"
+    },
+    "introduccion_capital_2": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Y pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
+      "image": "nuevodia",
+      "next": "actividades"
+    },
+    "introduccion_eiden_0": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Quizás Eiden haya averiguado algo, podría ir a verlo",
+      "image": "nuevodia",
+      "next": "briefing_1"
+    },
+    "introduccion_eiden_1": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Quizás Eiden haya averiguado algo, podría ir a verlo",
+      "image": "nuevodia",
+      "next": "briefing_2"
+    },
+    "introduccion_eiden_2": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Quizás Eiden haya averiguado algo, podría ir a verlo",
+      "image": "nuevodia",
+      "next": "actividades"
+    },
+    "introduccion_mantenimiento_0": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Ir a mantenimiento.",
+      "image": "nuevodia",
+      "next": "briefing_1"
+    },
+    "introduccion_mantenimiento_1": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Ir a mantenimiento.",
+      "image": "nuevodia",
+      "next": "briefing_2"
+    },
+    "introduccion_mantenimiento_2": {
+      "type": "dialogue",
+      "speaker": "Protagonista",
+      "text": "Ir a mantenimiento.",
+      "image": "nuevodia",
+      "next": "actividades"
     }
   },
   "endingImage": "nuevodia"
