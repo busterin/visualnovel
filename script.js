@@ -656,8 +656,17 @@ document.getElementById("advance-dialogue").addEventListener("click", (event) =>
   advanceDialogue();
 });
 
+let dialoguePointerStart = null;
+gameScreen.addEventListener("pointerdown", (event) => {
+  dialoguePointerStart = { x: event.clientX, y: event.clientY };
+});
+gameScreen.addEventListener("pointercancel", () => { dialoguePointerStart = null; });
 gameScreen.addEventListener("click", (event) => {
-  if (event.target.closest("button, .story-document") || window.getSelection()?.toString()) return;
+  const start = dialoguePointerStart;
+  dialoguePointerStart = null;
+  if (event.target.closest("button")) return;
+  // Un arrastre para desplazar el texto no es un toque para avanzar.
+  if (event.detail && start && Math.hypot(event.clientX - start.x, event.clientY - start.y) > 8) return;
   advanceDialogue();
 });
 

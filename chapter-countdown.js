@@ -283,9 +283,9 @@ STORY_SCENES.c3_diosa = {
     "mal_01": {
       "type": "dialogue",
       "speaker": "¿?",
-      "text": "Dentro de cincuenta días llegará el Gran Mal. Borrará a todos de la existencia. No quedarán nombres, recuerdos ni nadie que pueda llorarlos.",
+      "text": "Dentro de cincuenta días llegará el Gran Mal. Borrará a todos de la existencia.",
       "image": "c7_diosa_revelacion",
-      "next": "mal_02"
+      "next": "mal_01_repeticion"
     },
     "mal_02": {
       "type": "dialogue",
@@ -484,6 +484,13 @@ STORY_SCENES.c3_diosa = {
       "text": "Las alianzas se construyen con lo que hagas.",
       "image": "c7_diosa_revelacion",
       "next": "cierre_02"
+    },
+    "mal_01_repeticion": {
+      "type": "dialogue",
+      "speaker": "¿?",
+      "text": "Dentro de cincuenta días llegará el Gran Mal. Borrará a todos de la existencia.",
+      "image": "c7_diosa_revelacion",
+      "next": "mal_02"
     }
   },
   "nextScene": "c4_actividades"
