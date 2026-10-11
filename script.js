@@ -95,6 +95,7 @@ const imageCache = new Map();
 const missingResources = new Set();
 let imageRequest = 0;
 let visibleImage = 0;
+let sceneImageFade = Promise.resolve();
 let requestedImage = null;
 let audioContext = null;
 let selectedOption = 0;
@@ -387,7 +388,10 @@ function resetScenePresentation() {
   renderedChapter = null;
   imageRequest += 1;
   requestedImage = null;
-  sceneImages.forEach((image) => image.classList.remove("is-visible"));
+  sceneImages.forEach((image) => {
+    image.getAnimations().forEach(animation => animation.cancel());
+    image.classList.remove("is-visible");
+  });
   sceneEnding.hidden = true;
   gameScreen.classList.remove("is-memory");
   gameScreen.classList.remove("is-final-note");
@@ -412,7 +416,7 @@ function loadSceneImage(src) {
   return imageCache.get(src);
 }
 
-async function showSceneImage(key, transitionMs = 220) {
+async function showSceneImage(key, transitionMs = 520) {
   const assets = STORY_SCENES[gameState.scene].assets;
   let asset = assets[key];
   if (!asset) {
@@ -439,19 +443,35 @@ async function showSceneImage(key, transitionMs = 220) {
     }
     if (request !== imageRequest) return;
   }
+  // No sustituir una capa mientras aún participa en el fundido anterior.
+  // Si se avanza rápido, solo se presenta la última imagen solicitada.
+  await sceneImageFade;
+  if (request !== imageRequest) return;
   const next = 1 - visibleImage;
-  sceneImages[next].src = asset.src;
+  const incoming = sceneImages[next];
+  const outgoing = sceneImages[visibleImage];
+  incoming.src = asset.src;
+  try { await incoming.decode(); } catch { /* La precarga ya comprobó el recurso. */ }
+  if (request !== imageRequest) return;
   const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : transitionMs;
-  sceneImages.forEach((image) => { image.style.transitionDuration = `${duration}ms`; });
-  sceneImages[next].alt = asset.alt;
-  sceneImages[next].removeAttribute("aria-hidden");
-  sceneImages[visibleImage].setAttribute("aria-hidden", "true");
+  incoming.alt = asset.alt;
+  incoming.removeAttribute("aria-hidden");
+  outgoing.setAttribute("aria-hidden", "true");
   gameScreen.classList.toggle("is-memory", asset.layout === "memory");
   if (asset.layout === "memory") gameScreen.style.setProperty("--memory-background", `url("${asset.src}")`);
   gameScreen.style.setProperty("--scene-background", `url("${asset.src}")`);
-  sceneImages[next].classList.add("is-visible");
-  sceneImages[visibleImage].classList.remove("is-visible");
+  // La imagen anterior permanece opaca debajo: evita el oscurecimiento a mitad
+  // del cambio y permite fundir en ambas direcciones sin saltos de capas.
+  incoming.parentNode.insertBefore(incoming, wallName);
+  incoming.classList.add("is-visible");
   visibleImage = next;
+  const animation = duration ? incoming.animate([{ opacity: 0 }, { opacity: 1 }], {
+    duration, easing: "ease-in-out",
+  }) : null;
+  sceneImageFade = (animation?.finished || Promise.resolve()).catch(() => {}).then(() => {
+    if (visibleImage === next) outgoing.classList.remove("is-visible");
+  });
+  await sceneImageFade;
 }
 
 function renderScene() {
@@ -497,7 +517,7 @@ function renderScene() {
     return;
   }
   const documentPresentation = chapter.documents?.[node.document]?.presentation;
-  showSceneImage(documentPresentation?.image || node.image, node.transitionMs || (chapterChanged ? 350 : 220));
+  showSceneImage(documentPresentation?.image || node.image, node.transitionMs ?? (chapterChanged ? 650 : 520));
   wallName.hidden = !node.wallName;
   if (node.wallName) {
     wallName.textContent = gameState.protagonistName;
