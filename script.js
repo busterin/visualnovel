@@ -10,13 +10,15 @@ const REVIEW_STARTS = [
   { chapter: 7, label: "Cuenta atrás · Los días que quedan", scene: "c4_actividades", preset: "countdown" },
   { chapter: 8, label: "Visita a palacio", scene: "c8_palacio", preset: "palace" },
   { chapter: 9, label: "Paseo por el mercado", scene: "c9_mercado", preset: "market" },
+  { chapter: 9.5, label: "Interludio · El aviso de Willard (tras el día 9)", scene: "interludio_willard", preset: "willard", interlude: true },
 ];
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
   const palace = preset === "palace";
   const market = preset === "market";
-  if (palace || market) preset = "countdown";
+  const willard = preset === "willard";
+  if (palace || market || willard) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -36,6 +38,10 @@ function prepareReviewStart(state, preset) {
   if (preset === "countdown") {
     state.revelacion_diosa_completada = true;
     StoryCalendar.activate(state);
+    if (willard) {
+      state.calendar.elapsed = 9;
+      state.calendar.remaining = 41;
+    }
     if (palace) StoryCalendar.begin(state, { destination: "c8_palacio", activity: { id: "palacio" }, dayCost: 1 });
     if (market) StoryCalendar.begin(state, { destination: "c9_mercado", activity: { id: "capital" }, dayCost: 1 });
   }
@@ -116,6 +122,27 @@ function changeOption(direction) {
   announcement.textContent = option.label;
 }
 
+function focusWithArrow(event, targets) {
+  if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) return false;
+  targets = targets.filter(element => !element.disabled && element.getClientRects().length);
+  if (!targets.length) return false;
+  event.preventDefault();
+  const direction = ["ArrowDown", "ArrowRight"].includes(event.key) ? 1 : -1;
+  const current = targets.indexOf(document.activeElement);
+  const next = current < 0 ? (direction > 0 ? 0 : targets.length - 1)
+    : (current + direction + targets.length) % targets.length;
+  targets[next].focus({ preventScroll: true });
+  targets[next].scrollIntoView({ block: "nearest", inline: "nearest" });
+  return true;
+}
+
+function activateFocusedButton(event) {
+  if (event.key !== "Enter" || document.activeElement?.tagName !== "BUTTON") return false;
+  event.preventDefault();
+  if (!event.repeat) document.activeElement.click();
+  return true;
+}
+
 function openChapterSelector() {
   if (!ENABLE_CHAPTER_SELECTOR) { startNewGame(); return; }
   if (introTransitionRunning) return;
@@ -132,7 +159,7 @@ function openChapterSelector() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "text-button";
-    button.textContent = `Capítulo ${entry.chapter} · ${entry.label}`;
+    button.textContent = entry.interlude ? entry.label : `Capítulo ${entry.chapter} · ${entry.label}`;
     button.addEventListener("click", () => startNewGame(entry.scene, entry.review));
     chapterOptions.append(button);
   });
@@ -147,9 +174,11 @@ cancelChapter.addEventListener("click", () => {
   menuButton.focus();
 });
 chapterScreen.addEventListener("keydown", (event) => {
+  if (activateFocusedButton(event)) return;
   const buttons = [...chapterScreen.querySelectorAll("button")];
   const index = buttons.indexOf(document.activeElement);
   if (event.key === "Escape") { event.preventDefault(); cancelChapter.click(); }
+  else if (focusWithArrow(event, buttons)) return;
   else if (["ArrowUp", "ArrowDown", "Tab"].includes(event.key)) {
     event.preventDefault();
     const direction = event.key === "ArrowUp" || (event.key === "Tab" && event.shiftKey) ? -1 : 1;
@@ -203,6 +232,7 @@ async function startNewGame(sceneId = "lyra-has-vuelto", review = null) {
   }).finished;
   coverScreen.hidden = true;
   introScreen.hidden = false;
+  introScreen.focus({ preventScroll: true });
   // La llamada no espera a la descarga: un vídeo lento no retiene el fundido.
   playIntroVideo();
   await introFlash.animate([{ opacity: 1 }, { opacity: 0 }], {
@@ -359,10 +389,36 @@ document.getElementById("next-option").addEventListener("click", () => changeOpt
 menuButton.addEventListener("click", () => menuOptions[selectedOption].action());
 
 coverScreen.addEventListener("keydown", (event) => {
+  if (activateFocusedButton(event)) return;
   if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
     event.preventDefault();
     changeOption(event.key === "ArrowLeft" ? -1 : 1);
+    menuButton.focus({ preventScroll: true });
+  } else {
+    focusWithArrow(event, [...coverScreen.querySelectorAll("button")]);
   }
+});
+
+nameScreen.addEventListener("keydown", event => {
+  if (activateFocusedButton(event)) return;
+  if (event.key === "Escape") {
+    event.preventDefault();
+    nameScreen.hidden = true;
+    returnToCover();
+  } else if (["ArrowUp", "ArrowDown"].includes(event.key) || event.target !== nameInput) {
+    focusWithArrow(event, [nameInput, nameForm.querySelector("button")]);
+  }
+});
+introScreen.addEventListener("keydown", event => {
+  if (introTransitionRunning) { event.preventDefault(); return; }
+  if (activateFocusedButton(event)) return;
+  if (event.key === "Escape") {
+    event.preventDefault();
+    introVideo.pause();
+    stopIntroSceneFade();
+    introScreen.hidden = true;
+    returnToCover();
+  } else focusWithArrow(event, [...introScreen.querySelectorAll("button")]);
 });
 
 function returnToCover() {
@@ -536,9 +592,25 @@ function renderScene() {
   dialoguePanel.hidden = isChoice;
   choicesPanel.hidden = !isChoice;
   choicesPanel.replaceChildren();
+  choicesPanel.classList.toggle("is-kingdoms", isChoice && node.presentation === "kingdoms");
   choicesPanel.classList.toggle("is-daily-choices", isChoice &&
     StoryEngine.availableOptions(gameState, STORY_SCENES).some(option => StoryCalendar.cost(gameState, option) === 1));
   if (isChoice) {
+    if (node.backTo && (!node.backRequiresFlag || gameState[node.backRequiresFlag])) {
+      const back = document.createElement("button");
+      back.type = "button";
+      back.className = "menu-back";
+      back.textContent = "←";
+      back.setAttribute("aria-label", "Volver a elegir reino");
+      back.addEventListener("click", event => {
+        event.stopPropagation();
+        if (isGamePaused) return;
+        gameState.node = node.backTo;
+        StoryEngine.prepare(gameState, STORY_SCENES);
+        renderScene();
+      });
+      choicesPanel.append(back);
+    }
     if (node.prompt) {
       const prompt = document.createElement("p");
       prompt.className = "choice-prompt";
@@ -554,6 +626,16 @@ function renderScene() {
       button.type = "button";
       button.className = "choice-button";
       button.textContent = formatStoryText(option.text);
+      if (node.presentation === "kingdoms" && option.emblem) {
+        button.classList.add("kingdom-button");
+        button.dataset.kingdom = option.id;
+        button.setAttribute("aria-label", formatStoryText(option.text));
+        const emblem = document.createElement("img");
+        emblem.src = option.emblem;
+        emblem.alt = "";
+        emblem.draggable = false;
+        button.replaceChildren(emblem);
+      }
       if (gameState.calendar.active) {
         const cost = StoryCalendar.cost(gameState, option);
         if (cost || option.continueActivity) {
@@ -712,19 +794,32 @@ gameScreen.addEventListener("click", (event) => {
 
 gameScreen.addEventListener("keydown", (event) => {
   if (isGamePaused || eventRunning) { event.preventDefault(); return; }
-  if (!choicesPanel.hidden && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
+  if (activateFocusedButton(event)) return;
+  if (event.key === "Escape") {
     event.preventDefault();
-    const buttons = Array.from(choicesPanel.querySelectorAll("button"));
-    if (!buttons.length) return;
-    const current = buttons.indexOf(document.activeElement);
-    const direction = event.key === "ArrowDown" ? 1 : -1;
-    const next = current === -1
-      ? (direction === 1 ? 0 : buttons.length - 1)
-      : (current + direction + buttons.length) % buttons.length;
-    buttons[next].focus({ preventScroll: true });
-    buttons[next].scrollIntoView({ block: "nearest", inline: "nearest" });
+    if (gameState.pendingChoice) {
+      StoryEngine.choose(gameState, STORY_SCENES, "confirm_no");
+      renderScene();
+    } else if (StoryEngine.current(gameState, STORY_SCENES)?.backTo &&
+        (!StoryEngine.current(gameState, STORY_SCENES).backRequiresFlag ||
+          gameState[StoryEngine.current(gameState, STORY_SCENES).backRequiresFlag])) {
+      gameState.node = StoryEngine.current(gameState, STORY_SCENES).backTo;
+      StoryEngine.prepare(gameState, STORY_SCENES);
+      renderScene();
+    } else if (!sceneEnding.hidden) {
+      returnToCover();
+    } else openPauseMenu();
     return;
   }
+  if (choicesPanel.hidden && document.activeElement === pauseToCover && ["ArrowUp", "ArrowDown"].includes(event.key)) {
+    event.preventDefault();
+    gameScreen.focus({ preventScroll: true });
+    return;
+  }
+  const controls = !choicesPanel.hidden
+    ? [...choicesPanel.querySelectorAll("button"), pauseToCover]
+    : [...gameScreen.querySelectorAll("button")];
+  if (focusWithArrow(event, controls)) return;
   if (event.key !== "Enter" && event.key !== " ") return;
   if (event.repeat) { event.preventDefault(); return; }
   if (event.target.closest("button")) return;

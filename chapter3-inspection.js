@@ -1540,7 +1540,7 @@ STORY_SCENES.c3_inspeccion = {
         },
         {
           "id": "solo",
-          "text": "Nos vemos mañana.",
+          "text": "Nos vemos pronto.",
           "next": "descanso_despedida_01",
           "effects": {
             "descanso_con_lyra": false
@@ -1697,7 +1697,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_despedida_04": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Nos vemos mañana.",
+      "text": "Nos vemos pronto.",
       "image": "c4_lyra_canal",
       "next": "descanso_despedida_05"
     },
@@ -1732,7 +1732,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_despedida_09": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Buenas noches.",
+      "text": "Nos vemos pronto. Si me necesitas, estaré en el puesto de guardia de la capital.",
       "image": "c4_lyra_canal",
       "next": "descanso_despedida_10"
     },
@@ -2551,7 +2551,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_marcha_10": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Nos vemos mañana.",
+      "text": "Nos vemos pronto. Si me necesitas, estaré en el puesto de guardia de la capital.",
       "image": "c6_lyra_conversacion",
       "next": "descanso_marcha_11"
     },
@@ -2742,7 +2742,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_nota_02": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Tenía algo que hacer. Nos vemos después. Y sí, esto cuenta como dejarte descansar. —Lyra",
+      "text": "Tengo mucho trabajo por delante. Si me necesitas, estaré en el puesto de guardia de la capital. —Lyra",
       "image": "c6_despertar",
       "next": "descanso_nota_03",
       "textStyle": "document"
@@ -2750,7 +2750,7 @@ STORY_SCENES.c3_inspeccion = {
     "descanso_nota_03": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Muy considerada.",
+      "text": "Ya sé dónde encontrarla.",
       "image": "c6_despertar",
       "next": "descanso_desayuno_01",
       "effects": {

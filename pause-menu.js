@@ -28,6 +28,7 @@ function openPauseMenu() {
   document.getElementById("protagonist-portrait").classList.toggle("has-travel-clothes", gameState.protagonistOutfit === "vaelthar");
   pauseMenu.hidden = false;
   showHistory();
+  pauseMenu.querySelector(".pause-header").hidden = false;
   historyButton.focus();
 }
 
@@ -42,6 +43,7 @@ function closePauseMenu(restoreFocus = true) {
 }
 
 function selectPauseSection(section) {
+  pauseMenu.querySelector(".pause-header").hidden = true;
   historyButton.setAttribute("aria-pressed", String(section === "history"));
   companionsButton.setAttribute("aria-pressed", String(section === "companions"));
   pauseContent.replaceChildren();
@@ -173,7 +175,22 @@ historyButton.addEventListener("click", () => showHistory());
 companionsButton.addEventListener("click", showCompanions);
 resumeButton.addEventListener("click", () => closePauseMenu());
 pauseMenu.addEventListener("keydown", event => {
-  if (event.key === "Escape") { event.preventDefault(); closePauseMenu(); }
+  if (activateFocusedButton(event)) return;
+  if (event.key === "Escape") {
+    event.preventDefault();
+    const back = pauseContent.querySelector(".menu-back");
+    if (back) back.click();
+    else if (pauseMenu.querySelector(".pause-header").hidden) {
+      pauseMenu.querySelector(".pause-header").hidden = false;
+      (companionsButton.getAttribute("aria-pressed") === "true" ? companionsButton : historyButton).focus();
+    } else closePauseMenu();
+    return;
+  }
+  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+    // El panel de lectura conserva el desplazamiento vertical al recibir foco con Tab.
+    if (event.target === pauseContent && ["ArrowUp", "ArrowDown"].includes(event.key)) return;
+    focusWithArrow(event, [...pauseMenu.querySelectorAll("button")]);
+  }
   if (event.key === "Tab") {
     const targets = [...pauseMenu.querySelectorAll('button, [tabindex="0"]')];
     const first = targets[0], last = targets[targets.length - 1];

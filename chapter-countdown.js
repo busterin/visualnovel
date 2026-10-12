@@ -460,14 +460,14 @@ STORY_SCENES.c3_diosa = {
     "planificar_03": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Lyra también podría ayudarme con todo esto.",
+      "text": "Lyra podrá ayudarme en mi misión. Quizás debería ir a verla.",
       "image": "nuevodia",
       "next": "planificar_04"
     },
     "planificar_04": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Y pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
+      "text": "Pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
       "image": "nuevodia",
       "next": null
     },
@@ -733,42 +733,42 @@ STORY_SCENES.c4_actividades = {
     "introduccion_lyra_0": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Lyra también podría ayudarme con todo esto.",
+      "text": "Lyra podrá ayudarme en mi misión. Quizás debería ir a verla.",
       "image": "nuevodia",
       "next": "briefing_1"
     },
     "introduccion_lyra_1": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Lyra también podría ayudarme con todo esto.",
+      "text": "Lyra podrá ayudarme en mi misión. Quizás debería ir a verla.",
       "image": "nuevodia",
       "next": "briefing_2"
     },
     "introduccion_lyra_2": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Lyra también podría ayudarme con todo esto.",
+      "text": "Lyra podrá ayudarme en mi misión. Quizás debería ir a verla.",
       "image": "nuevodia",
       "next": "actividades"
     },
     "introduccion_capital_0": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Y pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
+      "text": "Pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
       "image": "nuevodia",
       "next": "briefing_1"
     },
     "introduccion_capital_1": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Y pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
+      "text": "Pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
       "image": "nuevodia",
       "next": "briefing_2"
     },
     "introduccion_capital_2": {
       "type": "dialogue",
       "speaker": "Protagonista",
-      "text": "Y pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
+      "text": "Pasear por las calles de la ciudad seguro que me ayuda a pensar con claridad.",
       "image": "nuevodia",
       "next": "actividades"
     },

@@ -3,6 +3,13 @@
 // Solo compañeros de la aventura, no todos los personajes del guion.
 // Fichas sin revelaciones posteriores al primer encuentro.
 const COMPANIONS = {
+  willard: {
+    name: "Willard", bondType: "platonic",
+    portrait: "imagenes/Otros/willard_posada.png",
+    avatarSize: "210% auto", avatarPosition: "50% 11%",
+    portraitPosition: "center top",
+    description: "Capitán de la guardia real de Vaelthar. Ha conseguido un permiso para que viajes a Orbis en los barcos de la realeza y busques nuevas alianzas.",
+  },
   veyra: {
     name: "Veyra", bondType: "romantic",
     portrait: "imagenes/Escena9/c9_veyra_f1.png",

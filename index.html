@@ -16,6 +16,7 @@
     <script src="chapter-countdown.js" defer></script>
     <script src="chapter8-palace.js" defer></script>
     <script src="chapter9-market.js" defer></script>
+    <script src="interlude-willard.js" defer></script>
     <script src="story-calendar.js" defer></script>
     <script src="story-engine.js" defer></script>
     <script src="script.js" defer></script>
@@ -66,7 +67,7 @@
           <button id="cancel-chapter" class="text-button" type="button">Volver</button>
         </div>
       </section>
-      <section id="intro-screen" class="screen" aria-label="Introducción" hidden>
+      <section id="intro-screen" class="screen" aria-label="Introducción" tabindex="-1" hidden>
         <video id="intro-video" src="videos/videointro.mp4" playsinline preload="auto" aria-label="Vídeo de introducción"></video>
         <div id="intro-scene-fade" class="intro-scene-fade" aria-hidden="true" hidden></div>
         <button id="enable-video-sound" class="text-button video-sound" type="button" hidden>Activar sonido</button>
@@ -92,7 +93,7 @@
           <span id="wall-name" class="wall-name" hidden></span>
         </div>
         <aside id="story-document" class="story-document" aria-label="Documento" hidden></aside>
-        <button id="pause-to-cover" class="text-button pause-to-cover" type="button" aria-label="Pausar y abrir el menú" aria-haspopup="dialog">Menú</button>
+        <button id="pause-to-cover" class="pause-to-cover" type="button" aria-label="Pausar y abrir el menú" aria-haspopup="dialog"><img src="imagenes/Otros/menu.png" alt="" draggable="false"></button>
         <div id="story-event" class="story-event" hidden aria-live="polite">
           <img id="event-image" alt="" hidden>
         </div>
@@ -118,8 +119,8 @@
           <p>Partida en pausa</p>
         </header>
         <nav class="pause-tabs" aria-label="Secciones del menú">
-          <button id="show-history" class="text-button" type="button" aria-pressed="true">Historia</button>
-          <button id="show-companions" class="text-button" type="button" aria-pressed="false">Compañeros</button>
+          <button id="show-history" class="pause-tab-icon" type="button" aria-label="Historia" aria-pressed="true"><img src="imagenes/Otros/historia.png" alt="" draggable="false"></button>
+          <button id="show-companions" class="pause-tab-icon" type="button" aria-label="Compañeros" aria-pressed="false"><img src="imagenes/Otros/compañeros.png" alt="" draggable="false"></button>
         </nav>
         <div id="pause-content" class="pause-content" tabindex="0"></div>
         <button id="resume-game" class="text-button resume-game" type="button">Continuar partida</button>

@@ -7,6 +7,7 @@ const StoryEngine = {
       version: 2, scene: "intro", node: null, protagonistName: "", decisions: [], completedScenes: [],
       appliedNodes: [], events: {}, documents: {},
       metCompanions: [], affinity: {},
+      aviso_willard_completado: false, acceso_orbis: false, reino_seleccionado: "vaelthar",
       c9_puntos: 0, c9_resultado: null, mercado_completado: false,
       veyra_conocida: false, veyra_bloqueada: false, veyra_destino_conocido: false,
       pendingScene: null,
@@ -97,6 +98,10 @@ const StoryEngine = {
     }
   },
   prepare(state, scenes) {
+    const interlude = scenes[state.scene]?.interludes?.find(item =>
+      state.calendar.active && !state.calendar.activity && !state.calendar.expired &&
+      state.calendar.elapsed >= item.afterDays && !state.completedScenes.includes(item.scene));
+    if (interlude) { this.start(state, scenes, interlude.scene); return; }
     for (let hops = 0; hops < 100; hops++) {
       const node = this.current(state, scenes);
       if (!node) return;
