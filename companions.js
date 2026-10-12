@@ -6,7 +6,7 @@ const COMPANIONS = {
   veyra: {
     name: "Veyra", bondType: "romantic",
     portrait: "imagenes/Escena9/c9_veyra_f1.png",
-    avatarSize: "240% auto", avatarPosition: "center 15%",
+    avatarSize: "190% auto", avatarPosition: "center 12%",
     portraitPosition: "center top",
     description: "Una mujer a la que nadie más parece ver. Te ha citado en Merzien, un pueblo cercano a la capital del reino de Orbis, donde espera darte algunas respuestas.",
   },

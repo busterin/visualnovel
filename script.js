@@ -4,12 +4,12 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
-  { label: "Capítulo 8 · Visita a palacio", scene: "c8_palacio", preset: "palace" },
-  { label: "Capítulo 9 · Paseo por el mercado", scene: "c9_mercado", preset: "market" },
-  { label: "Descanso · Un lugar donde descansar", scene: "c3_inspeccion", node: "descanso_decision_01", preset: "rest" },
-  { label: "La mañana · La ropa de Ada", scene: "c3_ropa_ada", preset: "clothes" },
-  { label: "La revelación · Cincuenta días", scene: "c3_diosa", preset: "revelation" },
-  { label: "Cuenta atrás · Los días que quedan", scene: "c4_actividades", preset: "countdown" },
+  { chapter: 6, label: "Un lugar donde descansar", scene: "c3_inspeccion", node: "descanso_decision_01", preset: "rest" },
+  { chapter: 7, label: "La mañana · La ropa de Ada", scene: "c3_ropa_ada", preset: "clothes" },
+  { chapter: 7, label: "La revelación · Cincuenta días", scene: "c3_diosa", preset: "revelation" },
+  { chapter: 7, label: "Cuenta atrás · Los días que quedan", scene: "c4_actividades", preset: "countdown" },
+  { chapter: 8, label: "Visita a palacio", scene: "c8_palacio", preset: "palace" },
+  { chapter: 9, label: "Paseo por el mercado", scene: "c9_mercado", preset: "market" },
 ];
 let startingNode = null;
 
@@ -120,24 +120,20 @@ function openChapterSelector() {
   if (!ENABLE_CHAPTER_SELECTOR) { startNewGame(); return; }
   if (introTransitionRunning) return;
   chapterOptions.replaceChildren();
-  Object.entries(STORY_SCENES)
+  const entries = Object.entries(STORY_SCENES)
     .filter(([, scene]) => scene.chapter && !scene.hideFromSelector && scene.nodes?.[scene.start])
-    .sort((a, b) => a[1].chapter - b[1].chapter)
-    .forEach(([id, scene]) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "text-button";
-      button.textContent = `Capítulo ${scene.chapter} · ${scene.title}`;
-      button.addEventListener("click", () => startNewGame(id));
-      chapterOptions.append(button);
-    });
-  REVIEW_STARTS.forEach((entry) => {
-    if (!STORY_SCENES[entry.scene]?.nodes[entry.node || STORY_SCENES[entry.scene].start]) return;
+    .map(([id, scene]) => ({ chapter: scene.chapter, label: scene.title, scene: id }));
+  for (const review of REVIEW_STARTS) {
+    if (STORY_SCENES[review.scene]?.nodes[review.node || STORY_SCENES[review.scene].start]) {
+      entries.push({ ...review, review });
+    }
+  }
+  entries.sort((a, b) => a.chapter - b.chapter).forEach((entry) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "text-button";
-    button.textContent = entry.label;
-    button.addEventListener("click", () => startNewGame(entry.scene, entry));
+    button.textContent = `Capítulo ${entry.chapter} · ${entry.label}`;
+    button.addEventListener("click", () => startNewGame(entry.scene, entry.review));
     chapterOptions.append(button);
   });
   chapterScreen.hidden = false;

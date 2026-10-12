@@ -44,6 +44,10 @@ STORY_SCENES.c9_mercado = {
     "c9_mercado": {
       "src": "imagenes/Escena9/c9_mercado.png",
       "alt": "mercado"
+    },
+    "c9_mercado_fin": {
+      "src": "imagenes/Escena9/c9_mercado_fin.png",
+      "alt": "El mercado tras la despedida de Veyra"
     }
   },
   "nodes": {
@@ -638,14 +642,14 @@ STORY_SCENES.c9_mercado = {
       "type": "dialogue",
       "speaker": null,
       "text": "Veyra se pierde entre la multitud y un montón de incógnitas inundan tu cabeza.",
-      "image": "c9_veyra_f1",
+      "image": "c9_mercado_fin",
       "next": "positivo_05"
     },
     "positivo_05": {
       "type": "dialogue",
       "speaker": null,
       "text": "¿Este encuentro ha sido una casualidad o ya estaba planeado?",
-      "image": "c9_veyra_f1",
+      "image": "c9_mercado_fin",
       "next": "fin"
     },
     "neutro_01": {
@@ -671,14 +675,14 @@ STORY_SCENES.c9_mercado = {
       "type": "dialogue",
       "speaker": null,
       "text": "Veyra se pierde entre la multitud y un montón de incógnitas inundan tu cabeza.",
-      "image": "c9_veyra_f2",
+      "image": "c9_mercado_fin",
       "next": "neutro_04"
     },
     "neutro_04": {
       "type": "dialogue",
       "speaker": null,
       "text": "¿Este encuentro ha sido una casualidad o ya estaba planeado?",
-      "image": "c9_veyra_f2",
+      "image": "c9_mercado_fin",
       "next": "fin"
     },
     "negativo_01": {
@@ -704,19 +708,19 @@ STORY_SCENES.c9_mercado = {
       "type": "dialogue",
       "speaker": null,
       "text": "Veyra se pierde entre la multitud y una certeza inunda tu cabeza.",
-      "image": "c9_veyra_f3",
+      "image": "c9_mercado_fin",
       "next": "negativo_04"
     },
     "negativo_04": {
       "type": "dialogue",
       "speaker": null,
       "text": "No crees que vuelvas a verla.",
-      "image": "c9_veyra_f3",
+      "image": "c9_mercado_fin",
       "next": "fin"
     },
     "fin": {
       "type": "choice",
-      "image": "c9_mercado",
+      "image": "c9_mercado_fin",
       "completeRoute": true,
       "endActivity": true,
       "effects": {
