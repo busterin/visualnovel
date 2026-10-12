@@ -10,6 +10,7 @@ const REVIEW_STARTS = [
   { chapter: 7, label: "Cuenta atrás · Los días que quedan", scene: "c4_actividades", preset: "countdown" },
   { chapter: 8, label: "Visita a palacio", scene: "c8_palacio", preset: "palace" },
   { chapter: 9, label: "Paseo por el mercado", scene: "c9_mercado", preset: "market" },
+  { chapter: 10, label: "Volver a conocerte", scene: "c10_lyra", preset: "lyra_training" },
   { chapter: 9.5, label: "Interludio · El aviso de Willard (tras el día 9)", scene: "interludio_willard", preset: "willard", interlude: true },
 ];
 let startingNode = null;
@@ -18,7 +19,8 @@ function prepareReviewStart(state, preset) {
   const palace = preset === "palace";
   const market = preset === "market";
   const willard = preset === "willard";
-  if (palace || market || willard) preset = "countdown";
+  const lyraTraining = preset === "lyra_training";
+  if (palace || market || willard || lyraTraining) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -44,6 +46,7 @@ function prepareReviewStart(state, preset) {
     }
     if (palace) StoryCalendar.begin(state, { destination: "c8_palacio", activity: { id: "palacio" }, dayCost: 1 });
     if (market) StoryCalendar.begin(state, { destination: "c9_mercado", activity: { id: "capital" }, dayCost: 1 });
+    if (lyraTraining) StoryCalendar.begin(state, { destination: "c10_lyra", activity: { id: "lyra" }, dayCost: 1 });
   }
 }
 const menuOptions = [

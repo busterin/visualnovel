@@ -7,6 +7,8 @@ const StoryEngine = {
       version: 2, scene: "intro", node: null, protagonistName: "", decisions: [], completedScenes: [],
       appliedNodes: [], events: {}, documents: {},
       metCompanions: [], affinity: {},
+      c10_completado: false, c10_orientacion_lyra: null, lyra_conoce_revelacion: false,
+      lyra_investiga_patrullas_y_fallos: false, promesa_informar_lyra_aparicion: false,
       aviso_willard_completado: false, acceso_orbis: false, reino_seleccionado: "vaelthar",
       c9_puntos: 0, c9_resultado: null, mercado_completado: false,
       veyra_conocida: false, veyra_bloqueada: false, veyra_destino_conocido: false,

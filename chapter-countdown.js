@@ -649,7 +649,8 @@ STORY_SCENES.c4_actividades = {
             "id": "lyra"
           },
           "dayCost": 1,
-          "comingSoon": true,
+          "destination": "c10_lyra",
+          "hideIfCompleted": "c10_lyra",
           "briefingPrefix": "introduccion_lyra_"
         },
         {
