@@ -659,7 +659,8 @@ STORY_SCENES.c4_actividades = {
             "id": "capital"
           },
           "dayCost": 1,
-          "comingSoon": true,
+          "destination": "c9_mercado",
+          "hideIfCompleted": "c9_mercado",
           "briefingPrefix": "introduccion_capital_"
         },
         {

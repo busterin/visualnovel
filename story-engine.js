@@ -7,6 +7,8 @@ const StoryEngine = {
       version: 2, scene: "intro", node: null, protagonistName: "", decisions: [], completedScenes: [],
       appliedNodes: [], events: {}, documents: {},
       metCompanions: [], affinity: {},
+      c9_puntos: 0, c9_resultado: null, mercado_completado: false,
+      veyra_conocida: false, veyra_bloqueada: false, veyra_destino_conocido: false,
       pendingScene: null,
       calendar: StoryCalendar.create(), alliances: {},
       protagonistOutfit: "original", ropa_ada_recibida: false,
@@ -61,6 +63,7 @@ const StoryEngine = {
   },
   start(state, scenes, sceneId) {
     if (!scenes[sceneId]) throw new Error(`Escena desconocida: ${sceneId}`);
+    if (state[scenes[sceneId].unavailableIfFlag]) throw new Error(`Escena bloqueada: ${sceneId}`);
     state.scene = sceneId;
     state.pendingScene = null;
     state.node = scenes[sceneId].start;
@@ -80,6 +83,7 @@ const StoryEngine = {
       (!option.hideIfCompleted || !state.completedScenes.includes(option.hideIfCompleted)) &&
       (!option.requiresFlag || state[option.requiresFlag] === true) &&
       (!option.hideIfFlag || !state[option.hideIfFlag]) && StoryCalendar.available(state, option) &&
+      !state[scenes[option.destination]?.unavailableIfFlag] &&
       (!node.optionLimit || !state.calendar.completed.includes(option.activity?.id)))
       .slice(0, node.optionLimit || Infinity);
   },
@@ -107,7 +111,8 @@ const StoryEngine = {
         return;
       }
       if (node.type === "condition") {
-        const matches=node.requiredScenes ? node.requiredScenes.every(id=>state.completedScenes.includes(id)) : state[node.flag] === node.equals;
+        const matches=node.requiredScenes ? node.requiredScenes.every(id=>state.completedScenes.includes(id)) :
+          node.atLeast !== undefined ? state[node.flag] >= node.atLeast : state[node.flag] === node.equals;
         state.node = matches ? node.ifTrue : node.ifFalse;
         continue;
       }
@@ -123,6 +128,10 @@ const StoryEngine = {
       if (!state.appliedNodes.includes(id)) {
         if (node.startCountdown) StoryCalendar.activate(state);
         Object.assign(state, node.effects || {});
+        if (node.scoreGain) {
+          const { flag, amount } = node.scoreGain;
+          state[flag] = (state[flag] ?? 0) + amount;
+        }
         if (node.affinityGain) {
           const { companion, amount } = node.affinityGain;
           state.affinity[companion] = Math.max(0, (state.affinity[companion] ?? 1) + amount);
@@ -261,5 +270,9 @@ const StoryEngine = {
     this.prepare(state, scenes);
     return state;
   },
-  format(text, state) { return text.replace(/\[Nombre\]|Protagonista/g, () => state.protagonistName || "Protagonista"); },
+  format(text, state) {
+    return text.replace(/\[Nombre\]|Protagonista/g, () => state.protagonistName || "Protagonista")
+      .replace(/\[HerederoFallecido\]/g, state.palacio_fallecido === "seren" ? "Seren" : "Jairen")
+      .replace(/\[TratamientoHerederoFallecido\]/g, state.palacio_fallecido === "seren" ? "a la princesa Seren" : "al príncipe Jairen");
+  },
 };
