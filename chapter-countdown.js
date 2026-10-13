@@ -672,7 +672,8 @@ STORY_SCENES.c4_actividades = {
             "fromDay": 2
           },
           "dayCost": 1,
-          "comingSoon": true,
+          "destination": "c11_eiden",
+          "hideIfCompleted": "c11_eiden",
           "briefingPrefix": "introduccion_eiden_"
         },
         {

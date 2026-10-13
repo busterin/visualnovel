@@ -4,6 +4,7 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 11, label: "Los nombres que faltaban", scene: "c11_eiden", preset: "eiden_visit" },
   { chapter: 6, label: "Un lugar donde descansar", scene: "c3_inspeccion", node: "descanso_decision_01", preset: "rest" },
   { chapter: 7, label: "La mañana · La ropa de Ada", scene: "c3_ropa_ada", preset: "clothes" },
   { chapter: 7, label: "La revelación · Cincuenta días", scene: "c3_diosa", preset: "revelation" },
@@ -16,11 +17,12 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const eidenVisit = preset === "eiden_visit";
   const palace = preset === "palace";
   const market = preset === "market";
   const willard = preset === "willard";
   const lyraTraining = preset === "lyra_training";
-  if (palace || market || willard || lyraTraining) preset = "countdown";
+  if (palace || market || willard || lyraTraining || eidenVisit) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -43,6 +45,11 @@ function prepareReviewStart(state, preset) {
     if (willard) {
       state.calendar.elapsed = 9;
       state.calendar.remaining = 41;
+    }
+    if (eidenVisit) {
+      state.archivo_eiden_conocido = true;
+      state.metCompanions.push("eiden"); state.affinity.eiden = 1;
+      StoryCalendar.begin(state, { destination: "c11_eiden", activity: { id: "eiden" }, dayCost: 1 });
     }
     if (palace) StoryCalendar.begin(state, { destination: "c8_palacio", activity: { id: "palacio" }, dayCost: 1 });
     if (market) StoryCalendar.begin(state, { destination: "c9_mercado", activity: { id: "capital" }, dayCost: 1 });

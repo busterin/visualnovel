@@ -5,8 +5,13 @@ const StoryEngine = {
   createState() {
     return {
       version: 2, scene: "intro", node: null, protagonistName: "", decisions: [], completedScenes: [],
-      appliedNodes: [], events: {}, documents: {},
+      appliedNodes: [], events: {}, documents: {}, dailyOptionSelections: {},
       metCompanions: [], affinity: {},
+      c11_completado: false, c11_orientacion_eiden: null, c11_copias_recibidas: false,
+      c11_incidencia_seguridad: false, c11_expedicion_faro: false, c11_aurelia_maga_orbis: false,
+      c11_oscuridad_frenada: false, c11_desaparicion_sin_explicacion: false, c11_busqueda_cancelada: false,
+      eiden_investiga_resolucion: false, c11_camara_inferior: false, eiden_investiga_planos: false,
+      c11_direccion_orbis: false, eiden_investiga_albert: false,
       c10_completado: false, c10_orientacion_lyra: null, lyra_conoce_revelacion: false,
       lyra_investiga_patrullas_y_fallos: false, promesa_informar_lyra_aparicion: false,
       aviso_willard_completado: false, acceso_orbis: false, reino_seleccionado: "vaelthar",
@@ -82,13 +87,29 @@ const StoryEngine = {
       options: [{ id: "confirm_yes", text: "Sí" }, { id: "confirm_no", text: "No" }] };
   },
   availableOptions(state, scenes, node = this.current(state, scenes)) {
-    return (node?.options || []).filter(option =>
+    const options = (node?.options || []).filter(option =>
       (!option.hideIfCompleted || !state.completedScenes.includes(option.hideIfCompleted)) &&
       (!option.requiresFlag || state[option.requiresFlag] === true) &&
       (!option.hideIfFlag || !state[option.hideIfFlag]) && StoryCalendar.available(state, option) &&
       !state[scenes[option.destination]?.unavailableIfFlag] &&
       (!node.optionLimit || !state.calendar.completed.includes(option.activity?.id)))
-      .slice(0, node.optionLimit || Infinity);
+      ;
+    const limit = node?.optionLimit || Infinity;
+    if (!node?.randomOverflow || options.length <= limit) return options.slice(0, limit);
+    // Persist the draw so briefings, navigation and reloads show the same destinations.
+    const key = `${state.scene}:${node.randomOverflow}`;
+    const signature = JSON.stringify([state.calendar.elapsed, options.map(o => [o.id, !!o.priority])]);
+    state.dailyOptionSelections ||= {};
+    let selection = state.dailyOptionSelections[key];
+    if (!selection || selection.signature !== signature) {
+      const chosen = options.filter(o => o.priority).slice(0, limit);
+      const others = options.filter(o => !o.priority);
+      while (chosen.length < limit && others.length) {
+        chosen.push(others.splice(Math.floor(Math.random() * others.length), 1)[0]);
+      }
+      selection = state.dailyOptionSelections[key] = { signature, ids: chosen.map(o => o.id) };
+    }
+    return options.filter(o => selection.ids.includes(o.id));
   },
   goToScene(state, scenes, destination, destinationNode) {
     state.node = null;

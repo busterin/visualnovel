@@ -41,7 +41,7 @@ STORY_SCENES.interludio_willard = {
       { id: "orbis", text: "Reino de Orbis", emblem: "imagenes/Otros/escudo_orbis.png", next: "orbis_briefing_0", requiresFlag: "acceso_orbis", effects: { reino_seleccionado: "orbis" } },
     ],
   };
-  hub.nodes.actividades_orbis = { type: "choice", image: "nuevodia", optionLimit: 3, options: [] };
+  hub.nodes.actividades_orbis = { type: "choice", image: "nuevodia", optionLimit: 3, randomOverflow: "orbis", options: [] };
   for (let i = 0; i < 3; i++) {
     hub.nodes.actividades_orbis.options.push({
       id: `orbis_${i + 1}`, text: `Misión ${i + 1} de Orbis · En construcción`,
@@ -49,12 +49,27 @@ STORY_SCENES.interludio_willard = {
       requiresFlag: "acceso_orbis", briefingPrefix: `introduccion_orbis_${i + 1}_`,
     });
     hub.nodes[`orbis_briefing_${i}`] = { type: "briefing", choice: "actividades_orbis", index: i, next: "actividades_orbis" };
-    hub.nodes[`introduccion_orbis_${i + 1}_${i}`] = {
-      type: "dialogue", speaker: "Protagonista", image: "nuevodia",
-      text: `Misión ${i + 1} de Orbis: en construcción.`,
-      next: i < 2 ? `orbis_briefing_${i + 1}` : "actividades_orbis",
-    };
+    // Any retained mission can occupy any of the three briefing positions.
+    for (let position = 0; position < 3; position++) {
+      hub.nodes[`introduccion_orbis_${i + 1}_${position}`] = {
+        type: "dialogue", speaker: "Protagonista", image: "nuevodia",
+        text: `Misión ${i + 1} de Orbis: en construcción.`,
+        next: position < 2 ? `orbis_briefing_${position + 1}` : "actividades_orbis",
+      };
+    }
   }
+  hub.nodes.actividades_orbis.options.push({
+    id: "orbis_casa_estudios", text: "Ir a la casa de estudios en la capital",
+    activity: { id: "orbis_casa_estudios", requiresFlags: ["acceso_orbis", "c11_completado"] },
+    requiresFlag: "acceso_orbis", dayCost: 1, comingSoon: true, priority: true,
+    briefingPrefix: "introduccion_casa_estudios_",
+  });
+  for (let i = 0; i < 3; i++) hub.nodes[`introduccion_casa_estudios_${i}`] = {
+    type: "dialogue", speaker: "Protagonista", image: "nuevodia",
+    text: "La carta de Aurelia apunta a una casa de estudios en la capital de Orbis. Podría ir allí para seguir la pista.",
+    next: i < 2 ? `orbis_briefing_${i + 1}` : "actividades_orbis",
+  };
+
   // Cambiar de reino es navegación, no actividad ni una cuarta misión.
   hub.nodes.actividades.backTo = "reinos";
   hub.nodes.actividades.backRequiresFlag = "acceso_orbis";

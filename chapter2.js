@@ -349,7 +349,7 @@ STORY_SCENES.vestibulo = {
     "c2_028A": {
       "type": "dialogue",
       "speaker": "Lyra",
-      "text": "Tú lo encontraste, pero no vi cómo cruzaste. Cuando llegué al Faro Primordial, ya te habías marchado.",
+      "text": "Tú lo encontraste, pero no vi cómo cruzaste. Cuando llegué al Faro Primigenio, ya te habías marchado.",
       "image": "camino",
       "next": "c2_029A"
     },
