@@ -4,6 +4,7 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 7.5, label: "Extra · Pasar el día en la posada", scene: "extra_posada", preset: "inn_day", interlude: true },
   { chapter: 14, label: "La hija ausente", scene: "c14_maleria", preset: "maleria" },
   { chapter: 13, label: "La noche de las luces apagadas", scene: "c13_apagones", preset: "blackouts" },
   { chapter: 12, label: "El lugar que queda · Homenaje a Seren (Jairen vive)", scene: "c12_homenaje", preset: "memorial_jairen" },
@@ -21,6 +22,7 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const innDay = preset === "inn_day";
   const maleria = preset === "maleria";
   const blackouts = preset === "blackouts";
   const memorial = preset === "memorial_jairen" ? "jairen" : preset === "memorial_seren" ? "seren" : null;
@@ -29,7 +31,7 @@ function prepareReviewStart(state, preset) {
   const market = preset === "market";
   const willard = preset === "willard";
   const lyraTraining = preset === "lyra_training";
-  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria) preset = "countdown";
+  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -49,6 +51,7 @@ function prepareReviewStart(state, preset) {
   if (preset === "countdown") {
     state.revelacion_diosa_completada = true;
     StoryCalendar.activate(state);
+    if (innDay) StoryCalendar.begin(state, { activity: { id: "descanso_posada" }, dayCost: 1 });
     if (maleria) {
       state.acceso_orbis = true; state.veyra_conocida = true; state.veyra_bloqueada = false;
       state.aviso_willard_completado = true;
@@ -137,6 +140,15 @@ const storyDocument = document.getElementById("story-document");
 const storyEvent = document.getElementById("story-event");
 const eventImage = document.getElementById("event-image");
 const pauseToCover = document.getElementById("pause-to-cover");
+const innNetworkButton = document.getElementById("inn-network-button");
+innNetworkButton.addEventListener("click", event => {
+  event.stopPropagation();
+  if (isGamePaused || eventRunning || dayTransitionRunning || !gameState.red_posada_desbloqueada ||
+      gameState.scene !== "c4_actividades" || gameState.calendar.expired) return;
+  gameState.red_posada_retorno = gameState.node;
+  gameState.node = "red_posada";
+  renderScene();
+});
 const saveStatus = document.getElementById("save-status");
 const SAVE_KEY = "el-mundo-que-te-recuerda.save.v2";
 let eventRunning = false;
@@ -639,6 +651,12 @@ function renderSceneContent() {
   const node = StoryEngine.current(gameState, STORY_SCENES);
   const chapter = STORY_SCENES[gameState.scene];
   const chapterChanged = renderedChapter !== gameState.scene;
+  if (gameState.scene === "c4_actividades" && gameState.node === "red_posada") {
+    node.backTo = gameState.red_posada_retorno || "reflexion_diaria";
+  }
+  innNetworkButton.hidden = !(gameState.red_posada_desbloqueada && gameState.calendar.active &&
+    !gameState.calendar.expired && gameState.scene === "c4_actividades" &&
+    node?.type === "choice" && gameState.node !== "red_posada");
   const dayCounter = document.getElementById("day-counter");
   dayCounter.hidden = !gameState.calendar.active;
   dayCounter.textContent = `${gameState.calendar.remaining} ${gameState.calendar.remaining === 1 ? "día restante" : "días restantes"}`;
@@ -935,7 +953,7 @@ gameScreen.addEventListener("keydown", (event) => {
     return;
   }
   const controls = !choicesPanel.hidden
-    ? [...choicesPanel.querySelectorAll("button"), pauseToCover]
+    ? [...choicesPanel.querySelectorAll("button"), innNetworkButton, pauseToCover]
     : [...gameScreen.querySelectorAll("button")];
   if (focusWithArrow(event, controls)) return;
   if (event.key !== "Enter" && event.key !== " ") return;

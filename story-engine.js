@@ -7,6 +7,9 @@ const StoryEngine = {
       version: 2, scene: "intro", node: null, protagonistName: "", decisions: [], completedScenes: [],
       appliedNodes: [], events: {}, documents: {}, dailyOptionSelections: {},
       metCompanions: [], affinity: {},
+      posada_dia_completado: false, red_posada_desbloqueada: false,
+      posada_dia_decision_1: null, posada_dia_decision_2: null, posada_dia_decision_3: null,
+      posada_registro_sin_nombre: false, posada_darel_taren_buscado: false,
       c14_completado: false, c14_decision_1: null, c14_decision_2: null,
       maleria_conocida: false, c14_hija_maleria_desaparecida: false,
       c14_maleria_recuerda_hija: false, c14_alianza_orbis_pendiente: false,
@@ -212,8 +215,8 @@ const StoryEngine = {
           const { flag, amount } = node.scoreGain;
           state[flag] = (state[flag] ?? 0) + amount;
         }
-        if (node.affinityGain) {
-          const { companion, amount } = node.affinityGain;
+        for (const gain of node.affinityGains || (node.affinityGain ? [node.affinityGain] : [])) {
+          const { companion, amount } = gain;
           state.affinity[companion] = Math.max(0, (state.affinity[companion] ?? 1) + amount);
         }
         if (node.grantDocument && !state.documents[node.grantDocument]) {
