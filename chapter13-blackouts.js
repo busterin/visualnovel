@@ -139,11 +139,17 @@ STORY_SCENES.c13_apagones = {
     },
     "decision_INICIAL": {
       "type": "choice",
+      "presentation": "character-cards",
+      "prompt": "Debo investigar esto. ¿Quién debería acompañarme?",
       "image": "c13_14",
       "options": [
         {
           "id": "A",
           "text": "Pedir ayuda a Mara.",
+          "portrait": "imagenes/Escena5/c5_mara_expediente.png",
+          "portraitScale": 2,
+          "portraitOrigin": "47% 10%",
+          "cardLabel": "Mara",
           "next": "8A",
           "effects": {
             "c13_ruta": "mara"
@@ -152,6 +158,10 @@ STORY_SCENES.c13_apagones = {
         {
           "id": "B",
           "text": "Pedir ayuda a Willard.",
+          "portrait": "imagenes/Otros/willard_posada.png",
+          "portraitScale": 2.5,
+          "portraitOrigin": "46% 0%",
+          "cardLabel": "Willard",
           "next": "8B",
           "effects": {
             "c13_ruta": "willard"
@@ -160,6 +170,10 @@ STORY_SCENES.c13_apagones = {
         {
           "id": "C",
           "text": "Ir por mi cuenta.",
+          "portrait": "imagenes/Protachico1.png",
+          "portraitScale": 3.6,
+          "portraitOrigin": "46% 5%",
+          "cardLabel": "Ir solo",
           "next": "8C",
           "effects": {
             "c13_ruta": "solo"

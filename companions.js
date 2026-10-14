@@ -5,8 +5,8 @@
 const COMPANIONS = {
   mara: {
     name: "Mara", bondType: "romantic",
-    portrait: "imagenes/Escena13/investigación_de_faros_en_la_noche.png",
-    avatarSize: "230% auto", avatarPosition: "50% 8%", portraitPosition: "center top",
+    portrait: "imagenes/Escena5/c5_mara_expediente.png",
+    avatarSize: "230% auto", avatarPosition: "46% 24%", portraitPosition: "center 25%",
     description: "Inspectora de Vaelthar. Habéis investigado los apagones del Distrito Este y ha abierto un expediente separado para seguir sus anomalías. Te ha pedido que acudas a ella si encuentras algo parecido.",
   },
   jairen: {

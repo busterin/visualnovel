@@ -4,6 +4,7 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 14, label: "La hija ausente", scene: "c14_maleria", preset: "maleria" },
   { chapter: 13, label: "La noche de las luces apagadas", scene: "c13_apagones", preset: "blackouts" },
   { chapter: 12, label: "El lugar que queda · Homenaje a Seren (Jairen vive)", scene: "c12_homenaje", preset: "memorial_jairen" },
   { chapter: 12, label: "El lugar que queda · Homenaje a Jairen (Seren vive)", scene: "c12_homenaje", preset: "memorial_seren" },
@@ -20,6 +21,7 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const maleria = preset === "maleria";
   const blackouts = preset === "blackouts";
   const memorial = preset === "memorial_jairen" ? "jairen" : preset === "memorial_seren" ? "seren" : null;
   const eidenVisit = preset === "eiden_visit";
@@ -27,7 +29,7 @@ function prepareReviewStart(state, preset) {
   const market = preset === "market";
   const willard = preset === "willard";
   const lyraTraining = preset === "lyra_training";
-  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts) preset = "countdown";
+  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -47,6 +49,13 @@ function prepareReviewStart(state, preset) {
   if (preset === "countdown") {
     state.revelacion_diosa_completada = true;
     StoryCalendar.activate(state);
+    if (maleria) {
+      state.acceso_orbis = true; state.veyra_conocida = true; state.veyra_bloqueada = false;
+      state.aviso_willard_completado = true;
+      state.completedScenes.push("interludio_willard", "c9_mercado");
+      state.calendar.elapsed = 9; state.calendar.remaining = 41;
+      StoryCalendar.begin(state, { activity: { id: "orbis_maleria" }, dayCost: 1 });
+    }
     if (willard) {
       state.calendar.elapsed = 9;
       state.calendar.remaining = 41;
@@ -133,6 +142,10 @@ const SAVE_KEY = "el-mundo-que-te-recuerda.save.v2";
 let eventRunning = false;
 let eventRequest = 0;
 let renderedChapter = null;
+let renderedDay = null;
+let dayTransitionRunning = false;
+let dayTransitionRequest = 0;
+const dayTransition = document.getElementById("day-transition");
 const imageCache = new Map();
 const missingResources = new Set();
 let imageRequest = 0;
@@ -465,6 +478,13 @@ pauseToCover.addEventListener("click", () => openPauseMenu());
 window.addEventListener("pagehide", saveGame);
 
 function resetScenePresentation() {
+  renderedDay = null;
+  gameScreen.inert = false;
+  dayTransitionRequest += 1;
+  dayTransitionRunning = false;
+  dayTransition.getAnimations().forEach(animation => animation.cancel());
+  dayTransition.hidden = true;
+  dayTransition.style.opacity = "0";
   closePauseMenu(false);
   eventRequest += 1;
   eventRunning = false;
@@ -563,6 +583,58 @@ async function showSceneImage(key, transitionMs = 520) {
 }
 
 function renderScene() {
+  if (dayTransitionRunning) return;
+  StoryEngine.prepare(gameState, STORY_SCENES);
+  const elapsed = gameState.calendar.elapsed;
+  const newDay = renderedDay !== null && elapsed > renderedDay && !gameState.calendar.expired;
+  renderedDay = elapsed;
+  if (newDay && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    void transitionToNewDay();
+    return;
+  }
+  renderSceneContent();
+}
+
+async function transitionToNewDay() {
+  const request = ++dayTransitionRequest;
+  dayTransitionRunning = true;
+  eventRunning = true;
+  gameScreen.inert = true;
+  saveGame();
+  dayTransition.hidden = false;
+  const fade = async (from, to) => {
+    const animation = dayTransition.animate([{ opacity: from }, { opacity: to }], {
+      duration: 1100, easing: "ease-in-out", fill: "forwards",
+    });
+    await animation.finished;
+    dayTransition.style.opacity = String(to);
+    animation.cancel();
+  };
+  try {
+    await fade(0, 1);
+    if (request !== dayTransitionRequest) return;
+    const node = StoryEngine.current(gameState, STORY_SCENES);
+    await showSceneImage(node?.image, 0);
+    if (request !== dayTransitionRequest) return;
+    renderSceneContent();
+    await new Promise(resolve => setTimeout(resolve, 350));
+    if (request !== dayTransitionRequest) return;
+    await fade(1, 0);
+  } catch (error) {
+    if (request === dayTransitionRequest) renderSceneContent();
+  } finally {
+    if (request === dayTransitionRequest) {
+      dayTransition.hidden = true;
+      dayTransition.style.opacity = "0";
+      dayTransitionRunning = false;
+      eventRunning = false;
+      gameScreen.inert = false;
+      gameScreen.focus({ preventScroll: true });
+    }
+  }
+}
+
+function renderSceneContent() {
   StoryEngine.prepare(gameState, STORY_SCENES);
   const node = StoryEngine.current(gameState, STORY_SCENES);
   const chapter = STORY_SCENES[gameState.scene];
@@ -621,6 +693,7 @@ function renderScene() {
   dialoguePanel.hidden = isChoice;
   choicesPanel.hidden = !isChoice;
   choicesPanel.replaceChildren();
+  choicesPanel.classList.toggle("is-character-cards", isChoice && node.presentation === "character-cards");
   choicesPanel.classList.toggle("is-kingdoms", isChoice && node.presentation === "kingdoms");
   choicesPanel.classList.toggle("is-daily-choices", isChoice &&
     StoryEngine.availableOptions(gameState, STORY_SCENES).some(option => StoryCalendar.cost(gameState, option) === 1));
@@ -633,7 +706,7 @@ function renderScene() {
       back.setAttribute("aria-label", "Volver a elegir reino");
       back.addEventListener("click", event => {
         event.stopPropagation();
-        if (isGamePaused) return;
+        if (isGamePaused || dayTransitionRunning) return;
         gameState.node = node.backTo;
         StoryEngine.prepare(gameState, STORY_SCENES);
         renderScene();
@@ -665,6 +738,22 @@ function renderScene() {
         emblem.draggable = false;
         button.replaceChildren(emblem);
       }
+      if (node.presentation === "character-cards" && option.portrait) {
+        button.classList.add("character-card");
+        button.setAttribute("aria-label", formatStoryText(option.text));
+        const frame = document.createElement("div");
+        frame.className = "character-card-portrait";
+        frame.style.setProperty("--portrait-scale", option.portraitScale || 1);
+        frame.style.setProperty("--portrait-origin", option.portraitOrigin || "center");
+        const portrait = document.createElement("img");
+        portrait.src = option.portrait;
+        portrait.alt = "";
+        portrait.draggable = false;
+        const label = document.createElement("span");
+        label.textContent = option.cardLabel;
+        frame.append(portrait);
+        button.replaceChildren(frame, label);
+      }
       if (gameState.calendar.active) {
         const cost = StoryCalendar.cost(gameState, option);
         if (cost || option.continueActivity) {
@@ -676,7 +765,7 @@ function renderScene() {
       }
       button.addEventListener("click", (event) => {
         event.stopPropagation();
-        if (isGamePaused) return;
+        if (isGamePaused || dayTransitionRunning) return;
         if (option.comingSoon) { window.alert("En construcción"); return; }
         if (StoryEngine.choose(gameState, STORY_SCENES, option.id)) {
           renderScene();
