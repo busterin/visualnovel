@@ -3,7 +3,7 @@
 // Acceso auxiliar: no ocupa una de las tres actividades del reino.
 {
   const hub = STORY_SCENES.c4_actividades;
-  hub.assets.red_posada_ada = { src: "imagenes/Otros/red_posada_ada.png", alt: "Ada ofrece ayuda desde la Red de la Posada." };
+  hub.assets.red_posada_ada = { src: "imagenes/Otros/red_posada_ada.png?v=f86832b9", alt: "Ada ofrece ayuda desde la Red de la Posada." };
   hub.nodes.red_posada = {
     type: "choice", image: "red_posada_ada", prompt: "¿En qué te puedo ayudar?",
     backTo: "reflexion_diaria",

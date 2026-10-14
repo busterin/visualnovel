@@ -10,7 +10,7 @@ const COMPANIONS = {
     description: "Inspectora de Vaelthar. Habéis investigado los apagones del Distrito Este y ha abierto un expediente separado para seguir sus anomalías. Te ha pedido que acudas a ella si encuentras algo parecido.",
   },
   jairen: {
-    name: "Jairen", bondType: "romantic",
+    name: "Jairen", bondType: "platonic",
     portrait: "imagenes/Escena12/JAIREN_Observa_Pajaro_Madera.png",
     avatarSize: "220% auto", avatarPosition: "58% 12%", portraitPosition: "center top",
     description: "Príncipe de Vaelthar. Tras perder a Seren, busca mantener las audiencias del pueblo mientras revisa la seguridad del palacio. Te ha invitado a volver y hablar con franqueza.",

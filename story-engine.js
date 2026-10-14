@@ -8,6 +8,7 @@ const StoryEngine = {
       appliedNodes: [], events: {}, documents: {}, dailyOptionSelections: {},
       metCompanions: [], affinity: {},
       posada_dia_completado: false, red_posada_desbloqueada: false,
+      red_posada_presentada: false,
       posada_dia_decision_1: null, posada_dia_decision_2: null, posada_dia_decision_3: null,
       posada_registro_sin_nombre: false, posada_darel_taren_buscado: false,
       c14_completado: false, c14_decision_1: null, c14_decision_2: null,

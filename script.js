@@ -146,6 +146,7 @@ innNetworkButton.addEventListener("click", event => {
   if (isGamePaused || eventRunning || dayTransitionRunning || !gameState.red_posada_desbloqueada ||
       gameState.scene !== "c4_actividades" || gameState.calendar.expired) return;
   gameState.red_posada_retorno = gameState.node;
+  gameState.red_posada_presentada = true;
   gameState.node = "red_posada";
   renderScene();
 });
@@ -657,6 +658,10 @@ function renderSceneContent() {
   innNetworkButton.hidden = !(gameState.red_posada_desbloqueada && gameState.calendar.active &&
     !gameState.calendar.expired && gameState.scene === "c4_actividades" &&
     node?.type === "choice" && gameState.node !== "red_posada");
+  const newInnNetwork = !innNetworkButton.hidden && !gameState.red_posada_presentada;
+  innNetworkButton.classList.toggle("is-new", newInnNetwork);
+  innNetworkButton.setAttribute("aria-label", newInnNetwork
+    ? "Nueva ayuda disponible: abrir la Red de la Posada" : "Abrir la Red de la Posada");
   const dayCounter = document.getElementById("day-counter");
   dayCounter.hidden = !gameState.calendar.active;
   dayCounter.textContent = `${gameState.calendar.remaining} ${gameState.calendar.remaining === 1 ? "día restante" : "días restantes"}`;
