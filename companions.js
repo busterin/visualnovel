@@ -3,6 +3,24 @@
 // Solo compañeros de la aventura, no todos los personajes del guion.
 // Fichas sin revelaciones posteriores al primer encuentro.
 const COMPANIONS = {
+  mara: {
+    name: "Mara", bondType: "romantic",
+    portrait: "imagenes/Escena13/investigación_de_faros_en_la_noche.png",
+    avatarSize: "230% auto", avatarPosition: "50% 8%", portraitPosition: "center top",
+    description: "Inspectora de Vaelthar. Habéis investigado los apagones del Distrito Este y ha abierto un expediente separado para seguir sus anomalías. Te ha pedido que acudas a ella si encuentras algo parecido.",
+  },
+  jairen: {
+    name: "Jairen", bondType: "romantic",
+    portrait: "imagenes/Escena12/JAIREN_Observa_Pajaro_Madera.png",
+    avatarSize: "220% auto", avatarPosition: "58% 12%", portraitPosition: "center top",
+    description: "Príncipe de Vaelthar. Tras perder a Seren, busca mantener las audiencias del pueblo mientras revisa la seguridad del palacio. Te ha invitado a volver y hablar con franqueza.",
+  },
+  seren: {
+    name: "Seren", bondType: "romantic",
+    portrait: "imagenes/Escena12/SEREN_Patio_Conversacion_01.png",
+    avatarSize: "230% auto", avatarPosition: "48% 9%", portraitPosition: "center top",
+    description: "Princesa de Vaelthar. Tras perder a Jairen, aprende a delegar sin dejar de escuchar a su pueblo. Quiere que podáis conversar sin necesitar siempre una respuesta preparada.",
+  },
   willard: {
     name: "Willard", bondType: "platonic",
     portrait: "imagenes/Otros/willard_posada.png",

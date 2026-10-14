@@ -4,6 +4,9 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 13, label: "La noche de las luces apagadas", scene: "c13_apagones", preset: "blackouts" },
+  { chapter: 12, label: "El lugar que queda · Homenaje a Seren (Jairen vive)", scene: "c12_homenaje", preset: "memorial_jairen" },
+  { chapter: 12, label: "El lugar que queda · Homenaje a Jairen (Seren vive)", scene: "c12_homenaje", preset: "memorial_seren" },
   { chapter: 11, label: "Los nombres que faltaban", scene: "c11_eiden", preset: "eiden_visit" },
   { chapter: 6, label: "Un lugar donde descansar", scene: "c3_inspeccion", node: "descanso_decision_01", preset: "rest" },
   { chapter: 7, label: "La mañana · La ropa de Ada", scene: "c3_ropa_ada", preset: "clothes" },
@@ -17,12 +20,14 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const blackouts = preset === "blackouts";
+  const memorial = preset === "memorial_jairen" ? "jairen" : preset === "memorial_seren" ? "seren" : null;
   const eidenVisit = preset === "eiden_visit";
   const palace = preset === "palace";
   const market = preset === "market";
   const willard = preset === "willard";
   const lyraTraining = preset === "lyra_training";
-  if (palace || market || willard || lyraTraining || eidenVisit) preset = "countdown";
+  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -45,6 +50,20 @@ function prepareReviewStart(state, preset) {
     if (willard) {
       state.calendar.elapsed = 9;
       state.calendar.remaining = 41;
+    }
+    if (blackouts) {
+      state.seren_conocida = true; state.jairen_conocido = true; state.willard_conocido = true;
+      StoryCalendar.begin(state, { activity: { id: "apagones" }, dayCost: 1 });
+    }
+    if (memorial) {
+      state.seren_conocida = true; state.jairen_conocido = true;
+      state.palacio_completado = true;
+      state.palacio_superviviente = memorial;
+      state.palacio_fallecido = memorial === "jairen" ? "seren" : "jairen";
+      state.completedScenes.push("c8_palacio");
+      state.calendar.completed.push("palacio");
+      state.calendar.elapsed = 2; state.calendar.remaining = 48;
+      StoryCalendar.begin(state, { activity: { id: "homenaje" }, dayCost: 1 });
     }
     if (eidenVisit) {
       state.archivo_eiden_conocido = true;

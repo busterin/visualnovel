@@ -732,13 +732,13 @@ STORY_SCENES.c9_mercado = {
   "nextScene": "c4_actividades"
 };
 
-// Siguiente actividad pendiente tras las dos visitas disponibles; el acto aún no tiene guion.
+// Homenaje disponible tras palacio, con la identidad del fallecido guardada.
 {
   const hub = STORY_SCENES.c4_actividades.nodes;
   hub.actividades.options.splice(4, 0, {
     id: "homenaje", text: "Ir al acto en honor a [HerederoFallecido].",
     activity: { id: "homenaje", fromDay: 3 }, dayCost: 1,
-    requiresFlag: "palacio_completado", comingSoon: true,
+    requiresFlag: "palacio_completado", destination: "c12_homenaje", hideIfCompleted: "c12_homenaje",
     briefingPrefix: "introduccion_homenaje_",
   });
   for (let i = 0; i < 3; i++) hub[`introduccion_homenaje_${i}`] = {
