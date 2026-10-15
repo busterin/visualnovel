@@ -7,6 +7,7 @@ const StoryEngine = {
       version: 2, scene: "intro", node: null, protagonistName: "", decisions: [], completedScenes: [],
       appliedNodes: [], events: {}, documents: {}, dailyOptionSelections: {},
       metCompanions: [], affinity: {},
+      c15_completado: false, c15_decision_1: null, c15_decision_2: null,
       posada_dia_completado: false, red_posada_desbloqueada: false,
       red_posada_presentada: false,
       posada_dia_decision_1: null, posada_dia_decision_2: null, posada_dia_decision_3: null,

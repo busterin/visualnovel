@@ -224,7 +224,7 @@ STORY_SCENES.c11_eiden = {
     "022": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Reconozco el nombre. Lyra me habló del faro cuando le pregunté cómo había regresado a mi mundo.\n\nHasta ahora, solo era un lugar que tenía que encontrar.",
+      "text": "Reconozco el nombre. Lyra me habló del faro cuando le pregunté cómo había regresado a mi mundo.\n\nUn lugar unido a mi desaparición y a mi regreso.",
       "image": "c11_2",
       "next": "023"
     },
@@ -398,7 +398,7 @@ STORY_SCENES.c11_eiden = {
     "046A": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Recuerdo lo que me dijo Lyra: cuando llegó al faro, yo ya me había marchado.\n\nEmpiezo a entender por qué no pudo contarme qué ocurrió allí.",
+      "text": "Recuerdo lo que me dijo Lyra: ella se quedó fuera del faro y no vio cómo me marché.\n\nEso explica por qué no pudo contarme qué ocurrió dentro.",
       "image": "c11_4",
       "next": "047"
     },

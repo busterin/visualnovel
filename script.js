@@ -4,6 +4,7 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 15, label: "El noveno segundo", scene: "c15_noveno_segundo", preset: "ninth_second" },
   { chapter: 7.5, label: "Extra · Pasar el día en la posada", scene: "extra_posada", preset: "inn_day", interlude: true },
   { chapter: 14, label: "La hija ausente", scene: "c14_maleria", preset: "maleria" },
   { chapter: 13, label: "La noche de las luces apagadas", scene: "c13_apagones", preset: "blackouts" },
@@ -22,6 +23,7 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const ninthSecond = preset === "ninth_second";
   const innDay = preset === "inn_day";
   const maleria = preset === "maleria";
   const blackouts = preset === "blackouts";
@@ -31,7 +33,7 @@ function prepareReviewStart(state, preset) {
   const market = preset === "market";
   const willard = preset === "willard";
   const lyraTraining = preset === "lyra_training";
-  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay) preset = "countdown";
+  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -51,6 +53,14 @@ function prepareReviewStart(state, preset) {
   if (preset === "countdown") {
     state.revelacion_diosa_completada = true;
     StoryCalendar.activate(state);
+    if (ninthSecond) {
+      Object.assign(state, { c14_completado: true, acceso_orbis: true, aviso_willard_completado: true,
+        veyra_conocida: true, maleria_conocida: true, c14_veyra_princesa_orbis: true,
+        c14_veyra_hija_maleria: true, c14_maleria_recuerda_hija: true });
+      state.completedScenes.push("interludio_willard", "c9_mercado", "c14_maleria");
+      state.calendar.elapsed = 10; state.calendar.remaining = 40;
+      StoryCalendar.begin(state, { activity: { id: "noveno_segundo" }, dayCost: 1 });
+    }
     if (innDay) StoryCalendar.begin(state, { activity: { id: "descanso_posada" }, dayCost: 1 });
     if (maleria) {
       state.acceso_orbis = true; state.veyra_conocida = true; state.veyra_bloqueada = false;
