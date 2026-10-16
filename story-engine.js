@@ -7,6 +7,11 @@ const StoryEngine = {
       version: 2, scene: "intro", node: null, protagonistName: "", decisions: [], completedScenes: [],
       appliedNodes: [], events: {}, documents: {}, dailyOptionSelections: {},
       metCompanions: [], affinity: {},
+      lyra_romance_inicio_dia: null, lyra_romance_aplazada_dia: null,
+      lyra_romance_disponible: false, lyra_romance_completado: false,
+      lyra_romance_activo: false, lyra_romance_cerrado: false,
+      lyra_relacion: null, lyra_romance_decision: null,
+      lyra_escenas_romanticas_desbloqueadas: false,
       c15_completado: false, c15_decision_1: null, c15_decision_2: null,
       posada_dia_completado: false, red_posada_desbloqueada: false,
       red_posada_presentada: false,
@@ -178,6 +183,7 @@ const StoryEngine = {
     }
   },
   prepare(state, scenes) {
+    if (typeof StoryRelationships !== "undefined") StoryRelationships.update(state);
     const interlude = scenes[state.scene]?.interludes?.find(item =>
       state.calendar.active && !state.calendar.activity && !state.calendar.expired &&
       state.calendar.elapsed >= item.afterDays && !state.completedScenes.includes(item.scene));
@@ -185,6 +191,11 @@ const StoryEngine = {
     for (let hops = 0; hops < 100; hops++) {
       const node = this.current(state, scenes);
       if (!node) return;
+      if (node.deferRomance === "lyra") {
+        StoryRelationships.defer(state);
+        this.goToScene(state, scenes, "c4_actividades");
+        return;
+      }
       if (node.type === "briefing") {
         const choice = scenes[state.scene].nodes[node.choice];
         const option = this.availableOptions(state, scenes, choice)[node.index];

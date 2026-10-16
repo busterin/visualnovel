@@ -980,6 +980,7 @@ STORY_SCENES.c10_lyra = {
         {
           "id": "A",
           "text": "Me gustaría volver a verte. Sin espadas.",
+          "romanceWith": "lyra",
           "next": "093A",
           "effects": {
             "c10_orientacion_lyra": "romance"

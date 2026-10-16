@@ -15,6 +15,7 @@ const StoryCalendar = {
     return option.activity || option.destination ? (option.dayCost ?? 1) : 0;
   },
   available(state, option) {
+    if (option.romanceWith && state[`${option.romanceWith}_romance_cerrado`]) return false;
     const calendar=state.calendar, activity=option.activity;
     if (calendar.active && this.cost(state,option)>0 && (calendar.remaining<1 || calendar.activity)) return false;
     if (!activity) return true;

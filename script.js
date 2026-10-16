@@ -4,6 +4,7 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 10.5, label: "Romance · Lyra (vínculo 8)", scene: "lyra_romance", preset: "lyra_romance", interlude: true },
   { chapter: 15, label: "El noveno segundo", scene: "c15_noveno_segundo", preset: "ninth_second" },
   { chapter: 7.5, label: "Extra · Pasar el día en la posada", scene: "extra_posada", preset: "inn_day", interlude: true },
   { chapter: 14, label: "La hija ausente", scene: "c14_maleria", preset: "maleria" },
@@ -23,6 +24,7 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const lyraRomance = preset === "lyra_romance";
   const ninthSecond = preset === "ninth_second";
   const innDay = preset === "inn_day";
   const maleria = preset === "maleria";
@@ -33,7 +35,7 @@ function prepareReviewStart(state, preset) {
   const market = preset === "market";
   const willard = preset === "willard";
   const lyraTraining = preset === "lyra_training";
-  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond) preset = "countdown";
+  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond || lyraRomance) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -53,6 +55,12 @@ function prepareReviewStart(state, preset) {
   if (preset === "countdown") {
     state.revelacion_diosa_completada = true;
     StoryCalendar.activate(state);
+    if (lyraRomance) {
+      state.affinity.lyra = 8;
+      state.lyra_romance_inicio_dia = 0;
+      state.lyra_romance_disponible = true;
+      StoryCalendar.begin(state, { activity: { id: "lyra_romance" }, dayCost: 1 });
+    }
     if (ninthSecond) {
       Object.assign(state, { c14_completado: true, acceso_orbis: true, aviso_willard_completado: true,
         veyra_conocida: true, maleria_conocida: true, c14_veyra_princesa_orbis: true,
@@ -148,6 +156,17 @@ const sceneImages = [document.getElementById("scene-image-a"), document.getEleme
 const wallName = document.getElementById("wall-name");
 const storyDocument = document.getElementById("story-document");
 const storyEvent = document.getElementById("story-event");
+const storyVideoPanel = document.getElementById("story-video-panel");
+const storyVideo = document.getElementById("story-video");
+const storyVideoPlay = document.getElementById("story-video-play");
+const storyVideoSkip = document.getElementById("story-video-skip");
+let cancelStoryVideo = null;
+storyVideoPanel.addEventListener("click", event => event.stopPropagation());
+storyVideoPanel.addEventListener("keydown", event => {
+  event.stopPropagation();
+  if (event.key === "Escape") { event.preventDefault(); storyVideoSkip.click(); }
+  else if (!activateFocusedButton(event)) focusWithArrow(event, [storyVideoPlay, storyVideoSkip]);
+});
 const eventImage = document.getElementById("event-image");
 const pauseToCover = document.getElementById("pause-to-cover");
 const innNetworkButton = document.getElementById("inn-network-button");
@@ -501,6 +520,9 @@ pauseToCover.addEventListener("click", () => openPauseMenu());
 window.addEventListener("pagehide", saveGame);
 
 function resetScenePresentation() {
+  cancelStoryVideo?.();
+  storyVideo.pause();
+  storyVideoPanel.hidden = true;
   renderedDay = null;
   gameScreen.inert = false;
   dayTransitionRequest += 1;
@@ -879,7 +901,9 @@ async function runStoryEvent(node) {
   };
   const wait = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
   try {
-    if (node.style === "memory") {
+    if (node.style === "video") {
+      await playStoryVideo(node.video);
+    } else if (node.style === "memory") {
       const asset = STORY_SCENES[gameState.scene].assets[node.image];
       const loaded = await loadSceneImage(asset.src);
       if (!active()) return;
@@ -922,6 +946,45 @@ async function runStoryEvent(node) {
     storyEvent.hidden = true;
     renderScene();
   }
+}
+
+function playStoryVideo(src) {
+  return new Promise(resolve => {
+    const finish = () => {
+      storyVideo.pause();
+      storyVideo.onended = null;
+      storyVideo.onerror = null;
+      storyVideoPlay.onclick = null;
+      storyVideoSkip.onclick = null;
+      storyVideoPanel.hidden = true;
+      cancelStoryVideo = null;
+      resolve();
+    };
+    cancelStoryVideo = finish;
+    storyVideoPanel.hidden = false;
+    storyVideo.src = src;
+    storyVideoPlay.hidden = false;
+    storyVideoPlay.textContent = "Reproducir vídeo";
+    storyVideoSkip.textContent = "Omitir vídeo";
+    const play = () => storyVideo.play().then(() => {
+      if (storyVideoPanel.hidden) return;
+      storyVideoPlay.hidden = true;
+      storyVideoSkip.focus({ preventScroll: true });
+    }).catch(() => {
+      if (storyVideoPanel.hidden) return;
+      storyVideoPlay.hidden = false;
+      storyVideoPlay.focus({ preventScroll: true });
+    });
+    storyVideo.onended = finish;
+    storyVideo.onerror = () => {
+      storyVideoPlay.hidden = true;
+      storyVideoSkip.textContent = "Vídeo no disponible · Seguir";
+      storyVideoSkip.focus({ preventScroll: true });
+    };
+    storyVideoPlay.onclick = play;
+    storyVideoSkip.onclick = finish;
+    play();
+  });
 }
 
 document.getElementById("advance-dialogue").addEventListener("click", (event) => {

@@ -149,10 +149,11 @@ function showCompanion(id) {
   portrait.style.objectPosition = companion.portraitPosition || "center 25%";
   const frame = menuElement("div", "", "companion-portrait-frame");
   const level = gameState.affinity[id] ?? 1;
+  const platonic = companion.bondType === "platonic" || (id === "lyra" && gameState.lyra_relacion === "amistad");
   const affinity = menuElement("span", "", "companion-affinity");
-  affinity.classList.toggle("is-platonic", companion.bondType === "platonic");
+  affinity.classList.toggle("is-platonic", platonic);
   affinity.setAttribute("role", "img");
-  affinity.setAttribute("aria-label", `${companion.bondType === "platonic" ? "Vínculo no romántico" : "Afinidad"} con ${companion.name}: nivel ${level}`);
+  affinity.setAttribute("aria-label", `${platonic ? "Vínculo no romántico" : "Afinidad"} con ${companion.name}: nivel ${level}`);
   affinity.title = `Afinidad: nivel ${level}`;
   const heart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   heart.setAttribute("viewBox", "0 0 24 24");
@@ -168,6 +169,8 @@ function showCompanion(id) {
   heading.append(back, menuElement("h2", companion.name));
   pauseContent.append(heading, frame,
     menuElement("p", companion.description));
+  if (id === "lyra" && gameState.lyra_relacion) pauseContent.append(menuElement("p",
+    gameState.lyra_relacion === "pareja" ? "Pareja · Romance activo" : "Amistad profunda"));
   back.focus();
 }
 
