@@ -158,14 +158,11 @@ const storyDocument = document.getElementById("story-document");
 const storyEvent = document.getElementById("story-event");
 const storyVideoPanel = document.getElementById("story-video-panel");
 const storyVideo = document.getElementById("story-video");
-const storyVideoPlay = document.getElementById("story-video-play");
-const storyVideoSkip = document.getElementById("story-video-skip");
 let cancelStoryVideo = null;
 storyVideoPanel.addEventListener("click", event => event.stopPropagation());
 storyVideoPanel.addEventListener("keydown", event => {
   event.stopPropagation();
-  if (event.key === "Escape") { event.preventDefault(); storyVideoSkip.click(); }
-  else if (!activateFocusedButton(event)) focusWithArrow(event, [storyVideoPlay, storyVideoSkip]);
+  event.preventDefault();
 });
 const eventImage = document.getElementById("event-image");
 const pauseToCover = document.getElementById("pause-to-cover");
@@ -658,6 +655,7 @@ async function transitionToNewDay() {
   try {
     await fade(0, 1);
     if (request !== dayTransitionRequest) return;
+    storyVideoPanel.hidden = true;
     const node = StoryEngine.current(gameState, STORY_SCENES);
     await showSceneImage(node?.image, 0);
     if (request !== dayTransitionRequest) return;
@@ -933,6 +931,13 @@ async function runStoryEvent(node) {
     }
     if (!active()) return;
     StoryEngine.finishEvent(gameState, STORY_SCENES);
+    if (node.style === "video" && (reduced || gameState.calendar.expired ||
+        renderedDay === null || gameState.calendar.elapsed <= renderedDay)) {
+      // Sin animación, sustituir el último fotograma solo cuando el nuevo fondo esté listo.
+      await showSceneImage(StoryEngine.current(gameState, STORY_SCENES)?.image, 0);
+      if (!active()) return;
+      storyVideoPanel.hidden = true;
+    }
     eventRunning = false;
     storyEvent.hidden = true;
     storyEvent.style.opacity = "0";
@@ -950,40 +955,30 @@ async function runStoryEvent(node) {
 
 function playStoryVideo(src) {
   return new Promise(resolve => {
+    let finished = false;
     const finish = () => {
+      if (finished) return;
+      finished = true;
       storyVideo.pause();
       storyVideo.onended = null;
       storyVideo.onerror = null;
-      storyVideoPlay.onclick = null;
-      storyVideoSkip.onclick = null;
-      storyVideoPanel.hidden = true;
+      // Mantener el último fotograma hasta que el fundido blanco cubra la pantalla.
       cancelStoryVideo = null;
       resolve();
     };
     cancelStoryVideo = finish;
     storyVideoPanel.hidden = false;
+    storyVideo.controls = false;
+    storyVideo.muted = false;
     storyVideo.src = src;
-    storyVideoPlay.hidden = false;
-    storyVideoPlay.textContent = "Reproducir vídeo";
-    storyVideoSkip.textContent = "Omitir vídeo";
-    const play = () => storyVideo.play().then(() => {
-      if (storyVideoPanel.hidden) return;
-      storyVideoPlay.hidden = true;
-      storyVideoSkip.focus({ preventScroll: true });
-    }).catch(() => {
-      if (storyVideoPanel.hidden) return;
-      storyVideoPlay.hidden = false;
-      storyVideoPlay.focus({ preventScroll: true });
-    });
     storyVideo.onended = finish;
-    storyVideo.onerror = () => {
-      storyVideoPlay.hidden = true;
-      storyVideoSkip.textContent = "Vídeo no disponible · Seguir";
-      storyVideoSkip.focus({ preventScroll: true });
-    };
-    storyVideoPlay.onclick = play;
-    storyVideoSkip.onclick = finish;
-    play();
+    storyVideo.onerror = finish;
+    storyVideo.play().catch(async () => {
+      if (finished) return;
+      // Algunos móviles solo permiten la reproducción automática sin sonido.
+      storyVideo.muted = true;
+      try { await storyVideo.play(); } catch { finish(); }
+    });
   });
 }
 
