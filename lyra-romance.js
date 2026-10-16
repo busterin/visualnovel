@@ -17,31 +17,31 @@ STORY_SCENES.lyra_romance = {
       "alt": "lyra carta no"
     },
     "lyra_romance2": {
-      "src": "imagenes/Lyra Romance/lyra_romance2.png",
+      "src": "imagenes/Lyra Romance/lyra_romance2.png?v=33ba3a98",
       "alt": "lyra romance2"
     },
     "lyra_romance3": {
-      "src": "imagenes/Lyra Romance/lyra_romance3.png",
+      "src": "imagenes/Lyra Romance/lyra_romance3.png?v=d5769e84",
       "alt": "lyra romance3"
     },
     "lyra_romance4": {
-      "src": "imagenes/Lyra Romance/lyra_romance4.png",
+      "src": "imagenes/Lyra Romance/lyra_romance4.png?v=8a004aa4",
       "alt": "lyra romance4"
     },
     "lyra_romance5": {
-      "src": "imagenes/Lyra Romance/lyra_romance5.png",
+      "src": "imagenes/Lyra Romance/lyra_romance5.png?v=2e492632",
       "alt": "lyra romance5"
     },
     "lyra_romance6": {
-      "src": "imagenes/Lyra Romance/lyra_romance6.png",
+      "src": "imagenes/Lyra Romance/lyra_romance6.png?v=c7a5cc14",
       "alt": "lyra romance6"
     },
     "lyra_romance7": {
-      "src": "imagenes/Lyra Romance/lyra_romance7.png",
+      "src": "imagenes/Lyra Romance/lyra_romance7.png?v=3081a07f",
       "alt": "lyra romance7"
     },
     "lyra_romance8": {
-      "src": "imagenes/Lyra Romance/lyra_romance8.png",
+      "src": "imagenes/Lyra Romance/lyra_romance8.png?v=26b7bc35",
       "alt": "lyra romance8"
     },
     "lyra_romance9": {
@@ -49,7 +49,7 @@ STORY_SCENES.lyra_romance = {
       "alt": "lyra romance9"
     },
     "lyra_noromance": {
-      "src": "imagenes/Lyra Romance/lyra_noromance.png",
+      "src": "imagenes/Lyra Romance/lyra_noromance.png?v=2bcccb2d",
       "alt": "lyra noromance"
     },
     "lyra_noromance2": {
