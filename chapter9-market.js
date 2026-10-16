@@ -612,7 +612,7 @@ STORY_SCENES.c9_mercado = {
     "positivo_01": {
       "type": "dialogue",
       "speaker": "Veyra",
-      "text": "Por supuesto, pero este no es el lugar indicado. Búscame en el reino de Orbis, en un pueblo cercano a la capital llamado Merzien.",
+      "text": "Por supuesto, pero este no es el lugar indicado. Búscame en el reino de Orbis, en su capital, Merzien.",
       "image": "c9_veyra_f1",
       "next": "positivo_02",
       "effects": {

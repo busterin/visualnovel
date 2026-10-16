@@ -188,6 +188,8 @@ const StoryEngine = {
       state.calendar.active && !state.calendar.activity && !state.calendar.expired &&
       state.calendar.elapsed >= item.afterDays && !state.completedScenes.includes(item.scene));
     if (interlude) { this.start(state, scenes, interlude.scene); return; }
+    const due = state.scene === "c4_actividades" ? StoryCalendar.dueActivity(state, scenes) : null;
+    if (due) state.node = due.presentation;
     for (let hops = 0; hops < 100; hops++) {
       const node = this.current(state, scenes);
       if (!node) return;
@@ -258,6 +260,12 @@ const StoryEngine = {
   advance(state, scenes) {
     const node = this.current(state, scenes);
     if (!node || node.type !== "dialogue") return false;
+    if (node.forcedActivity) {
+      if (!StoryCalendar.begin(state, node.forcedActivity)) return false;
+      Object.assign(state, node.forcedActivity.effects || {});
+      this.goToScene(state, scenes, node.forcedActivity.destination);
+      return true;
+    }
     if (node.destination) {
       this.goToScene(state, scenes, node.destination);
       return true;

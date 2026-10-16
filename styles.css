@@ -368,3 +368,6 @@ button:focus-visible { outline: 2px solid #ffe2a3; outline-offset: 4px; }
   .character-card { transition: none; }
   .character-card:hover, .character-card:focus-visible { transform: none; }
 }
+
+/* Relatos del pasado: tratamiento estático sin destellos ni movimiento. */
+.scene-image.is-flashback { filter: sepia(.38) saturate(.72) contrast(.92); }

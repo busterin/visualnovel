@@ -5,7 +5,6 @@ STORY_SCENES.c14_maleria = {
   "title": "La hija ausente",
   "chapter": 14,
   "hideFromSelector": true,
-  "unavailableIfFlag": "veyra_bloqueada",
   "start": "comprobar_orbis",
   "nextScene": "c4_actividades",
   "assets": {
@@ -54,7 +53,7 @@ STORY_SCENES.c14_maleria = {
     "1": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Viajo a Orbis para solicitar una audiencia con la reina Maleria.",
+      "text": "Viajo a Merzien, la capital de Orbis, para solicitar una audiencia con la reina Maleria.",
       "image": "capital_de_mármol_junto_al_mar",
       "next": "2"
     },
@@ -82,7 +81,7 @@ STORY_SCENES.c14_maleria = {
     "5": {
       "type": "dialogue",
       "speaker": null,
-      "text": "La capital aparece ante mí junto al mar.",
+      "text": "Merzien aparece ante mí junto al mar.",
       "image": "capital_de_mármol_junto_al_mar",
       "next": "6"
     },
@@ -98,7 +97,7 @@ STORY_SCENES.c14_maleria = {
       "speaker": null,
       "text": "Al fondo, por encima de todos los edificios, se alza el palacio real.",
       "image": "capital_de_mármol_junto_al_mar",
-      "next": "8"
+      "next": "encuentro_bloqueado"
     },
     "8": {
       "type": "dialogue",
@@ -1006,7 +1005,7 @@ STORY_SCENES.c14_maleria = {
       "speaker": null,
       "text": "Me detengo.",
       "image": "galeria_cuadros",
-      "next": "116"
+      "next": "reconocer_retrato"
     },
     "116": {
       "type": "dialogue",
@@ -1135,7 +1134,7 @@ STORY_SCENES.c14_maleria = {
       "type": "condition",
       "flag": "acceso_orbis",
       "equals": true,
-      "ifTrue": "comprobar_veyra",
+      "ifTrue": "comprobar_obligatoria",
       "ifFalse": "volver"
     },
     "comprobar_veyra": {
@@ -1148,6 +1147,62 @@ STORY_SCENES.c14_maleria = {
     "volver": {
       "type": "redirect",
       "destination": "c4_actividades"
+    },
+    "comprobar_obligatoria": {
+      "type": "condition",
+      "flag": "c14_audiencia_obligatoria",
+      "equals": true,
+      "ifTrue": "1",
+      "ifFalse": "comprobar_bloqueo"
+    },
+    "comprobar_bloqueo": {
+      "type": "condition",
+      "flag": "veyra_bloqueada",
+      "equals": true,
+      "ifTrue": "volver",
+      "ifFalse": "comprobar_veyra"
+    },
+    "encuentro_bloqueado": {
+      "type": "condition",
+      "flag": "veyra_bloqueada",
+      "equals": true,
+      "ifTrue": "38S",
+      "ifFalse": "encuentro_conocida"
+    },
+    "encuentro_conocida": {
+      "type": "condition",
+      "flag": "veyra_conocida",
+      "equals": true,
+      "ifTrue": "8",
+      "ifFalse": "38S"
+    },
+    "38S": {
+      "type": "dialogue",
+      "speaker": null,
+      "text": "Presento mis credenciales ante la guardia.",
+      "image": "capital_de_mármol_junto_al_mar",
+      "next": "39S"
+    },
+    "39S": {
+      "type": "dialogue",
+      "speaker": null,
+      "text": "Tras una larga espera, me permiten entrar.",
+      "image": "capital_de_mármol_junto_al_mar",
+      "next": "40"
+    },
+    "reconocer_retrato": {
+      "type": "condition",
+      "flag": "veyra_conocida",
+      "equals": true,
+      "ifTrue": "116",
+      "ifFalse": "116S"
+    },
+    "116S": {
+      "type": "dialogue",
+      "speaker": null,
+      "text": "No había visto antes a esa joven.",
+      "image": "galeria_cuadros",
+      "next": "117"
     }
   }
 };
@@ -1166,5 +1221,22 @@ STORY_SCENES.c14_maleria = {
     text: "En el reino de Orbis, gobierna la Reina Maleria. Debería ir a verla...",
     next: i < 2 ? `orbis_briefing_${i + 1}` : "actividades_orbis",
     backTo: "reinos", backRequiresFlag: "acceso_orbis",
+  };
+}
+
+// La audiencia obligatoria mantiene el bloqueo personal de Veyra:
+// si no se la conoce o cerró su ruta, no hay encuentro con ella en palacio.
+{
+  const hub = STORY_SCENES.c4_actividades;
+  hub.scheduledActivities ||= [];
+  hub.scheduledActivities.push({
+    day: 19, scene: "c14_maleria", requiresFlags: ["acceso_orbis"],
+    presentation: "obligatoria_maleria",
+  });
+  hub.nodes.obligatoria_maleria = {
+    type: "dialogue", speaker: "Protagonista", image: "nuevodia",
+    text: hub.nodes.introduccion_maleria_0.text,
+    forcedActivity: { destination: "c14_maleria", dayCost: 1,
+      activity: { id: "orbis_maleria" }, effects: { c14_audiencia_obligatoria: true } },
   };
 }

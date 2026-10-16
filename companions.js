@@ -33,7 +33,7 @@ const COMPANIONS = {
     portrait: "imagenes/Escena9/c9_veyra_f1.png",
     avatarSize: "190% auto", avatarPosition: "center 12%",
     portraitPosition: "center top",
-    description: "Una mujer a la que nadie más parece ver. Te ha citado en Merzien, un pueblo cercano a la capital del reino de Orbis, donde espera darte algunas respuestas.",
+    description: "Una mujer a la que nadie más parece ver. Te ha citado en Merzien, la capital del reino de Orbis, donde espera darte algunas respuestas.",
   },
   eiden: {
     name: "Eiden", bondType: "romantic",

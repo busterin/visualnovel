@@ -1181,3 +1181,18 @@ STORY_SCENES.c15_noveno_segundo = {
    backTo: "reinos", backRequiresFlag: "acceso_orbis",
  };
 }
+
+// La fecha usa el día mostrado (elapsed + 1), no los días ya consumidos.
+{
+  const hub = STORY_SCENES.c4_actividades;
+  hub.scheduledActivities ||= [];
+  hub.scheduledActivities.push({
+    day: 20, scene: "c15_noveno_segundo", requiredScenes: ["c14_maleria"],
+    presentation: "obligatoria_noveno_segundo",
+  });
+  hub.nodes.obligatoria_noveno_segundo = {
+    type: "dialogue", speaker: "Protagonista", image: "nuevodia",
+    text: hub.nodes.introduccion_noveno_segundo_0.text,
+    forcedActivity: { destination: "c15_noveno_segundo", dayCost: 1, activity: { id: "noveno_segundo" } },
+  };
+}

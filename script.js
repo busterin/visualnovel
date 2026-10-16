@@ -4,7 +4,9 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 17, label: "La estación donde nunca llega el tren", scene: "c17_estacion_lyra", preset: "lyra_station" },
   { chapter: 10.5, label: "Romance · Lyra (vínculo 8)", scene: "lyra_romance", preset: "lyra_romance", interlude: true },
+  { chapter: 16, label: "La verdad del faro", scene: "c16_verdad_faro", preset: "lighthouse_truth" },
   { chapter: 15, label: "El noveno segundo", scene: "c15_noveno_segundo", preset: "ninth_second" },
   { chapter: 7.5, label: "Extra · Pasar el día en la posada", scene: "extra_posada", preset: "inn_day", interlude: true },
   { chapter: 14, label: "La hija ausente", scene: "c14_maleria", preset: "maleria" },
@@ -24,8 +26,10 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const lyraStation = preset === "lyra_station";
   const lyraRomance = preset === "lyra_romance";
-  const ninthSecond = preset === "ninth_second";
+  const lighthouseTruth = preset === "lighthouse_truth";
+  const ninthSecond = preset === "ninth_second" || lighthouseTruth;
   const innDay = preset === "inn_day";
   const maleria = preset === "maleria";
   const blackouts = preset === "blackouts";
@@ -35,7 +39,7 @@ function prepareReviewStart(state, preset) {
   const market = preset === "market";
   const willard = preset === "willard";
   const lyraTraining = preset === "lyra_training";
-  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond || lyraRomance) preset = "countdown";
+  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond || lyraRomance || lyraStation) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -55,6 +59,13 @@ function prepareReviewStart(state, preset) {
   if (preset === "countdown") {
     state.revelacion_diosa_completada = true;
     StoryCalendar.activate(state);
+    if (lyraStation) {
+      state.c10_completado = true;
+      state.completedScenes.push("c10_lyra");
+      state.calendar.completed.push("lyra");
+      state.calendar.elapsed = 1; state.calendar.remaining = 49;
+      StoryCalendar.begin(state, { activity: { id: "estacion_lyra" }, dayCost: 1 });
+    }
     if (lyraRomance) {
       state.affinity.lyra = 8;
       state.lyra_romance_inicio_dia = 0;
@@ -67,7 +78,14 @@ function prepareReviewStart(state, preset) {
         c14_veyra_hija_maleria: true, c14_maleria_recuerda_hija: true });
       state.completedScenes.push("interludio_willard", "c9_mercado", "c14_maleria");
       state.calendar.elapsed = 10; state.calendar.remaining = 40;
-      StoryCalendar.begin(state, { activity: { id: "noveno_segundo" }, dayCost: 1 });
+      if (lighthouseTruth) {
+        state.completedScenes.push("c15_noveno_segundo");
+        Object.assign(state, { c15_completado: true, c15_albert_altero_retorno: true,
+          c15_willard_lyra_fuera: true, c15_pasado_protagonista_desbloqueado: true });
+        state.calendar.elapsed = 11; state.calendar.remaining = 39;
+        state.calendar.completed.push("noveno_segundo");
+      }
+      StoryCalendar.begin(state, { activity: { id: lighthouseTruth ? "verdad_faro" : "noveno_segundo" }, dayCost: 1 });
     }
     if (innDay) StoryCalendar.begin(state, { activity: { id: "descanso_posada" }, dayCost: 1 });
     if (maleria) {
@@ -604,6 +622,7 @@ async function showSceneImage(key, transitionMs = 520) {
   try { await incoming.decode(); } catch { /* La precarga ya comprobó el recurso. */ }
   if (request !== imageRequest) return;
   const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : transitionMs;
+  incoming.classList.toggle("is-flashback", asset.treatment === "flashback");
   incoming.alt = asset.alt;
   incoming.removeAttribute("aria-hidden");
   outgoing.setAttribute("aria-hidden", "true");

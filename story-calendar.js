@@ -28,6 +28,15 @@ const StoryCalendar = {
         !(alliance.requiresFlags||[]).length || alliance.requiresFlags.some(flag=>!state[flag]))) return false;
     return true;
   },
+  dueActivity(state, scenes) {
+    const c = state.calendar;
+    if (!c.active || c.expired || c.activity) return null;
+    return (scenes.c4_actividades?.scheduledActivities || []).slice().sort((a,b) => a.day-b.day).find(item =>
+      c.elapsed + 1 >= item.day &&
+      !state.completedScenes.includes(item.scene) &&
+      (item.requiresFlags || []).every(flag => state[flag]) &&
+      (item.requiredScenes || []).every(id => state.completedScenes.includes(id))) || null;
+  },
   begin(state, option) {
     if (!this.available(state,option)) return false;
     const cost=this.cost(state,option);
