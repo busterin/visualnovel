@@ -969,7 +969,7 @@ function playStoryVideo(src) {
     cancelStoryVideo = finish;
     storyVideoPanel.hidden = false;
     storyVideo.controls = false;
-    storyVideo.muted = false;
+    storyVideo.muted = true;
     storyVideo.src = src;
     storyVideo.onended = finish;
     storyVideo.onerror = finish;
