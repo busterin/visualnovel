@@ -799,7 +799,7 @@ STORY_SCENES.lyra_romance = {
       "speaker": "Lyra",
       "text": "Mucho mejor.",
       "image": "lyra_romance9",
-      "next": "video"
+      "next": "fundido_noche"
     },
     "83B": {
       "type": "dialogue",
@@ -982,11 +982,17 @@ STORY_SCENES.lyra_romance = {
       ]
     },
     "video": {
+      "type": "redirect",
+      "destination": "lyra_romance",
+      "destinationNode": "fundido_noche"
+    },
+    "fundido_noche": {
       "type": "event",
-      "event": "lyra_romance_video",
-      "style": "video",
-      "video": "imagenes/Lyra Romance/video_romance_lyra.mp4",
-      "image": "lyra_romance9",
+      "event": "lyra_romance_fundido_noche",
+      "style": "light",
+      "image": "blanco",
+      "fadeDurationMs": 1100,
+      "durationMs": 0,
       "next": "noche_juntos"
     },
     "noche_juntos": {
@@ -994,7 +1000,6 @@ STORY_SCENES.lyra_romance = {
       "speaker": null,
       "text": "Lyra y yo pasamos la noche juntos. Nos habíamos encontrado de nuevo...",
       "image": "blanco",
-      "whiteAfterVideo": true,
       "next": "fin_pareja"
     },
     "aplazar": {

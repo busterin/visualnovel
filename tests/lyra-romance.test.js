@@ -12,8 +12,8 @@
   s=advanceTo(s,'decision_definitiva');StoryEngine.choose(s,scenes,final);ok(s.pendingChoice,'Sin confirmación');
   StoryEngine.choose(s,scenes,'confirm_no');ok(s.node==='decision_definitiva'&&!s.lyra_romance_decision,'Confirmación no deshace');
   StoryEngine.choose(s,scenes,final);s=reload(s);StoryEngine.choose(s,scenes,'confirm_yes');
-  s=advanceTo(s,final==='A'?'video':'102B');
-  if(final==='A'){StoryEngine.beginEvent(s,scenes);s=StoryEngine.restore(JSON.parse(JSON.stringify(s)),scenes);ok(s.node==='noche_juntos','Repite vídeo al cargar');ok(s.calendar.remaining===initial,'Cobro antes de leer');s=reload(s);ok(s.node==='noche_juntos','Pierde texto al cargar');StoryEngine.advance(s,scenes);}else StoryEngine.advance(s,scenes);
+  s=advanceTo(s,final==='A'?'fundido_noche':'102B');
+  if(final==='A'){StoryEngine.beginEvent(s,scenes);s=StoryEngine.restore(JSON.parse(JSON.stringify(s)),scenes);ok(s.node==='noche_juntos','Repite fundido al cargar');ok(s.calendar.remaining===initial,'Cobro antes de leer');s=reload(s);ok(s.node==='noche_juntos','Pierde texto al cargar');StoryEngine.advance(s,scenes);}else StoryEngine.advance(s,scenes);
   ok(s.lyra_romance_completado&&s.lyra_relacion===(final==='A'?'pareja':'amistad'),'Estado relación');
   ok(s.lyra_romance_activo===(final==='A')&&s.lyra_romance_cerrado===(final==='B'),'Estado romance');
   ok(s.lyra_escenas_romanticas_desbloqueadas===(final==='A'),'Exclusivas');ok(s.affinity.lyra===8,'Afinidad alterada');
@@ -32,6 +32,6 @@
  ok(s.lyra_romance_cerrado&&s.lyra_romance_cierre_motivo==='plazo'&&!offered(s),'No cierra a cinco días');
  s.affinity.lyra=15;hub(s);ok(!offered(s)&&s.lyra_romance_inicio_dia===start,'Reabre ruta cerrada');
  let ignored=make();for(let i=0;i<5;i++){StoryCalendar.begin(ignored,{activity:{id:'ignore'+i},dayCost:1});StoryCalendar.finish(ignored);hub(ignored)}ok(ignored.lyra_romance_cerrado,'Ignorar no cuenta');
- let late=make();late.calendar.elapsed+=4;late.calendar.remaining-=4;hub(late);StoryEngine.choose(late,scenes,'lyra_romance');late=advanceTo(late,'decision_invitacion');StoryEngine.choose(late,scenes,'A');late=advanceTo(late,'decision_definitiva');StoryEngine.choose(late,scenes,'A');StoryEngine.choose(late,scenes,'confirm_yes');late=advanceTo(late,'video');StoryEngine.finishEvent(late,scenes);ok(late.node==='noche_juntos','Falta cierre');StoryEngine.advance(late,scenes);ok(late.lyra_romance_activo&&!late.lyra_romance_cerrado,'Pierde última jornada');
- return 'OK romance Lyra: umbral, prioridad, pareja/amistad, confirmación, vídeo, carga, aplazamientos y plazo de cinco días.';
+ let late=make();late.calendar.elapsed+=4;late.calendar.remaining-=4;hub(late);StoryEngine.choose(late,scenes,'lyra_romance');late=advanceTo(late,'decision_invitacion');StoryEngine.choose(late,scenes,'A');late=advanceTo(late,'decision_definitiva');StoryEngine.choose(late,scenes,'A');StoryEngine.choose(late,scenes,'confirm_yes');late=advanceTo(late,'fundido_noche');StoryEngine.finishEvent(late,scenes);ok(late.node==='noche_juntos','Falta cierre');StoryEngine.advance(late,scenes);ok(late.lyra_romance_activo&&!late.lyra_romance_cerrado,'Pierde última jornada');
+ return 'OK romance Lyra: umbral, prioridad, pareja/amistad, confirmación, fundido, carga, aplazamientos y plazo de cinco días.';
 })()
