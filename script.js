@@ -961,6 +961,29 @@ async function runStoryEvent(node) {
     }
     if (!active()) return;
     StoryEngine.finishEvent(gameState, STORY_SCENES);
+    const afterVideo = StoryEngine.current(gameState, STORY_SCENES);
+    if (node.style === "video" && afterVideo?.whiteAfterVideo) {
+      // Cubrir el último fotograma antes de mostrar la narración guardable.
+      dayTransition.hidden = false;
+      dayTransition.style.opacity = "1";
+      if (!reduced) {
+        await dayTransition.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: 1100, easing: "ease-in-out",
+        }).finished.catch(() => {});
+      }
+      if (!active()) return;
+      await showSceneImage(afterVideo.image, 0);
+      if (!active()) return;
+      storyVideoPanel.hidden = true;
+      eventRunning = false;
+      storyEvent.hidden = true;
+      storyEvent.style.opacity = "0";
+      renderScene();
+      dayTransition.hidden = true;
+      dayTransition.style.opacity = "0";
+      gameScreen.focus({ preventScroll: true });
+      return;
+    }
     if (node.style === "video" && (reduced || gameState.calendar.expired ||
         renderedDay === null || gameState.calendar.elapsed <= renderedDay)) {
       // Sin animación, sustituir el último fotograma solo cuando el nuevo fondo esté listo.

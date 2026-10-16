@@ -8,6 +8,7 @@ STORY_SCENES.lyra_romance = {
   "nextScene": "c4_actividades",
   "unavailableIfFlag": "lyra_romance_cerrado",
   "assets": {
+    "blanco": { "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='1600'%3E%3Cpath fill='white' d='M0 0h900v1600H0z'/%3E%3C/svg%3E", "alt": "Fondo blanco" },
     "lyra_romance1": {
       "src": "imagenes/Lyra Romance/lyra_romance1.png.PNG",
       "alt": "lyra romance1"
@@ -986,6 +987,14 @@ STORY_SCENES.lyra_romance = {
       "style": "video",
       "video": "imagenes/Lyra Romance/video_romance_lyra.mp4",
       "image": "lyra_romance9",
+      "next": "noche_juntos"
+    },
+    "noche_juntos": {
+      "type": "dialogue",
+      "speaker": null,
+      "text": "Lyra y yo pasamos la noche juntos. Nos habíamos encontrado de nuevo...",
+      "image": "blanco",
+      "whiteAfterVideo": true,
       "next": "fin_pareja"
     },
     "aplazar": {
