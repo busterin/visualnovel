@@ -4,6 +4,7 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 18, label: "El Umbral", scene: "c18_umbral", preset: "veyra_threshold" },
   { chapter: 17, label: "La estación donde nunca llega el tren", scene: "c17_estacion_lyra", preset: "lyra_station" },
   { chapter: 10.5, label: "Romance · Lyra (vínculo 8)", scene: "lyra_romance", preset: "lyra_romance", interlude: true },
   { chapter: 16, label: "La verdad del faro", scene: "c16_verdad_faro", preset: "lighthouse_truth" },
@@ -26,6 +27,7 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const veyraThreshold = preset === "veyra_threshold";
   const lyraStation = preset === "lyra_station";
   const lyraRomance = preset === "lyra_romance";
   const lighthouseTruth = preset === "lighthouse_truth";
@@ -39,7 +41,7 @@ function prepareReviewStart(state, preset) {
   const market = preset === "market";
   const willard = preset === "willard";
   const lyraTraining = preset === "lyra_training";
-  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond || lyraRomance || lyraStation) preset = "countdown";
+  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond || lyraRomance || lyraStation || veyraThreshold) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -59,6 +61,15 @@ function prepareReviewStart(state, preset) {
   if (preset === "countdown") {
     state.revelacion_diosa_completada = true;
     StoryCalendar.activate(state);
+    if (veyraThreshold) {
+      Object.assign(state, { acceso_orbis: true, aviso_willard_completado: true,
+        mercado_completado: true, veyra_conocida: true, c14_completado: true,
+        c14_decision_1: "A", c14_veyra_princesa_orbis: true, c14_veyra_hija_maleria: true });
+      state.completedScenes.push("interludio_willard", "c9_mercado", "c14_maleria");
+      state.calendar.elapsed = 10; state.calendar.remaining = 40;
+      state.metCompanions.push("veyra"); state.affinity.veyra = 1;
+      StoryCalendar.begin(state, { activity: { id: "orbis_umbral" }, dayCost: 1 });
+    }
     if (lyraStation) {
       state.c10_completado = true;
       state.completedScenes.push("c10_lyra");
