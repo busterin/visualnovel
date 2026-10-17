@@ -20,8 +20,8 @@
   assert(visited.indexOf('posada_nota_cierre_02')<visited.indexOf('posada_v2_habitacion_01'),'Nota después de subir');
   assert(JSON.stringify(s.documents.posada)===originalPaper&&s.posada_impreso_mostrado,'Impresa alterada o no registrada');
   assert(s.cinta_guardada_por===(ribbon?who:null),'Propietario cinta');
-  assert(s.affinity.ada===(who==='ada'?2:1)&&s.affinity.alma===(who==='alma'?2:1)&&s.affinity.lyra===1,'Afinidad');
-  assert(COMPANIONS.ada.bondType==='platonic'&&COMPANIONS.alma.bondType==='platonic','Romance indebido');
+  assert(s.affinity.ada===(who==='alma'?3:who==='ada'?2:1)&&s.affinity.alma===undefined&&!s.metCompanions.includes('alma')&&s.affinity.lyra===1,'Afinidad');
+  assert(COMPANIONS.ada.bondType==='platonic'&&!COMPANIONS.alma,'Romance indebido');
   for(const flag of ['posada_completada','iven_esposo_ada','iven_padre_alma','dormitorio_ada_iven','ada_lagunas_iven','ada_tercer_plato_iven','documentos_aberraciones_iven_revisados','agentes_lunares_conocidos','iven_agente_lunar_sospecha','alma_recuerda_cinta'])assert(s[flag],flag);
   for(const flag of ['darven_conocido','alma_recuerda_iven','manifiestos_iven_revisados','dibujo_alma_encontrado','entregas_iven_no_coinciden','documentacion_iven_familia'])assert(!s[flag],'Pista retirada '+flag);
   assert(!s.calendar.active,'Consume tiempo');
@@ -32,7 +32,8 @@
  }
  for(const [id,n] of Object.entries(scenes.c3_posada.nodes))if(!['condition','redirect'].includes(n.type)&&id!=='posada_destinos')assert(covered.has(id),'Sin probar '+id);
  const old=StoryEngine.createState();old.scene='c3_posada';old.node='posada_rama_alma_05';old.affinity.alma=2;old.appliedNodes=['c3_posada:posada_rama_alma_05'];
- assert(StoryEngine.restore(old,scenes).affinity.alma===2,'Premio antiguo duplicado');
+ const migrated=StoryEngine.restore(old,scenes);assert(migrated.affinity.alma===undefined&&migrated.affinity.ada===3,'Migración cinta');
+ assert(StoryEngine.restore(migrated,scenes).affinity.ada===3,'Premio antiguo duplicado');
  for(const id of ['posada_darven_01','posada_dibujo_01','posada_entrada_01']){old.node=id;assert(StoryEngine.current(StoryEngine.restore(old,scenes),scenes)?.type==='dialogue','Partida antigua bloqueada');}
  return `OK posada: ${runs} recorridos, saludos, Inspección previa, cinta ausente/ambos destinatarios, guardado y destinos.`;
 })()

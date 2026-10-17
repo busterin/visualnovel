@@ -49,13 +49,6 @@ const COMPANIONS = {
     portraitPosition: "center top",
     description: "Regenta la posada del Puente. Es la esposa de Iven, el transportista desaparecido.",
   },
-  alma: {
-    name: "Alma", bondType: "platonic",
-    portrait: "imagenes/Escena4/c4_alma_umbral.png",
-    avatarSize: "360% auto", avatarPosition: "16% 24%",
-    portraitPosition: "center 23%",
-    description: "La hija de Ada e Iven. Sus recuerdos de su padre también se están desvaneciendo. Algunos objetos todavía le resultan familiares.",
-  },
   lyra: {
     name: "Lyra",
     bondType: "romantic",

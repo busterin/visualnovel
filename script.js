@@ -57,7 +57,7 @@ function prepareReviewStart(state, preset) {
     acceso_mantenimiento_autorizado: false, ada_lagunas_iven: true,
     documentos_aberraciones_iven_revisados: true, iven_entrega_inspeccion: true,
     iven_informes_aberraciones: true, inspeccion_corte_segundos: 9,
-    metCompanions: ["lyra", "ada", "alma"], affinity: { lyra: 1, ada: 1, alma: 1 },
+    metCompanions: ["lyra", "ada"], affinity: { lyra: 1, ada: 1 },
     mantenimiento_con_lyra: preset === "maintenance",
   });
   if (["clothes", "revelation", "countdown"].includes(preset)) {

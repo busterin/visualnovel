@@ -1464,10 +1464,6 @@ STORY_SCENES.extra_posada = {
         {
           "companion": "ada",
           "amount": 1
-        },
-        {
-          "companion": "alma",
-          "amount": 1
         }
       ]
     }

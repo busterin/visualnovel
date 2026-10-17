@@ -663,10 +663,7 @@ STORY_SCENES.c3_posada = {
       "speaker": "Alma",
       "text": "¿Mamá?",
       "image": "c4_alma_umbral",
-      "next": "posada_v2_alma_02",
-      "meetCompanions": [
-        "alma"
-      ]
+      "next": "posada_v2_alma_02"
     },
     "posada_v2_alma_02": {
       "type": "dialogue",
@@ -973,11 +970,12 @@ STORY_SCENES.c3_posada = {
       "image": "c4_cinta_alma",
       "next": "posada_v2_despedida_imagen",
       "affinityGain": {
-        "companion": "alma",
-        "amount": 1
+        "companion": "ada",
+        "amount": 2
       },
       "effects": {
-        "cinta_guardada_por": "alma"
+        "cinta_guardada_por": "alma",
+        "cinta_alma_vinculo_ada_aplicado": true
       }
     },
     "posada_rama_ada_01": {

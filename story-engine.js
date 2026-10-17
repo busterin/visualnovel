@@ -354,8 +354,9 @@ const StoryEngine = {
     if (!Array.isArray(state.metCompanions)) state.metCompanions = [];
     if (!state.affinity || typeof state.affinity !== "object" || Array.isArray(state.affinity)) state.affinity = {};
     // Iven se incluyó como compañero en las primeras partidas de prueba.
-    state.metCompanions = state.metCompanions.filter(id => id !== "iven");
+    state.metCompanions = state.metCompanions.filter(id => id !== "iven" && id !== "alma");
     delete state.affinity.iven;
+    delete state.affinity.alma;
     for (const id of Object.keys(state.affinity)) {
       const level = state.affinity[id];
       state.affinity[id] = Number.isSafeInteger(level) && level >= 0 ? level : 1;
@@ -363,6 +364,11 @@ const StoryEngine = {
     if (!Array.isArray(state.decisions) || !Array.isArray(state.completedScenes) || !Array.isArray(state.appliedNodes)
         || !state.events || !state.documents || typeof state.protagonistName !== "string"
         || (state.node !== null && !scenes[state.scene].nodes[state.node])) throw new Error("Partida no válida");
+    // La cinta entregada a Alma ahora mejora la amistad con Ada, una sola vez.
+    if (!state.cinta_alma_vinculo_ada_aplicado && state.appliedNodes.includes("c3_posada:posada_rama_alma_05")) {
+      state.affinity.ada = (state.affinity.ada ?? 1) + 2;
+      state.cinta_alma_vinculo_ada_aplicado = true;
+    }
     // Recuperar encuentros en partidas guardadas antes de añadir el menú.
     if (state.documents.nota?.body) state.documents.nota.body = state.documents.nota.body.replace('Hermana: Ada', 'Esposa: Ada');
     if (state.archivo_darven_presente) state.darven_conocido = true;
