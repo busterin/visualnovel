@@ -12,13 +12,13 @@ const COMPANIONS = {
   jairen: {
     name: "Jairen", bondType: "platonic",
     portrait: "imagenes/Escena12/JAIREN_Observa_Pajaro_Madera.png",
-    avatarSize: "220% auto", avatarPosition: "58% 12%", portraitPosition: "center top",
+    avatarSize: "195% auto", avatarPosition: "58% 12%", portraitPosition: "center top",
     description: "Príncipe de Vaelthar. Tras perder a Seren, busca mantener las audiencias del pueblo mientras revisa la seguridad del palacio. Te ha invitado a volver y hablar con franqueza.",
   },
   seren: {
     name: "Seren", bondType: "romantic",
-    portrait: "imagenes/Escena12/SEREN_Patio_Conversacion_01.png",
-    avatarSize: "230% auto", avatarPosition: "48% 9%", portraitPosition: "center top",
+    portrait: "imagenes/Escena19/c19_s6.png",
+    avatarSize: "220% auto", avatarPosition: "54% 21%", portraitPosition: "center 27%",
     description: "Princesa de Vaelthar. Tras perder a Jairen, aprende a delegar sin dejar de escuchar a su pueblo. Quiere que podáis conversar sin necesitar siempre una respuesta preparada.",
   },
   willard: {

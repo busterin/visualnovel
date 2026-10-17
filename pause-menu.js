@@ -108,30 +108,45 @@ function showHistoryChapter(id) {
   back.focus({ preventScroll: true });
 }
 
+function isCompanionPartner(id) {
+  return COMPANIONS[id]?.bondType === "romantic" &&
+    gameState.metCompanions.includes(id) && gameState[`${id}_relacion`] === "pareja";
+}
+
 function showCompanions() {
   selectPauseSection("companions");
   pauseContent.append(menuElement("h2", "Compañeros"));
-  const met = gameState.metCompanions.filter(id => COMPANIONS[id]);
+  const met = gameState.metCompanions.filter(id => COMPANIONS[id] && id !== gameState.palacio_fallecido);
   if (!met.length) pauseContent.append(menuElement("p", "Todavía no has encontrado a ningún compañero."));
   const gallery = menuElement("div", "", "companions-gallery");
-  for (const id of met) {
+  const visible = Object.keys(COMPANIONS)
+    .filter(id => id !== gameState.palacio_fallecido)
+    .sort((a, b) => Number(isCompanionPartner(b)) - Number(isCompanionPartner(a)) ||
+      Number(met.includes(b)) - Number(met.includes(a)));
+  for (const id of visible) {
     const companion = COMPANIONS[id];
     const button = menuElement("button", "", "companion-button");
     button.type = "button";
+    const unlocked = met.includes(id);
+    button.classList.toggle("is-locked", !unlocked);
+    button.classList.toggle("is-partner", isCompanionPartner(id));
+    button.setAttribute("aria-disabled", String(!unlocked));
+    button.setAttribute("aria-label", unlocked ? companion.name + (isCompanionPartner(id) ? ", pareja" : "") : "Compañero aún no desbloqueado");
     const avatar = menuElement("span", "", "companion-avatar");
     avatar.setAttribute("aria-hidden", "true");
     avatar.style.backgroundImage = `url("${companion.portrait}")`;
     avatar.style.backgroundSize = companion.avatarSize || "cover";
     avatar.style.backgroundPosition = companion.avatarPosition || companion.portraitPosition || "center";
-    button.append(avatar, menuElement("span", companion.name));
-    button.addEventListener("click", () => showCompanion(id));
+    button.append(avatar);
+    if (unlocked) button.append(menuElement("span", companion.name));
+    button.addEventListener("click", () => { if (unlocked) showCompanion(id); });
     gallery.append(button);
   }
   pauseContent.append(gallery);
 }
 
 function showCompanion(id) {
-  if (!gameState.metCompanions.includes(id) || !COMPANIONS[id]) return;
+  if (id === gameState.palacio_fallecido || !gameState.metCompanions.includes(id) || !COMPANIONS[id]) return;
   selectPauseSection("companions");
   const companion = COMPANIONS[id];
   const back = menuElement("button", "", "menu-back");

@@ -5,7 +5,7 @@ const StoryEngine = {
   createState() {
     return {
       version: 2, scene: "intro", node: null, protagonistName: "", decisions: [], completedScenes: [],
-      appliedNodes: [], events: {}, documents: {}, dailyOptionSelections: {},
+      appliedNodes: [], events: {}, documents: {}, dailyOptionSelections: {}, choiceOrders: {},
       metCompanions: [], affinity: {},
       lyra_romance_inicio_dia: null, lyra_romance_aplazada_dia: null,
       lyra_romance_disponible: false, lyra_romance_completado: false,
@@ -157,7 +157,24 @@ const StoryEngine = {
       (!node.optionLimit || !state.calendar.completed.includes(option.activity?.id)))
       ;
     const limit = node?.optionLimit || Infinity;
-    if (!node?.randomOverflow || options.length <= limit) return options.slice(0, limit);
+    if (!node?.randomOverflow || options.length <= limit) {
+      const selected = options.slice(0, limit);
+      // Mezclar respuestas narrativas; los destinos diarios conservan el orden
+      // de sus presentaciones y Sí/No sigue siendo una confirmación estable.
+      if (state.scene === "c4_actividades" || state.pendingChoice || selected.length < 2) return selected;
+      state.choiceOrders ||= {};
+      const key = `${state.scene}:${state.node}`;
+      let order = state.choiceOrders[key];
+      if (!Array.isArray(order)) {
+        order = (node.options || []).map(option => option.id);
+        for (let i = order.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [order[i], order[j]] = [order[j], order[i]];
+        }
+        state.choiceOrders[key] = order;
+      }
+      return selected.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+    }
     // Persist the draw so briefings, navigation and reloads show the same destinations.
     const key = `${state.scene}:${node.randomOverflow}`;
     const signature = JSON.stringify([state.calendar.elapsed, options.map(o => [o.id, !!o.priority])]);
@@ -246,6 +263,7 @@ const StoryEngine = {
         }
         state.appliedNodes.push(id);
       }
+      if (node.type === "choice") this.availableOptions(state, scenes, node);
       if (node.endActivity) StoryCalendar.finish(state);
       if (node.completeRoute) {
         if (!state.completedScenes.includes(state.scene)) state.completedScenes.push(state.scene);

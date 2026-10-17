@@ -371,3 +371,14 @@ button:focus-visible { outline: 2px solid #ffe2a3; outline-offset: 4px; }
 
 /* Relatos del pasado: tratamiento estático sin destellos ni movimiento. */
 .scene-image.is-flashback { filter: sepia(.38) saturate(.72) contrast(.92); }
+
+/* Los compañeros pendientes se muestran sin habilitar su ficha. */
+.companion-button.is-locked { color: #a4a4a4; cursor: default; }
+.companion-button.is-locked .companion-avatar { filter: grayscale(1); border-color: #777; opacity: .65; }
+
+.companion-button.is-partner .companion-avatar,
+.companion-button.is-partner:hover .companion-avatar,
+.companion-button.is-partner:focus-visible .companion-avatar {
+  border-color: #e34e60;
+  box-shadow: 0 0 0 3px #e34e6033;
+}

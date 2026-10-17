@@ -4,6 +4,11 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 21, label: "Los secretos de Valdoren · Parte 1", scene: "c21_valdoren", preset: "valdoren" },
+  { chapter: 20, label: "Cuando falla la luz · Seren vive", scene: "c20_falla_luz", preset: "light_seren" },
+  { chapter: 20, label: "Cuando falla la luz · Jairen vive", scene: "c20_falla_luz", preset: "light_jairen" },
+  { chapter: 19, label: "Antes de la corona · Seren vive", scene: "c19_antes_corona", preset: "crown_seren" },
+  { chapter: 19, label: "Antes de la corona · Jairen vive", scene: "c19_antes_corona", preset: "crown_jairen" },
   { chapter: 18, label: "El Umbral", scene: "c18_umbral", preset: "veyra_threshold" },
   { chapter: 17, label: "La estación donde nunca llega el tren", scene: "c17_estacion_lyra", preset: "lyra_station" },
   { chapter: 10.5, label: "Romance · Lyra (vínculo 8)", scene: "lyra_romance", preset: "lyra_romance", interlude: true },
@@ -27,6 +32,9 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const valdoren = preset === "valdoren";
+  const light = preset === "light_seren" ? "seren" : preset === "light_jairen" ? "jairen" : null;
+  const crown = light || (preset === "crown_seren" ? "seren" : preset === "crown_jairen" ? "jairen" : null);
   const veyraThreshold = preset === "veyra_threshold";
   const lyraStation = preset === "lyra_station";
   const lyraRomance = preset === "lyra_romance";
@@ -41,7 +49,7 @@ function prepareReviewStart(state, preset) {
   const market = preset === "market";
   const willard = preset === "willard";
   const lyraTraining = preset === "lyra_training";
-  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond || lyraRomance || lyraStation || veyraThreshold) preset = "countdown";
+  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond || lyraRomance || lyraStation || veyraThreshold || crown || valdoren) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -61,6 +69,30 @@ function prepareReviewStart(state, preset) {
   if (preset === "countdown") {
     state.revelacion_diosa_completada = true;
     StoryCalendar.activate(state);
+    if (valdoren) {
+      state.c10_completado = true;
+      state.completedScenes.push("c10_lyra");
+      state.calendar.completed.push("lyra");
+      state.calendar.elapsed = 1; state.calendar.remaining = 49;
+      StoryCalendar.begin(state, { activity: { id: "valdoren" }, dayCost: 1 });
+    }
+    if (crown) {
+      const deceased = crown === "seren" ? "jairen" : "seren";
+      Object.assign(state, { palacio_completado: true, palacio_superviviente: crown,
+        palacio_fallecido: deceased, c12_completado: true, c12_superviviente: crown,
+        c12_homenaje_a: deceased, seren_conocida: true, jairen_conocido: true });
+      state.completedScenes.push("c8_palacio", "c12_homenaje");
+      state.calendar.completed.push("palacio", "homenaje");
+      state.calendar.elapsed = 5; state.calendar.remaining = 45;
+      if (light) {
+        state.c19_completado = true; state.c19_superviviente = light;
+        state.completedScenes.push("c19_antes_corona");
+        state.calendar.completed.push("antes_corona");
+        state.metCompanions.push(light); state.affinity[light] = 1;
+        state.calendar.elapsed = 7; state.calendar.remaining = 43;
+      }
+      StoryCalendar.begin(state, { activity: { id: light ? "falla_luz" : "antes_corona" }, dayCost: 1 });
+    }
     if (veyraThreshold) {
       Object.assign(state, { acceso_orbis: true, aviso_willard_completado: true,
         mercado_completado: true, veyra_conocida: true, c14_completado: true,
