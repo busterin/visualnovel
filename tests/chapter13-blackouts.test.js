@@ -34,6 +34,6 @@
   const s=StoryEngine.createState();StoryCalendar.activate(s);s.seren_conocida=seren;s.jairen_conocido=jairen;s.calendar.completed=['palacio','capital','lyra','eiden','homenaje'];
   StoryEngine.start(s,scenes,'c4_actividades');hub(s);assert(StoryEngine.availableOptions(s,scenes).some(o=>o.id==='apagones')===(seren&&jairen),'Requisitos');
  }
- const s=StoryEngine.createState();prepareReviewStart(s,'blackouts');assert(s.calendar.activity.id==='apagones'&&s.seren_conocida&&s.jairen_conocido,'Revisión');assert(COMPANIONS.mara.bondType==='romantic','Tipo vínculo');
+ const s=StoryEngine.createState();prepareReviewStart(s,'blackouts');assert(s.calendar.activity.id==='apagones'&&s.seren_conocida&&s.jairen_conocido,'Revisión');assert(COMPANIONS.mara.bondType==='platonic','Tipo vínculo');
  return `OK capítulo 13: ${runs} recorridos con carga por bloque, requisitos, pistas exclusivas, compañeros y un solo día.`;
 })()

@@ -4,7 +4,7 @@
 // Fichas sin revelaciones posteriores al primer encuentro.
 const COMPANIONS = {
   mara: {
-    name: "Mara", bondType: "romantic",
+    name: "Mara", bondType: "platonic",
     portrait: "imagenes/Escena5/c5_mara_expediente.png",
     avatarSize: "230% auto", avatarPosition: "46% 24%", portraitPosition: "center 25%",
     description: "Inspectora de Vaelthar. Habéis investigado los apagones del Distrito Este y ha abierto un expediente separado para seguir sus anomalías. Te ha pedido que acudas a ella si encuentras algo parecido.",
