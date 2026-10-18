@@ -6,7 +6,7 @@ const StoryEngine = {
     return {
       version: 2, scene: "intro", node: null, protagonistName: "", decisions: [], completedScenes: [],
       appliedNodes: [], events: {}, documents: {}, dailyOptionSelections: {}, choiceOrders: {},
-      metCompanions: [], affinity: {},
+      metCompanions: [], affinity: {}, narrativeKnowledge: {},
       lyra_romance_inicio_dia: null, lyra_romance_aplazada_dia: null,
       lyra_romance_disponible: false, lyra_romance_completado: false,
       lyra_romance_activo: false, lyra_romance_cerrado: false,
@@ -139,6 +139,17 @@ const StoryEngine = {
     state.node = scenes[sceneId].start;
     this.prepare(state, scenes);
   },
+  recordKnowledge(state, sceneId, nodeId, node) {
+    state.narrativeKnowledge ||= {};
+    for (const entry of node.knowledgeEntries || []) {
+      for (const observer of entry.observers) {
+        state.narrativeKnowledge[observer] ||= {};
+        state.narrativeKnowledge[observer][entry.id] ||= {
+          status: entry.status, source: entry.source, scene: sceneId, node: nodeId,
+        };
+      }
+    }
+  },
   current(state, scenes) {
     const node = scenes[state.scene]?.nodes[state.node] || null;
     const pending = state.pendingChoice;
@@ -202,6 +213,7 @@ const StoryEngine = {
   prepare(state, scenes) {
     if (typeof StoryRelationships !== "undefined") StoryRelationships.update(state);
     const interlude = scenes[state.scene]?.interludes?.find(item =>
+      !state[item.hideIfFlag] &&
       state.calendar.active && !state.calendar.activity && !state.calendar.expired &&
       state.calendar.elapsed >= item.afterDays && !state.completedScenes.includes(item.scene));
     if (interlude) { this.start(state, scenes, interlude.scene); return; }
@@ -227,7 +239,7 @@ const StoryEngine = {
       }
       if (node.type === "condition") {
         const matches=node.requiredScenes ? node.requiredScenes.every(id=>state.completedScenes.includes(id)) :
-          node.atLeast !== undefined ? state[node.flag] >= node.atLeast : state[node.flag] === node.equals;
+          node.atLeast !== undefined ? (node.affinityCompanion ? state.affinity[node.affinityCompanion] || 0 : state[node.flag]) >= node.atLeast : state[node.flag] === node.equals;
         state.node = matches ? node.ifTrue : node.ifFalse;
         continue;
       }
@@ -236,6 +248,7 @@ const StoryEngine = {
         continue;
       }
       const id = `${state.scene}:${state.node}`;
+      this.recordKnowledge(state, state.scene, state.node, node);
       for (const companion of node.meetCompanions || []) {
         if (!state.metCompanions.includes(companion)) state.metCompanions.push(companion);
         state.affinity[companion] ??= 1;
@@ -346,8 +359,16 @@ const StoryEngine = {
   restore(saved, scenes) {
     if (!saved || typeof saved !== "object" || !scenes[saved.scene]) throw new Error("Partida no válida");
     const state = Object.assign(this.createState(), JSON.parse(JSON.stringify(saved)), { version: 2 });
-    state.calendar = { ...StoryCalendar.create(), ...(saved.calendar || {}) };
+    state.calendar = StoryCalendar.restore(saved.calendar);
+    // Desplazar las ventanas relativas junto al día, sin reabrir ni prolongar invitaciones.
+    if (saved.calendar?.totalDays !== StoryCalendar.TOTAL_DAYS && saved.calendar?.active) {
+      const shift = (saved.calendar.elapsed || 0) - state.calendar.elapsed;
+      for (const key of ["lyra_romance_inicio_dia", "lyra_romance_aplazada_dia"]) {
+        if (Number.isSafeInteger(state[key])) state[key] -= shift;
+      }
+    }
     state.alliances = saved.alliances || {};
+    state.narrativeKnowledge = state.narrativeKnowledge && typeof state.narrativeKnowledge === "object" && !Array.isArray(state.narrativeKnowledge) ? state.narrativeKnowledge : {};
     // La revisión de Inspección elimina la autorización automática de la versión anterior.
     if (saved.inspeccion_guion_version !== 2) state.acceso_mantenimiento_autorizado = false;
     state.inspeccion_guion_version = 2;
@@ -379,6 +400,7 @@ const StoryEngine = {
     }
     for (const key of state.appliedNodes) {
       const [sceneId, nodeId] = key.split(":");
+      this.recordKnowledge(state, sceneId, nodeId, scenes[sceneId]?.nodes[nodeId] || {});
       for (const companion of scenes[sceneId]?.nodes[nodeId]?.meetCompanions || []) {
         if (!state.metCompanions.includes(companion)) state.metCompanions.push(companion);
         state.affinity[companion] ??= 1;
@@ -399,7 +421,9 @@ const StoryEngine = {
     return state;
   },
   format(text, state) {
-    return text.replace(/\[Nombre\]|Protagonista/g, () => state.protagonistName || "Protagonista")
+    return text.replace(/\[PlazoDias\]/g, String(state.calendar.totalDays))
+      .replace(/\[PlazoEnPalabras\]/g, state.calendar.totalDays === 50 ? "cincuenta" : "treinta")
+      .replace(/\[Nombre\]|Protagonista/g, () => state.protagonistName || "Protagonista")
       .replace(/\[HerederoFallecido\]/g, state.palacio_fallecido === "seren" ? "Seren" : "Jairen")
       .replace(/\[TratamientoHerederoFallecido\]/g, state.palacio_fallecido === "seren" ? "a la princesa Seren" : "al príncipe Jairen");
   },

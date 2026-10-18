@@ -1488,3 +1488,16 @@ STORY_SCENES.c11_eiden = {
     next: i < 2 ? `briefing_${i + 1}` : "actividades",
   };
 }
+
+// Conocimiento adquirido: no confirma la autenticidad de documentos ni testimonios.
+STORY_SCENES.c11_eiden.nodes["032"].knowledgeEntries = [
+  {
+    "id": "expedicion_segun_registro",
+    "status": "documento",
+    "source": "registro_archivo",
+    "observers": [
+      "protagonista",
+      "eiden"
+    ]
+  }
+];

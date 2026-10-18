@@ -4,6 +4,9 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 26, label: "El rostro de la oscuridad", scene: "c26_oscuridad", preset: "darkness" },
+  { chapter: 25, label: "El hombre al que culparon", scene: "c25_albert", preset: "albert" },
+  { chapter: 24, label: "El último recuerdo", scene: "c24_ultimo_recuerdo", preset: "last_memory" },
   { chapter: 21, label: "Los secretos de Valdoren · Parte 1", scene: "c21_valdoren", preset: "valdoren" },
   { chapter: 20, label: "Cuando falla la luz · Seren vive", scene: "c20_falla_luz", preset: "light_seren" },
   { chapter: 20, label: "Cuando falla la luz · Jairen vive", scene: "c20_falla_luz", preset: "light_jairen" },
@@ -22,7 +25,7 @@ const REVIEW_STARTS = [
   { chapter: 11, label: "Los nombres que faltaban", scene: "c11_eiden", preset: "eiden_visit" },
   { chapter: 6, label: "Un lugar donde descansar", scene: "c3_inspeccion", node: "descanso_decision_01", preset: "rest" },
   { chapter: 7, label: "La mañana · La ropa de Ada", scene: "c3_ropa_ada", preset: "clothes" },
-  { chapter: 7, label: "La revelación · Cincuenta días", scene: "c3_diosa", preset: "revelation" },
+  { chapter: 7, label: "La revelación · Treinta días", scene: "c3_diosa", preset: "revelation" },
   { chapter: 7, label: "Cuenta atrás · Los días que quedan", scene: "c4_actividades", preset: "countdown" },
   { chapter: 8, label: "Visita a palacio", scene: "c8_palacio", preset: "palace" },
   { chapter: 9, label: "Paseo por el mercado", scene: "c9_mercado", preset: "market" },
@@ -32,6 +35,9 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const darkness = preset === "darkness";
+  const albert = preset === "albert" || darkness;
+  const lastMemory = preset === "last_memory" || albert;
   const valdoren = preset === "valdoren";
   const light = preset === "light_seren" ? "seren" : preset === "light_jairen" ? "jairen" : null;
   const crown = light || (preset === "crown_seren" ? "seren" : preset === "crown_jairen" ? "jairen" : null);
@@ -49,7 +55,7 @@ function prepareReviewStart(state, preset) {
   const market = preset === "market";
   const willard = preset === "willard";
   const lyraTraining = preset === "lyra_training";
-  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond || lyraRomance || lyraStation || veyraThreshold || crown || valdoren) preset = "countdown";
+  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond || lyraRomance || lyraStation || veyraThreshold || crown || valdoren || lastMemory) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -73,7 +79,7 @@ function prepareReviewStart(state, preset) {
       state.c10_completado = true;
       state.completedScenes.push("c10_lyra");
       state.calendar.completed.push("lyra");
-      state.calendar.elapsed = 1; state.calendar.remaining = 49;
+      state.calendar.elapsed = 1; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
       StoryCalendar.begin(state, { activity: { id: "valdoren" }, dayCost: 1 });
     }
     if (crown) {
@@ -83,13 +89,13 @@ function prepareReviewStart(state, preset) {
         c12_homenaje_a: deceased, seren_conocida: true, jairen_conocido: true });
       state.completedScenes.push("c8_palacio", "c12_homenaje");
       state.calendar.completed.push("palacio", "homenaje");
-      state.calendar.elapsed = 5; state.calendar.remaining = 45;
+      state.calendar.elapsed = 5; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
       if (light) {
         state.c19_completado = true; state.c19_superviviente = light;
         state.completedScenes.push("c19_antes_corona");
         state.calendar.completed.push("antes_corona");
         state.metCompanions.push(light); state.affinity[light] = 1;
-        state.calendar.elapsed = 7; state.calendar.remaining = 43;
+        state.calendar.elapsed = 7; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
       }
       StoryCalendar.begin(state, { activity: { id: light ? "falla_luz" : "antes_corona" }, dayCost: 1 });
     }
@@ -98,7 +104,7 @@ function prepareReviewStart(state, preset) {
         mercado_completado: true, veyra_conocida: true, c14_completado: true,
         c14_decision_1: "A", c14_veyra_princesa_orbis: true, c14_veyra_hija_maleria: true });
       state.completedScenes.push("interludio_willard", "c9_mercado", "c14_maleria");
-      state.calendar.elapsed = 10; state.calendar.remaining = 40;
+      state.calendar.elapsed = 10; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
       state.metCompanions.push("veyra"); state.affinity.veyra = 1;
       StoryCalendar.begin(state, { activity: { id: "orbis_umbral" }, dayCost: 1 });
     }
@@ -106,7 +112,7 @@ function prepareReviewStart(state, preset) {
       state.c10_completado = true;
       state.completedScenes.push("c10_lyra");
       state.calendar.completed.push("lyra");
-      state.calendar.elapsed = 1; state.calendar.remaining = 49;
+      state.calendar.elapsed = 1; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
       StoryCalendar.begin(state, { activity: { id: "estacion_lyra" }, dayCost: 1 });
     }
     if (lyraRomance) {
@@ -115,17 +121,45 @@ function prepareReviewStart(state, preset) {
       state.lyra_romance_disponible = true;
       StoryCalendar.begin(state, { activity: { id: "lyra_romance" }, dayCost: 1 });
     }
+    if ((crown || veyraThreshold || ninthSecond || maleria || willard || lastMemory) && !state.completedScenes.includes("c8_palacio")) {
+      Object.assign(state, { palacio_completado: true, palacio_superviviente: "seren", palacio_fallecido: "jairen", seren_conocida: true, jairen_conocido: true });
+      state.completedScenes.push("c8_palacio");
+      state.calendar.completed.push("palacio");
+    }
+    if (lastMemory) {
+      state.calendar.elapsed = 7; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
+      if (albert) {
+        state.completedScenes.push("c24_ultimo_recuerdo", "interludio_willard");
+        state.calendar.completed.push("ultimo_recuerdo");
+        state.calendar.completedDays.ultimo_recuerdo = 8;
+        state.calendar.elapsed = 10; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
+        Object.assign(state, { c24_completado: true, aurelia_fallecida: true,
+          c24_testimonio_albert_no_estaba_dentro: true, c24_protagonista_activo_conjuro_solo: true,
+          c24_conjuro_tres_participantes: true, objetivo_encontrar_albert: true,
+          kael_conocido: true, kael_otro_mundo: true, acceso_orbis: true, aviso_willard_completado: true });
+        state.metCompanions.push("kael"); state.affinity.kael = 1;
+      }
+      if (darkness) {
+        state.completedScenes.push("c25_albert");
+        state.calendar.completed.push("albert"); state.calendar.completedDays.albert = 11;
+        state.calendar.elapsed = 11; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
+        Object.assign(state, {c25_completado:true, albert_encontrado:true, albert_vivo:true, albert_enfermo:true,
+          albert_inocente_segun_pruebas:true, c25_orden_defensa_obtenida:true, objetivo_encontrar_albert:false});
+        state.documents.c25_orden_defensa = {...STORY_SCENES.c25_albert.documents.c25_orden_defensa};
+      }
+      StoryCalendar.begin(state, { activity: { id: darkness ? "rostro_oscuridad" : albert ? "albert" : "ultimo_recuerdo" }, dayCost: 1 });
+    }
     if (ninthSecond) {
       Object.assign(state, { c14_completado: true, acceso_orbis: true, aviso_willard_completado: true,
         veyra_conocida: true, maleria_conocida: true, c14_veyra_princesa_orbis: true,
         c14_veyra_hija_maleria: true, c14_maleria_recuerda_hija: true });
       state.completedScenes.push("interludio_willard", "c9_mercado", "c14_maleria");
-      state.calendar.elapsed = 10; state.calendar.remaining = 40;
+      state.calendar.elapsed = 10; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
       if (lighthouseTruth) {
         state.completedScenes.push("c15_noveno_segundo");
         Object.assign(state, { c15_completado: true, c15_albert_altero_retorno: true,
           c15_willard_lyra_fuera: true, c15_pasado_protagonista_desbloqueado: true });
-        state.calendar.elapsed = 11; state.calendar.remaining = 39;
+        state.calendar.elapsed = 11; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
         state.calendar.completed.push("noveno_segundo");
       }
       StoryCalendar.begin(state, { activity: { id: lighthouseTruth ? "verdad_faro" : "noveno_segundo" }, dayCost: 1 });
@@ -135,12 +169,12 @@ function prepareReviewStart(state, preset) {
       state.acceso_orbis = true; state.veyra_conocida = true; state.veyra_bloqueada = false;
       state.aviso_willard_completado = true;
       state.completedScenes.push("interludio_willard", "c9_mercado");
-      state.calendar.elapsed = 9; state.calendar.remaining = 41;
+      state.calendar.elapsed = 9; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
       StoryCalendar.begin(state, { activity: { id: "orbis_maleria" }, dayCost: 1 });
     }
     if (willard) {
       state.calendar.elapsed = 9;
-      state.calendar.remaining = 41;
+      state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
     }
     if (blackouts) {
       state.seren_conocida = true; state.jairen_conocido = true; state.willard_conocido = true;
@@ -153,7 +187,7 @@ function prepareReviewStart(state, preset) {
       state.palacio_fallecido = memorial === "jairen" ? "seren" : "jairen";
       state.completedScenes.push("c8_palacio");
       state.calendar.completed.push("palacio");
-      state.calendar.elapsed = 2; state.calendar.remaining = 48;
+      state.calendar.elapsed = 2; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
       StoryCalendar.begin(state, { activity: { id: "homenaje" }, dayCost: 1 });
     }
     if (eidenVisit) {
@@ -776,7 +810,7 @@ function renderSceneContent() {
   storyDocument.hidden = true;
   pauseToCover.hidden = !node || node.type === "event";
   if (!node) {
-    document.getElementById("ending-heading").textContent = gameState.calendar.expired ? "El plazo de 50 días ha terminado." : "Continuará";
+    document.getElementById("ending-heading").textContent = gameState.calendar.expired ? `El plazo de ${gameState.calendar.totalDays} días ha terminado.` : "Continuará";
     if (chapter?.endingImage && !gameState.calendar.expired) {
       showSceneImage(chapter.endingImage);
     } else {

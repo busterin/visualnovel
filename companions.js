@@ -3,6 +3,12 @@
 // Solo compañeros de la aventura, no todos los personajes del guion.
 // Fichas sin revelaciones posteriores al primer encuentro.
 const COMPANIONS = {
+  kael: {
+    name: "Kael", bondType: "platonic",
+    portrait: "imagenes/Escena24/c24_3.png",
+    avatarSize: "400% auto", avatarPosition: "74% 14%", portraitPosition: "65% 18%",
+    description: "Un viajero de tu mundo. Te reconoce de hace tres años y quiere ayudarte a reconstruir lo ocurrido.",
+  },
   mara: {
     name: "Mara", bondType: "platonic",
     portrait: "imagenes/Escena5/c5_mara_expediente.png",

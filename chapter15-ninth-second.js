@@ -1182,17 +1182,67 @@ STORY_SCENES.c15_noveno_segundo = {
  };
 }
 
-// La fecha usa el día mostrado (elapsed + 1), no los días ya consumidos.
+// Compatibilidad: una presentación automática antigua vuelve a los destinos libres.
+STORY_SCENES.c4_actividades.nodes.obligatoria_noveno_segundo = {
+  type: "redirect", destination: "c4_actividades", destinationNode: "reflexion_diaria",
+};
+
+// Los flags antiguos sobre Albert expresan la conclusión del protagonista, no la verdad histórica.
+// Conocimiento adquirido: no confirma la autenticidad de documentos ni testimonios.
+STORY_SCENES.c15_noveno_segundo.nodes["29"].knowledgeEntries = [
+  {
+    "id": "expedicion_segun_willard",
+    "status": "testimonio",
+    "source": "willard",
+    "observers": [
+      "protagonista",
+      "mara"
+    ]
+  }
+];
+STORY_SCENES.c15_noveno_segundo.nodes["94"].knowledgeEntries = [
+  {
+    "id": "protocolo_atribuido_albert",
+    "status": "documento",
+    "source": "registros_faro",
+    "observers": [
+      "protagonista",
+      "mara"
+    ]
+  },
+  {
+    "id": "traicion_albert_sospechada",
+    "status": "sospecha",
+    "source": "registros_y_testimonio_willard",
+    "observers": [
+      "protagonista",
+      "mara"
+    ]
+  }
+];
+
+// Si el observatorio se investigó antes, no ignorar el testimonio ni la muerte de Aurelia.
 {
-  const hub = STORY_SCENES.c4_actividades;
-  hub.scheduledActivities ||= [];
-  hub.scheduledActivities.push({
-    day: 20, scene: "c15_noveno_segundo", requiredScenes: ["c14_maleria"],
-    presentation: "obligatoria_noveno_segundo",
-  });
-  hub.nodes.obligatoria_noveno_segundo = {
-    type: "dialogue", speaker: "Protagonista", image: "nuevodia",
-    text: hub.nodes.introduccion_noveno_segundo_0.text,
-    forcedActivity: { destination: "c15_noveno_segundo", dayCost: 1, activity: { id: "noveno_segundo" } },
+  const n = STORY_SCENES.c15_noveno_segundo.nodes;
+  const variant = (id, speaker, text, image, next) => {
+    n[id] = { type: "dialogue", speaker, text, image, next };
   };
+  n.comprobar_eiden.ifFalse = "comprobar_observatorio";
+  n.comprobar_observatorio = { type: "condition", flag: "aurelia_fallecida", equals: true, ifTrue: "17E", ifFalse: "17" };
+  n["29"].next = "contradiccion_observatorio";
+  n.contradiccion_observatorio = { type: "condition", flag: "c24_testimonio_albert_no_estaba_dentro", equals: true, ifTrue: "29O1", ifFalse: "30" };
+  variant("29O1", "Protagonista", "Antes de morir, Aurelia nos dijo que Albert no estaba dentro.", n["29"].image, "29O2");
+  variant("29O2", "Mara", "Yo también la escuché. Había alguien más, pero no pudo recordar quién.", n["29"].image, "29O3");
+  variant("29O3", "Willard", "Sé que sus recuerdos estaban incompletos. Lo que os cuento es lo que recuerdo yo.", n["29"].image, "29O4");
+  variant("29O4", "Protagonista", "Entonces hay dos versiones. Necesito entender por qué no coinciden.", n["29"].image, "31");
+  n["89"].next = "evaluar_pruebas_observatorio";
+  n.evaluar_pruebas_observatorio = { type: "condition", flag: "c24_testimonio_albert_no_estaba_dentro", equals: true, ifTrue: "90O", ifFalse: "90" };
+  variant("90O", "Protagonista", "Esta nota apunta a Albert. Pero no explica por qué Aurelia negó que estuviera dentro.", n["90"].image, "91O");
+  variant("91O", "Mara", "Tenemos que contrastar los documentos con lo que nos dijo. No podemos dar ninguno por resuelto.", n["90"].image, "92O");
+  variant("92O", "Willard", "Los registros siguen señalando a Albert. Encontrarlo podría aclararlo.", n["90"].image, "93O");
+  variant("93O", "Protagonista", "Lo buscaremos. Pero todavía no voy a llamarlo traidor.", n["90"].image, "95");
+  n["93O"].effects = { c15_contradiccion_testimonio_aurelia: true };
+  n["93O"].knowledgeEntries = [n["94"].knowledgeEntries[0], {
+    id: "contradiccion_registros_aurelia", status: "contradiccion", source: "registros_y_testimonio_aurelia", observers: ["protagonista", "mara"],
+  }];
 }

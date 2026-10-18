@@ -10,7 +10,7 @@
   assert(s.pendingChoice.option===selected,'Carga pierde selección');
   assert(StoryEngine.choose(s,STORY_SCENES,'confirm_no')&&JSON.stringify(s)===before,'No altera partida al cancelar');
   StoryEngine.choose(s,STORY_SCENES,selected);StoryEngine.choose(s,STORY_SCENES,'confirm_yes');
-  assert(s.palacio_superviviente===selected&&s.decisions.length===1&&s.calendar.remaining===50,'No confirma exactamente una vez');
+  assert(s.palacio_superviviente===selected&&s.decisions.length===1&&s.calendar.remaining===30,'No confirma exactamente una vez');
   assert(!StoryEngine.choose(s,STORY_SCENES,'confirm_yes'),'Duplica confirmación');
  }
  return 'OK confirmación: Sí/No, cancelación sin cambios, carga pendiente y consecuencias una sola vez.';

@@ -22,28 +22,28 @@
     }
     s.calendar.completed=['lyra','capital'];
     while(StoryEngine.current(s,STORY_SCENES)?.type==='dialogue')StoryEngine.advance(s,STORY_SCENES);
-    assert(s.calendar.active && s.calendar.remaining===50 && s.affinity.lyra===2,'Diálogo gasta tiempo/vínculo');
+    assert(s.calendar.active && s.calendar.remaining===30 && s.affinity.lyra===2,'Diálogo gasta tiempo/vínculo');
     assert(s.ropa_original_guardada && s.protagonistOutfit==='vaelthar','Vestuario no guardado');
     for(const pending of StoryEngine.availableOptions(s,STORY_SCENES).filter(o=>o.comingSoon)){const before=JSON.stringify(s);assert(!StoryEngine.choose(s,STORY_SCENES,pending.id) && JSON.stringify(s)===before,'Opción pendiente altera la partida');}
     if(maintenanceDone){assert(!StoryEngine.availableOptions(s,STORY_SCENES).some(o=>o.id==='mantenimiento'),'Repite mantenimiento completado');continue;}
     const option=StoryEngine.availableOptions(s,STORY_SCENES).find(o=>o.id==='mantenimiento');assert(StoryCalendar.cost(s,option)===1,'No avisa coste');
-    StoryEngine.choose(s,STORY_SCENES,'mantenimiento');assert(s.node==='mant_solo_01' && s.calendar.remaining===50,'Cobra al entrar o va con Lyra');
+    StoryEngine.choose(s,STORY_SCENES,'mantenimiento');assert(s.node==='mant_solo_01' && s.calendar.remaining===30,'Cobra al entrar o va con Lyra');
     while(s.scene==='c3_mantenimiento'){
       assert(++count<220,'Bucle mantenimiento');
       assert(StoryEngine.current(s,STORY_SCENES).speaker!=='Lyra','Lyra presente');
       StoryEngine.advance(s,STORY_SCENES);s=StoryEngine.restore(JSON.parse(JSON.stringify(s)),STORY_SCENES);
     }
     while(StoryEngine.current(s,STORY_SCENES)?.type==='dialogue')StoryEngine.advance(s,STORY_SCENES);
-    assert(s.calendar.remaining===49 && s.calendar.settled.length===1,'Carga duplica gasto');
+    assert(s.calendar.remaining===29 && s.calendar.settled.length===1,'Carga duplica gasto');
     StoryEngine.prepare(s,STORY_SCENES);s=StoryEngine.restore(s,STORY_SCENES);
-    assert(s.calendar.remaining===49 && s.node==='actividades','Repite revelación/calendario');
+    assert(s.calendar.remaining===29 && s.node==='actividades','Repite revelación/calendario');
   }
   // Actividades futuras: una jornada entre escenas, vencimiento y hechos para alianzas.
   const s=StoryEngine.createState();StoryCalendar.activate(s);
   const activity={destination:'visita',activity:{id:'visita'}};
-  assert(StoryCalendar.begin(s,activity) && s.calendar.remaining===50,'Inicio incorrecto');
+  assert(StoryCalendar.begin(s,activity) && s.calendar.remaining===30,'Inicio incorrecto');
   assert(StoryCalendar.begin(s,{text:'Responder'}) && StoryCalendar.begin(s,{destination:'segunda_localizacion',continueActivity:true}),'Continuación bloqueada');
-  StoryCalendar.finish(s);StoryCalendar.finish(s);assert(s.calendar.remaining===49,'Dos localizaciones cobran dos días');
+  StoryCalendar.finish(s);StoryCalendar.finish(s);assert(s.calendar.remaining===29,'Dos localizaciones cobran dos días');
   assert(!StoryCalendar.available(s,{activity:{id:'tarde',throughDay:1}}),'Encuentro vencido disponible');
   assert(!StoryCalendar.available(s,{activity:{id:'futuro',fromDay:3}}),'Encuentro futuro disponible');
   assert(!StoryCalendar.available(s,{activity:{id:'incompatible',excludesActivities:['visita']}}),'Incompatibilidad ignorada');
@@ -51,8 +51,8 @@
   const alliance={activity:{id:'alianza_ada',alliance:{id:'ada',companion:'ada',minAffinity:2,requiresFlags:['promesa_cumplida']}}};
   assert(!StoryCalendar.available(s,alliance),'Basta corazón para alianza');s.promesa_cumplida=true;
   assert(StoryCalendar.begin(s,alliance),'Hechos no permiten alianza');StoryCalendar.finish(s);assert(s.alliances.ada,'Alianza no guardada');
-  for(let day=0;day<48;day++){assert(StoryCalendar.begin(s,{activity:{id:'actividad_'+day}}),'Actividad bloqueada');StoryCalendar.finish(s);}
-  assert(s.calendar.remaining===0 && s.calendar.expired && !StoryCalendar.available(s,activity),'Se puede gastar más de 50 días');
+  for(let day=0;day<28;day++){assert(StoryCalendar.begin(s,{activity:{id:'actividad_'+day}}),'Actividad bloqueada');StoryCalendar.finish(s);}
+  assert(s.calendar.remaining===0 && s.calendar.expired && !StoryCalendar.available(s,activity),'Se puede gastar más de 30 días');
   assert(StoryCalendar.available(s,{text:'Responder'}),'Bloquea diálogos al llegar a cero');
-  return 'OK cuenta atrás: 18 revelaciones, tres requisitos, vestuario, mantenimiento opcional/solo, guardado, 50 días, jornadas compartidas, ventanas y alianzas por hechos.';
+  return 'OK cuenta atrás: 18 revelaciones, tres requisitos, vestuario, mantenimiento opcional/solo, guardado, 30 días, jornadas compartidas, ventanas y alianzas por hechos.';
 })()

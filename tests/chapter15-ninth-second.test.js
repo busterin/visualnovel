@@ -3,19 +3,19 @@
  let runs=0;
  const setup=(eiden,elapsed)=>{
   const s=StoryEngine.createState();StoryCalendar.activate(s);
-  s.completedScenes=['c14_maleria','interludio_willard'];s.c14_completado=true;
+  s.completedScenes=['c8_palacio','c14_maleria','interludio_willard'];s.c14_completado=true;
   s.c11_completado=eiden;s.acceso_orbis=true;s.veyra_conocida=true;
-  s.calendar.elapsed=elapsed;s.calendar.remaining=50-elapsed;
+  s.calendar.elapsed=elapsed;s.calendar.remaining=30-elapsed;
   s.metCompanions=['willard'];s.affinity={willard:3};s.inspeccion_corte_segundos=9;
   s.scene='c4_actividades';s.node='actividades';return s;
  };
- for(const a of ['A','B','C'])for(const b of ['A','B','C'])for(const eiden of [false,true])for(const elapsed of [10,49]){
+ for(const a of ['A','B','C'])for(const b of ['A','B','C'])for(const eiden of [false,true])for(const elapsed of [10,29]){
   let s=setup(eiden,elapsed);const opts=StoryEngine.availableOptions(s,scenes);
   check(opts.length===3&&opts.some(o=>o.id==='noveno_segundo'),'Disponible tras Maleria');
   check(StoryEngine.choose(s,scenes,'noveno_segundo'),'No inicia');const path=[];let steps=0;
   while(s.scene==='c15_noveno_segundo'){
    check(++steps<150,'Bucle');const n=StoryEngine.current(s,scenes);path.push(s.node);
-   check(s.calendar.remaining===50-elapsed,'Cobro anticipado');check(scene.assets[n.image],'Imagen desconocida');
+   check(s.calendar.remaining===30-elapsed,'Cobro anticipado');check(scene.assets[n.image],'Imagen desconocida');
    if(n.type==='choice')StoryEngine.choose(s,scenes,s.node==='decision_1'?a:b);else StoryEngine.advance(s,scenes);
    const saved=JSON.stringify(s);s=StoryEngine.restore(JSON.parse(saved),scenes);check(JSON.stringify(s)===saved,'Carga altera estado');
   }
@@ -28,8 +28,8 @@
   check(s.c15_apagon_actual_segundos===8&&s.inspeccion_corte_segundos===9,'Confunde los apagones');
   check(JSON.stringify(s.affinity)==='{"willard":3}'&&s.metCompanions.join()==='willard','Cambia vínculos');
   check(!s.acceso_mantenimiento_autorizado&&!Object.keys(s.alliances).length,'Revelación ajena');
-  check(s.calendar.remaining===49-elapsed&&s.calendar.settled.length===1,'Coste único');
-  check(s.calendar.expired===(elapsed===49),'Fin del contador');
+  check(s.calendar.remaining===29-elapsed&&s.calendar.settled.length===1,'Coste único');
+  check(s.calendar.expired===(elapsed===29),'Fin del contador');
   s.node='actividades';check(!StoryEngine.availableOptions(s,scenes).some(o=>o.id==='noveno_segundo'),'Repite capítulo');runs++;
  }
  const locked=StoryEngine.createState();StoryCalendar.activate(locked);locked.scene='c4_actividades';locked.node='actividades';

@@ -8,7 +8,7 @@
   const affinity=JSON.stringify(s.affinity),path=[];let steps=0;
   while(s.scene==='c8_palacio'){
    assert(++steps<150,'Bucle palacio');const n=StoryEngine.current(s,STORY_SCENES);path.push(s.node);
-   assert(s.calendar.remaining===50,'Cobra antes de acabar');
+   assert(s.calendar.remaining===30,'Cobra antes de acabar');
    assert(STORY_SCENES.c8_palacio.assets[n.image],'Imagen inexistente');
    if(s.node==='014')assert(StoryEngine.format(n.text,s).includes('Álex'),'No sustituye nombre');
    if(s.node==='077')assert(n.tone==='danger','Falta aviso rojo');
@@ -17,7 +17,7 @@
    s=StoryEngine.restore(JSON.parse(JSON.stringify(s)),STORY_SCENES);
   }
   while(StoryEngine.current(s,STORY_SCENES)?.type==='dialogue')StoryEngine.advance(s,STORY_SCENES);
-  assert(s.scene==='c4_actividades'&&s.calendar.remaining===49&&s.calendar.settled.length===1,'No regresa al siguiente día o duplica gasto');
+  assert(s.scene==='c4_actividades'&&s.calendar.remaining===29&&s.calendar.settled.length===1,'No regresa al siguiente día o duplica gasto');
   assert(s.palacio_completado&&s.completedScenes.includes('c8_palacio'),'No completa ruta');
   assert(s.palacio_superviviente===saved&&s.palacio_fallecido===(saved==='seren'?'jairen':'seren'),'Consecuencias incorrectas');
   assert(path.includes('079_'+saved)&&!path.includes('079_'+s.palacio_fallecido),'Rama incorrecta');
@@ -26,7 +26,7 @@
   assert(JSON.stringify(s.affinity)===affinity&&!Object.keys(s.alliances).length,'Concede vínculo o alianza no escritos');
   assert(!s.acceso_mantenimiento_autorizado,'Abre mantenimiento');
   for(let i=0;i<3;i++)s=StoryEngine.restore(JSON.parse(JSON.stringify(s)),STORY_SCENES);
-  assert(s.calendar.remaining===49&&!StoryEngine.availableOptions(s,STORY_SCENES).some(o=>o.id==='palacio'),'Carga repite actividad');
+  assert(s.calendar.remaining===29&&!StoryEngine.availableOptions(s,STORY_SCENES).some(o=>o.id==='palacio'),'Carga repite actividad');
  }
  const preview=StoryEngine.createState();prepareReviewStart(preview,'palace');
  assert(preview.calendar.active&&preview.calendar.activity.id==='palacio'&&preview.protagonistOutfit==='vaelthar','Acceso de revisión incoherente');

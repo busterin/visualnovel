@@ -165,7 +165,7 @@ STORY_SCENES.c3_ropa_ada = {
 };
 
 STORY_SCENES.c3_diosa = {
-  "title": "Cincuenta días",
+  "title": "Treinta días",
   "chapter": 3,
   "hideFromSelector": true,
   "start": "voz_01",
@@ -283,7 +283,7 @@ STORY_SCENES.c3_diosa = {
     "mal_01": {
       "type": "dialogue",
       "speaker": "¿?",
-      "text": "Dentro de cincuenta días llegará el Gran Mal. Borrará a todos de la existencia.",
+      "text": "Dentro de [PlazoEnPalabras] días llegará el Gran Mal. Borrará a todos de la existencia.",
       "image": "c7_diosa_revelacion",
       "next": "mal_01_repeticion"
     },
@@ -395,7 +395,7 @@ STORY_SCENES.c3_diosa = {
     "cierre_04": {
       "type": "dialogue",
       "speaker": null,
-      "text": "50 días restantes.",
+      "text": "[PlazoDias] días restantes.",
       "image": "c7_exterior",
       "next": "planificar_01",
       "textStyle": "document",
@@ -488,7 +488,7 @@ STORY_SCENES.c3_diosa = {
     "mal_01_repeticion": {
       "type": "dialogue",
       "speaker": "¿?",
-      "text": "Dentro de cincuenta días llegará el Gran Mal. Borrará a todos de la existencia.",
+      "text": "Dentro de [PlazoEnPalabras] días llegará el Gran Mal. Borrará a todos de la existencia.",
       "image": "c7_diosa_revelacion",
       "next": "mal_02"
     }

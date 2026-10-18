@@ -4,8 +4,8 @@
   const make = () => {
     const s = StoryEngine.createState(); StoryCalendar.activate(s);
     s.acceso_orbis = true; s.veyra_conocida = true;
-    s.completedScenes = ['interludio_willard'];
-    s.calendar.elapsed = 9; s.calendar.remaining = 41;
+    s.completedScenes = ['c8_palacio','interludio_willard'];
+    s.calendar.elapsed = 9; s.calendar.remaining = 21;
     s.scene = 'c4_actividades'; s.node = 'actividades_orbis';
     return s;
   };
@@ -19,7 +19,7 @@
     while (s.scene === 'c14_maleria') {
       check(++steps < 160, 'Bucle'); const n = StoryEngine.current(s, scenes);
       path.push(s.node); check(scene.assets[n.image], 'Imagen desconocida');
-      check(s.calendar.remaining === 41, 'Día cobrado antes del cierre');
+      check(s.calendar.remaining === 21, 'Día cobrado antes del cierre');
       if (!path.includes('122')) check(!s.c14_veyra_princesa_orbis, 'Revelación anticipada');
       if (n.type === 'choice') StoryEngine.choose(s, scenes, s.node === 'decision_1' ? first : second);
       else StoryEngine.advance(s, scenes);
@@ -36,7 +36,7 @@
     check(s.c14_veyra_princesa_orbis && s.c14_veyra_hija_maleria && s.c14_maleria_recuerda_hija, 'Faltan descubrimientos');
     check(s.c14_alianza_orbis_pendiente && !Object.keys(s.alliances).length, 'Concede alianza definitiva');
     check(JSON.stringify(s.affinity) === bonds && JSON.stringify(s.metCompanions) === companions, 'Modifica vínculos');
-    check(s.calendar.remaining === 40 && s.calendar.elapsed === 10 && s.calendar.settled.length === 1, 'Cobro incorrecto');
+    check(s.calendar.remaining === 20 && s.calendar.elapsed === 10 && s.calendar.settled.length === 1, 'Cobro incorrecto');
     s.node = 'actividades_orbis';
     const opts = StoryEngine.availableOptions(s, scenes);
     check(opts.length === 3 && !opts.some(o => o.id === 'orbis_maleria'), 'Destinos tras completar');

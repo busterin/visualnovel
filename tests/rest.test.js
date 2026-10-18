@@ -21,7 +21,7 @@
     assert(state.desperto_solo && state.descanso_completado && !state.mantenimiento_con_lyra,'Despertar incorrecto');
     assert(!state.mantenimiento_completado && !state.completedScenes.includes('c3_mantenimiento'),'Completa mantenimiento al descansar');
     assert(path.some(id=>id.startsWith('descanso_armadura'))===(variant!=='solo'),'Conversación privada incorrecta');
-    assert(!state.calendar.active && state.calendar.remaining===50,'El descanso consume tiempo antes de la revelación');
+    assert(!state.calendar.active && state.calendar.remaining===30,'El descanso consume tiempo antes de la revelación');
   }
   // Guardados de la versión breve: los mismos IDs de recompensa evitan repetir +1.
   for(const oldNode of ['insp_habitacion_01','insp_abrazo_01','insp_manana_03']) {

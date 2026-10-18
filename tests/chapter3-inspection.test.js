@@ -6,7 +6,7 @@
     let state=StoryEngine.createState();state.protagonistName='Álex $&';state.c2_advertencia_estacion=declaration==='carreta';
     StoryEngine.start(state,STORY_SCENES,'c3_'+order[0]);
     let steps=0, revealed=false;
-    while(state.node){
+    while(state.node && state.scene!=='c4_actividades'){
       assert(++steps<1800,'Bucle '+state.scene+':'+state.node);
       const id=state.node,node=StoryEngine.current(state,STORY_SCENES);
       if(['c3_inspeccion','c3_mantenimiento'].includes(state.scene))covered.add(id);
@@ -25,9 +25,9 @@
         const pending=order.find(route=>!state.completedScenes.includes('c3_'+route) && options.some(o=>o.id===route));
         const answer=choices[id] || pending || (options.some(o=>o.id==='mantenimiento')?'mantenimiento':options[0]?.id);
         assert(StoryEngine.choose(state,STORY_SCENES,answer),'Elección '+id+':'+answer);
-      }else StoryEngine.advance(state,STORY_SCENES);
+      }else if(node.type==='event') { StoryEngine.beginEvent(state,STORY_SCENES);StoryEngine.finishEvent(state,STORY_SCENES); } else StoryEngine.advance(state,STORY_SCENES);
     }
-    assert(revealed && state.calendar.remaining===50,'Cobro incorrecto de mantenimiento');
+    assert(revealed && state.calendar.remaining===30,'Cobro incorrecto de mantenimiento');
     assert(state.protagonistOutfit==='vaelthar' && state.ropa_original_guardada,'Atuendo no persistente');
     assert(state.ruta_inspeccion_completada && !state.mantenimiento_completado && !state.acceso_mantenimiento_autorizado,'Progreso incompleto');
     assert(state.inspeccion_corte_segundos===9,'Duración incorrecta');

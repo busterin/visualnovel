@@ -3,21 +3,21 @@
  const make=(faro,companion,elapsed=10)=>{
   const s=StoryEngine.createState();StoryCalendar.activate(s);
   Object.assign(s,{acceso_orbis:true,veyra_conocida:true,mercado_completado:true,c14_completado:true,c14_decision_1:'A'});
-  s.completedScenes=['interludio_willard','c9_mercado','c14_maleria'];
+  s.completedScenes=['c8_palacio','interludio_willard','c9_mercado','c14_maleria'];
   if(faro){s.completedScenes.push('c15_noveno_segundo');s.c15_completado=true;}
   if(companion){s.metCompanions=['veyra'];s.affinity.veyra=4;}
-  s.calendar.elapsed=elapsed;s.calendar.remaining=50-elapsed;
+  s.calendar.elapsed=elapsed;s.calendar.remaining=30-elapsed;
   s.scene='c4_actividades';s.node='actividades_orbis';return s;
  };
  let runs=0;
- for(const a of ['A','B','C'])for(const b of ['A','B','C'])for(const faro of [false,true])for(const companion of [false,true])for(const elapsed of [10,49]){
+ for(const a of ['A','B','C'])for(const b of ['A','B','C'])for(const faro of [false,true])for(const companion of [false,true])for(const elapsed of [10,29]){
   let s=make(faro,companion,elapsed);check(StoryEngine.choose(s,scenes,'orbis_umbral'),'Actividad');
   check(s.metCompanions.includes('veyra')&&s.affinity.veyra===(companion?4:1),'Alta sin reiniciar vínculo');
   const path=[];let steps=0;
   while(s.scene==='c18_umbral'){
    check(++steps<210,'Bucle');const n=StoryEngine.current(s,scenes);path.push(s.node);
    check(scene.assets[n.image],'Imagen ausente '+s.node);
-   check(s.calendar.remaining===50-elapsed,'Cobro anticipado');
+   check(s.calendar.remaining===30-elapsed,'Cobro anticipado');
    if(n.type==='choice')StoryEngine.choose(s,scenes,s.node==='decision_1'?a:b);
    else if(n.type==='event'){StoryEngine.beginEvent(s,scenes);StoryEngine.finishEvent(s,scenes);}
    else StoryEngine.advance(s,scenes);
@@ -35,7 +35,7 @@
   const expected=(companion?4:1)+(a==='A'?1:a==='C'?-1:0)+(b==='B'?0:1);
   check(s.affinity.veyra===expected,'Vínculo exacto');
   for(const flag of ['c18_umbral_descubierto','c18_borrados_olvidan_en_umbral','c18_iven_en_umbral','c18_veyra_cruza_umbral','c18_veyra_no_puede_sacar_otros','c18_umbral_observado','c18_iven_visto','c18_recuerdo_iven_deteriorado','c18_objetivo_entrar_umbral','c18_objetivo_rescatar_iven'])check(s[flag],flag);
-  check(s.calendar.remaining===49-elapsed&&s.calendar.settled.length===1,'Día único');
+  check(s.calendar.remaining===29-elapsed&&s.calendar.settled.length===1,'Día único');
   check(!Object.keys(s.alliances).length,'No alianza automática');
   s.node='actividades_orbis';check(!StoryEngine.availableOptions(s,scenes).some(o=>o.id==='orbis_umbral'),'Repetición');
   runs++;

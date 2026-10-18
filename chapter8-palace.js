@@ -492,7 +492,7 @@ STORY_SCENES.c8_palacio = {
     "060": {
       "type": "dialogue",
       "speaker": null,
-      "text": "En mi interior resuena la voz de la entidad que me encomendó la misión de los 50 días.",
+      "text": "En mi interior resuena la voz de la entidad que me encomendó la misión de los [PlazoDias] días.",
       "image": "c8_principes2",
       "next": "061"
     },
@@ -725,3 +725,15 @@ STORY_SCENES.c8_palacio = {
   },
   "nextScene": "c4_actividades"
 };
+
+// El palacio puede visitarse antes, pero no posponerse más allá del día 5.
+{
+  const hub = STORY_SCENES.c4_actividades;
+  hub.scheduledActivities ||= [];
+  hub.scheduledActivities.push({ day: 5, scene: "c8_palacio", presentation: "obligatoria_palacio" });
+  hub.nodes.obligatoria_palacio = {
+    type: "dialogue", speaker: "Protagonista", image: "nuevodia",
+    text: "No puedo seguir posponiendo la visita a palacio. Necesito respuestas y aliados para cumplir mi misión.",
+    forcedActivity: { destination: "c8_palacio", dayCost: 1, activity: { id: "palacio" } },
+  };
+}

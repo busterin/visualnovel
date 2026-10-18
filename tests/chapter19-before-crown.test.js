@@ -1,11 +1,11 @@
 (() => {
  const check=(v,m)=>{if(!v)throw Error(m)},scenes=STORY_SCENES,scene=scenes.c19_antes_corona;
  let runs=0;
- for(const who of ['seren','jairen'])for(const a of ['A','B','C'])for(const b of ['A','B','C'])for(const met of [false,true])for(const elapsed of [5,49]){
+ for(const who of ['seren','jairen'])for(const a of ['A','B','C'])for(const b of ['A','B','C'])for(const met of [false,true])for(const elapsed of [5,29]){
   const other=who==='seren'?'jairen':'seren';let s=StoryEngine.createState();StoryCalendar.activate(s);
   Object.assign(s,{palacio_superviviente:who,palacio_fallecido:other,c12_completado:true});
   s.completedScenes=['c8_palacio','c12_homenaje','interludio_willard'];
-  s.calendar.elapsed=elapsed;s.calendar.remaining=50-elapsed;
+  s.calendar.elapsed=elapsed;s.calendar.remaining=30-elapsed;
   if(met){s.metCompanions=[who];s.affinity[who]=4;}
   s.scene='c4_actividades';s.node='actividades';
   check(StoryEngine.choose(s,scenes,'antes_corona'),'Disponible');
@@ -16,7 +16,7 @@
    check(scene.assets[n.image],'Imagen '+s.node);
    check(!s.node.startsWith(other+'_'),'Mezcla supervivientes');
    check(n.speaker!==other[0].toUpperCase()+other.slice(1),'Habla fallecido');
-   check(s.calendar.remaining===50-elapsed,'Cobro anticipado');
+   check(s.calendar.remaining===30-elapsed,'Cobro anticipado');
    if(n.type==='choice')StoryEngine.choose(s,scenes,s.node.endsWith('_1')?a:b);
    else StoryEngine.advance(s,scenes);
    const raw=JSON.stringify(s);s=StoryEngine.restore(JSON.parse(raw),scenes);
@@ -29,7 +29,7 @@
   check(s.c19_completado&&s.c19_superviviente===who,'Completar');
   check(s.affinity[who]===(met?4:1)+(a==='A'?1:0)+(b==='A'?1:0),'Afinidad máxima');
   check(!s.metCompanions.includes(other)&&s.affinity[other]===undefined,'Activa fallecido');
-  check(s.calendar.remaining===49-elapsed&&s.calendar.settled.length===1,'Día único');
+  check(s.calendar.remaining===29-elapsed&&s.calendar.settled.length===1,'Día único');
   check(s.c19_investigacion_brujo_comprometida&&!Object.keys(s.alliances).length,'Compromiso sin alianza');
   s.node='actividades';check(!StoryEngine.availableOptions(s,scenes).some(o=>o.id==='antes_corona'),'Repetición');
   runs++;

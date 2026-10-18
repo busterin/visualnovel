@@ -116,11 +116,11 @@ function isCompanionPartner(id) {
 function showCompanions() {
   selectPauseSection("companions");
   pauseContent.append(menuElement("h2", "Compañeros"));
-  const met = gameState.metCompanions.filter(id => COMPANIONS[id] && id !== gameState.palacio_fallecido);
+  const met = gameState.metCompanions.filter(id => COMPANIONS[id] && isCompanionVisible(id));
   if (!met.length) pauseContent.append(menuElement("p", "Todavía no has encontrado a ningún compañero."));
   const gallery = menuElement("div", "", "companions-gallery");
   const visible = Object.keys(COMPANIONS)
-    .filter(id => id !== gameState.palacio_fallecido)
+    .filter(isCompanionVisible)
     .sort((a, b) => Number(isCompanionPartner(b)) - Number(isCompanionPartner(a)) ||
       Number(met.includes(b)) - Number(met.includes(a)));
   for (const id of visible) {
@@ -145,8 +145,12 @@ function showCompanions() {
   pauseContent.append(gallery);
 }
 
+function isCompanionVisible(id) {
+  return id !== gameState.palacio_fallecido && !(id === "willard" && gameState.willard_enemigo);
+}
+
 function showCompanion(id) {
-  if (id === gameState.palacio_fallecido || !gameState.metCompanions.includes(id) || !COMPANIONS[id]) return;
+  if (!isCompanionVisible(id) || !gameState.metCompanions.includes(id) || !COMPANIONS[id]) return;
   selectPauseSection("companions");
   const companion = COMPANIONS[id];
   const back = menuElement("button", "", "menu-back");

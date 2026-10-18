@@ -4,7 +4,7 @@
  let runs=0;
  for(const who of ['jairen','seren'])for(const a of ['A','B','C'])for(const b of ['A','B','C'])for(const c of ['A','B','C'])for(const late of [false,true]){
   let s=StoryEngine.createState();s.protagonistName='Álex';s.palacio_superviviente=who;s.palacio_fallecido=who==='jairen'?'seren':'jairen';s.palacio_completado=true;
-  s.completedScenes=['c8_palacio','c9_mercado'];StoryCalendar.activate(s);s.calendar.completed=['palacio','capital'];s.calendar.elapsed=late?8:2;s.calendar.remaining=50-s.calendar.elapsed;
+  s.completedScenes=['c8_palacio','c9_mercado'];StoryCalendar.activate(s);s.calendar.completed=['palacio','capital'];s.calendar.elapsed=late?8:2;s.calendar.remaining=30-s.calendar.elapsed;
   const beforeDays=s.calendar.remaining;StoryEngine.start(s,scenes,'c4_actividades');hub(s);
   assert(StoryEngine.choose(s,scenes,'homenaje'),'No inicia homenaje');assert(s.node===who+'_1','Versión incorrecta');
   let steps=0;const path=[];
@@ -33,7 +33,7 @@
  }
  for(const who of ['jairen','seren']){
   const s=StoryEngine.createState();prepareReviewStart(s,'memorial_'+who);StoryEngine.start(s,scenes,'c12_homenaje');assert(s.node===who+'_1'&&s.calendar.activity.id==='homenaje','Selector de prueba');
-  assert(COMPANIONS[who].bondType==='romantic','Potencial romance');
+  assert(COMPANIONS[who].bondType===(who==='seren'?'romantic':'platonic'),'Potencial romance');
  }
  // Gate: no palace, no memorial; completed activity stays hidden.
  const s=StoryEngine.createState();StoryCalendar.activate(s);s.calendar.elapsed=2;StoryEngine.start(s,scenes,'c4_actividades');hub(s);assert(!StoryEngine.availableOptions(s,scenes).some(o=>o.id==='homenaje'),'Acceso sin palacio');

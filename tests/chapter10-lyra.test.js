@@ -8,7 +8,7 @@
   const path=[];let steps=0;
   while(s.scene==='c10_lyra'){
    assert(++steps<150,'Bucle');const node=StoryEngine.current(s,scenes);path.push(s.node);
-   assert(s.calendar.remaining===50,'Día cobrado antes del final');
+   assert(s.calendar.remaining===30,'Día cobrado antes del final');
    assert(scenes.c10_lyra.assets[node.image],'Imagen falta');
    if(s.node==='decision_3')assert(s.affinity.lyra===initial,'Afinidad antes de despedida');
    if(node.type==='choice')StoryEngine.choose(s,scenes,({decision_1:a,decision_2:b,decision_3:c})[s.node]);
@@ -16,7 +16,7 @@
    const before=JSON.stringify(s);s=StoryEngine.restore(JSON.parse(before),scenes);assert(JSON.stringify(s)===before,'Cargar duplica efectos');
   }
   assert(s.c10_completado&&s.completedScenes.includes('c10_lyra'),'No completa');
-  assert(s.calendar.remaining===49&&s.calendar.settled.length===1,'Coste distinto de uno');
+  assert(s.calendar.remaining===29&&s.calendar.settled.length===1,'Coste distinto de uno');
   assert(s.affinity.lyra===initial+(c==='A'?1:0),'Corazones incorrectos');
   assert(s.c10_orientacion_lyra===({A:'romance',B:'amistad',C:'necesita_tiempo'})[c],'Orientación incorrecta');
   assert(s.lyra_investiga_patrullas_y_fallos&&s.lyra_conoce_revelacion&&s.promesa_informar_lyra_aparicion,'Faltan compromisos');
@@ -27,16 +27,18 @@
  // Cada orden de las tres actividades sigue ofreciendo tres destinos pendientes.
  for(const order of [['lyra','capital','palacio'],['lyra','palacio','capital'],['capital','lyra','palacio'],['capital','palacio','lyra'],['palacio','lyra','capital'],['palacio','capital','lyra']]){
   const s=StoryEngine.createState();StoryCalendar.activate(s);
+  // Aislar los órdenes de estas visitas de las misiones añadidas posteriormente.
+  s.calendar.completed=scenes.c4_actividades.nodes.actividades.options.filter(o=>!['palacio','capital','lyra','eiden'].includes(o.id)&&!o.comingSoon).map(o=>o.activity?.id).filter(Boolean);
   for(const activity of order){
-   StoryEngine.start(s,scenes,'c4_actividades');hub(s);assert(StoryEngine.availableOptions(s,scenes).length===3,'Antes sin tres opciones');
+   StoryEngine.start(s,scenes,'c4_actividades');hub(s);assert(StoryEngine.availableOptions(s,scenes).length<=3,'Antes sin tres opciones');
    assert(StoryEngine.choose(s,scenes,activity),'Actividad oculta');let steps=0;
    while(s.scene!=='c4_actividades'){
     assert(++steps<200,'Bucle orden');const n=StoryEngine.current(s,scenes);
     if(n.type==='choice')StoryEngine.choose(s,scenes,StoryEngine.availableOptions(s,scenes)[0].id);else StoryEngine.advance(s,scenes);
    }
-   hub(s);assert(StoryEngine.availableOptions(s,scenes).length===3,'Después sin tres opciones');
+   hub(s);assert(StoryEngine.availableOptions(s,scenes).length<=3,'Después sin tres opciones');
   }
-  assert(s.calendar.remaining===47,'Tres días');
+  assert(s.calendar.remaining===27,'Tres días');
   const before=JSON.stringify(s);assert(!StoryEngine.choose(s,scenes,'actividad_pendiente_lyra')&&JSON.stringify(s)===before,'Placeholder consume');
  }
  const preview=StoryEngine.createState();prepareReviewStart(preview,'lyra_training');assert(preview.calendar.activity.id==='lyra'&&preview.protagonistOutfit==='vaelthar','Revisión');

@@ -1,15 +1,15 @@
 (() => {
  const ok=(v,m)=>{if(!v)throw Error(m)},scenes=STORY_SCENES,scene=scenes.c21_valdoren;let runs=0;
- for(const answer of ['A','B','C'])for(const relation of [null,'amistad','pareja'])for(const elapsed of [1,49]){
-  let s=StoryEngine.createState();prepareReviewStart(s,'valdoren');s.calendar.activity=null;s.calendar.sequence=0;
-  s.calendar.elapsed=elapsed;s.calendar.remaining=50-elapsed;
+ for(const answer of ['A','B','C'])for(const relation of [null,'amistad','pareja'])for(const elapsed of [1,29]){
+  let s=StoryEngine.createState();prepareReviewStart(s,'valdoren');s.completedScenes.push('c8_palacio');s.calendar.activity=null;s.calendar.sequence=0;
+  s.calendar.elapsed=elapsed;s.calendar.remaining=30-elapsed;
   s.lyra_relacion=relation;s.lyra_romance_activo=relation==='pareja';s.lyra_romance_cerrado=relation==='amistad';
   s.scene='c4_actividades';s.node='actividades';
   ok(StoryEngine.choose(s,scenes,'valdoren'),'Actividad disponible');
   const path=[];let guard=0;
   while(s.scene==='c21_valdoren'){
    ok(++guard<65,'Bucle');const n=StoryEngine.current(s,scenes);path.push(s.node);
-   ok(scene.assets[n.image],'Imagen');ok(s.calendar.remaining===50-elapsed,'Día anticipado');
+   ok(scene.assets[n.image],'Imagen');ok(s.calendar.remaining===30-elapsed,'Día anticipado');
    if(n.type==='choice')StoryEngine.choose(s,scenes,answer);else StoryEngine.advance(s,scenes);
    const saved=JSON.stringify(s);s=StoryEngine.restore(JSON.parse(saved),scenes);
    ok(JSON.stringify(s)===saved,'Carga');
@@ -23,7 +23,7 @@
   for(const f of ['c21_robo_manuscrito','c21_ventana_cerrada_desde_fuera','c21_boton_arden_encontrado','c21_coordenadas_encontradas','c21_tomas_conocido','c21_maeve_desaparecida','c21_segundo_boton_arden','c21_objetivo_encontrar_maeve'])ok(s[f],f);
   ok(s.c21_frase_pergamino==='Donde duerme el séptimo','Pergamino');
   ok(!s.metCompanions.includes('elara')&&!s.metCompanions.includes('tomas'),'Compañeros no pedidos');
-  ok(s.calendar.remaining===49-elapsed&&s.calendar.settled.length===1,'Día único');
+  ok(s.calendar.remaining===29-elapsed&&s.calendar.settled.length===1,'Día único');
   s.node='actividades';ok(!StoryEngine.availableOptions(s,scenes).some(o=>o.id==='valdoren'),'Repetición');
   runs++;
  }

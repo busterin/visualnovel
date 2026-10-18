@@ -1,14 +1,14 @@
 (() => {
  const ok=(v,m)=>{if(!v)throw Error(m)},scenes=STORY_SCENES,scene=scenes.c20_falla_luz;let runs=0;
- for(const who of ['seren','jairen'])for(const answer of ['A','B','C'])for(const elapsed of [7,49]){
+ for(const who of ['seren','jairen'])for(const answer of ['A','B','C'])for(const elapsed of [7,29]){
   let s=StoryEngine.createState();prepareReviewStart(s,'light_'+who);
-  s.calendar.activity=null;s.calendar.sequence=0;s.calendar.elapsed=elapsed;s.calendar.remaining=50-elapsed;
+  s.calendar.activity=null;s.calendar.sequence=0;s.calendar.elapsed=elapsed;s.calendar.remaining=30-elapsed;
   s.scene='c4_actividades';s.node='actividades';const bonds=JSON.stringify(s.affinity);
   ok(StoryEngine.choose(s,scenes,'falla_luz'),'Actividad');let path=[],guard=0;
   while(s.scene==='c20_falla_luz'){
    ok(++guard<80,'Bucle');const n=StoryEngine.current(s,scenes);path.push(s.node);
    ok(s.node.startsWith(who+'_'),'Mezcla variantes');ok(scene.assets[n.image],'Imagen');
-   ok(s.calendar.remaining===50-elapsed,'Cobro anticipado');
+   ok(s.calendar.remaining===30-elapsed,'Cobro anticipado');
    if(n.type==='choice')StoryEngine.choose(s,scenes,answer);else StoryEngine.advance(s,scenes);
    const raw=JSON.stringify(s);s=StoryEngine.restore(JSON.parse(raw),scenes);ok(JSON.stringify(s)===raw,'Carga');
   }
@@ -16,7 +16,7 @@
   ok(s.affinity[who]===1+(answer==='A'?1:0),'Afecto');
   ok(s.c20_decision===answer&&s.c20_superviviente===who&&s.c20_completado,'Estado');
   ok(s.c20_ataque_palacio_repelido&&s.c20_faro_restablecido,'Descubrimientos');
-  ok(s.calendar.remaining===49-elapsed&&s.calendar.settled.length===1,'Día único');
+  ok(s.calendar.remaining===29-elapsed&&s.calendar.settled.length===1,'Día único');
   ok(!Object.keys(s.alliances).length,'No concede alianza');
   s.node='actividades';ok(!StoryEngine.availableOptions(s,scenes).some(o=>o.id==='falla_luz'),'Repite');
   runs++;

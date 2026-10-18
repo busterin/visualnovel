@@ -855,7 +855,7 @@ STORY_SCENES.c10_lyra = {
     "077": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Lyra deja de ordenar el banco.\nLe cuento lo de la mujer junto al canal. El agua inmóvil. La advertencia. Los cincuenta días.\nNo me interrumpe.",
+      "text": "Lyra deja de ordenar el banco.\nLe cuento lo de la mujer junto al canal. El agua inmóvil. La advertencia. Los [PlazoEnPalabras] días.\nNo me interrumpe.",
       "image": "c10_lyra_dialogo",
       "next": "078",
       "effects": {

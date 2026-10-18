@@ -5,7 +5,7 @@
   if(answer==='A'&&relation==='cerrada')continue;
   let s=StoryEngine.createState();StoryCalendar.activate(s);
   s.completedScenes=['c10_lyra','interludio_willard'];s.c10_completado=true;
-  s.calendar.elapsed=3;s.calendar.remaining=47;s.affinity={lyra:initial};s.metCompanions=['lyra'];
+  s.calendar.elapsed=3;s.calendar.remaining=27;s.affinity={lyra:initial};s.metCompanions=['lyra'];
   s.lyra_romance_cerrado=relation==='cerrada';s.lyra_romance_activo=relation==='pareja';
   s.lyra_romance_completado=relation!=='abierta';s.lyra_relacion=relation==='pareja'?'pareja':relation==='cerrada'?'amistad':null;
   s.scene='c4_actividades';s.node='actividades';
@@ -14,7 +14,7 @@
   while(s.scene==='c17_estacion_lyra'){
    check(++guard<80,'Bucle');const n=StoryEngine.current(s,scenes);path.push(s.node);
    check(scene.assets[n.image],'Falta imagen');
-   check(s.calendar.remaining===47,'Cobro antes del final');
+   check(s.calendar.remaining===27,'Cobro antes del final');
    if(n.type==='choice'){
     const opts=StoryEngine.availableOptions(s,scenes);
     check(opts.length===(relation==='cerrada'?2:3),'Cierre romántico');
@@ -31,7 +31,7 @@
   check(!!s.lyra_interes_romantico===(answer==='A'),'Interés solo A');
   check(s.lyra_romance_activo===(relation==='pareja'),'No inicia ni deshace pareja');
   check(s.lyra_romance_cerrado===(relation==='cerrada'),'No reabre romance');
-  check(s.calendar.remaining===46&&s.calendar.settled.length===1,'Un día');
+  check(s.calendar.remaining===26&&s.calendar.settled.length===1,'Un día');
   check(!Object.keys(s.alliances).length,'No concede alianza');
   s.node='actividades';check(!StoryEngine.availableOptions(s,scenes).some(o=>o.id==='estacion_lyra'),'No repetir');
   runs++;

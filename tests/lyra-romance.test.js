@@ -1,12 +1,12 @@
 (() => {
  const ok=(v,m)=>{if(!v)throw Error(m)}, scenes=STORY_SCENES;
  const hub=s=>{s.scene='c4_actividades';s.node='actividades';StoryEngine.prepare(s,scenes)};
- const make=(level=8,elapsed=10)=>{const s=StoryEngine.createState();StoryCalendar.activate(s);s.calendar.elapsed=elapsed;s.calendar.remaining=50-elapsed;s.affinity.lyra=level;s.metCompanions=['lyra'];s.completedScenes=['interludio_willard','c14_maleria','c15_noveno_segundo','c16_verdad_faro'];hub(s);return s};
+ const make=(level=8,elapsed=10)=>{const s=StoryEngine.createState();StoryCalendar.activate(s);s.calendar.elapsed=elapsed;s.calendar.remaining=30-elapsed;s.affinity.lyra=level;s.metCompanions=['lyra'];s.completedScenes=['c8_palacio','interludio_willard','c14_maleria','c15_noveno_segundo','c16_verdad_faro'];hub(s);return s};
  const offered=s=>StoryEngine.availableOptions(s,scenes).some(o=>o.id==='lyra_romance');
  const reload=s=>{const raw=JSON.stringify(s),restored=StoryEngine.restore(JSON.parse(raw),scenes);ok(JSON.stringify(restored)===raw,'Carga altera estado');return restored};
  const advanceTo=(s,id)=>{for(let i=0;s.node!==id;i++){ok(i<150,'Bucle '+id);const n=StoryEngine.current(s,scenes);ok(n.type==='dialogue','No diálogo '+s.node);ok(!/NOTA VISUAL/.test(n.speaker||''),'Instrucción visible');StoryEngine.advance(s,scenes);s=reload(s)}return s};
  for(const level of [7,8,12]){const s=make(level);ok(offered(s)===(level>=8),'Umbral');ok(StoryEngine.availableOptions(s,scenes).length===3,'Más de tres opciones');}
- for(const final of ['A','B'])for(const elapsed of [10,49]){
+ for(const final of ['A','B'])for(const elapsed of [10,29]){
   let s=make(8,elapsed);const initial=s.calendar.remaining;
   ok(StoryEngine.choose(s,scenes,'lyra_romance'),'Inicio');s=advanceTo(s,'decision_invitacion');StoryEngine.choose(s,scenes,'A');
   s=advanceTo(s,'decision_definitiva');StoryEngine.choose(s,scenes,final);ok(s.pendingChoice,'Sin confirmación');

@@ -2,13 +2,13 @@
  const check=(v,m)=>{if(!v)throw Error(m)}, scenes=STORY_SCENES;
  let runs=0;
  for(const a of ['A','B','C'])for(const b of ['A','B','C'])for(const c of ['A','B','C'])for(const elapsed of [4,8]){
-  let s=StoryEngine.createState();StoryCalendar.activate(s);s.calendar.elapsed=elapsed;s.calendar.remaining=50-elapsed;
+  let s=StoryEngine.createState();StoryCalendar.activate(s);s.completedScenes.push("c8_palacio");s.calendar.elapsed=elapsed;s.calendar.remaining=30-elapsed;
   s.metCompanions=['ada','lyra'];s.affinity={ada:2,lyra:4};
   StoryCalendar.begin(s,{activity:{id:'descanso_posada'},dayCost:1});StoryEngine.start(s,scenes,'extra_posada');
   const path=[];let steps=0;
   while(s.scene==='extra_posada'){
    check(++steps<150,'Bucle');const n=StoryEngine.current(s,scenes);path.push(s.node);
-   check(s.calendar.remaining===50-elapsed,'Cobro anticipado');
+   check(s.calendar.remaining===30-elapsed,'Cobro anticipado');
    check(!s.red_posada_desbloqueada&&s.affinity.ada===2&&s.affinity.alma===undefined,'Premio anticipado');
    check(scenes.extra_posada.assets[n.image],'Imagen no declarada');
    if(n.type==='choice')StoryEngine.choose(s,scenes,{decision_1:a,decision_2:b,decision_3:c}[s.node]);else StoryEngine.advance(s,scenes);
@@ -24,7 +24,7 @@
   check(s.posada_dia_completado&&s.red_posada_desbloqueada&&s.posada_registro_sin_nombre,'Falta desbloqueo');
   check(s.affinity.ada===3&&s.affinity.alma===undefined&&s.affinity.lyra===4,'Vínculos incorrectos');
   check(COMPANIONS.ada.bondType==='platonic'&&!COMPANIONS.alma,'Romance indebido');
-  check(s.calendar.remaining===49-elapsed&&s.calendar.settled.length===1,'Día duplicado');
+  check(s.calendar.remaining===29-elapsed&&s.calendar.settled.length===1,'Día duplicado');
   check(s.scene===(elapsed===8?'interludio_willard':'c4_actividades'),'Continuidad Willard');
   s.scene='c4_actividades';s.node='actividades';
   const options=StoryEngine.availableOptions(s,scenes);

@@ -1224,19 +1224,7 @@ STORY_SCENES.c14_maleria = {
   };
 }
 
-// La audiencia obligatoria mantiene el bloqueo personal de Veyra:
-// si no se la conoce o cerró su ruta, no hay encuentro con ella en palacio.
-{
-  const hub = STORY_SCENES.c4_actividades;
-  hub.scheduledActivities ||= [];
-  hub.scheduledActivities.push({
-    day: 19, scene: "c14_maleria", requiresFlags: ["acceso_orbis"],
-    presentation: "obligatoria_maleria",
-  });
-  hub.nodes.obligatoria_maleria = {
-    type: "dialogue", speaker: "Protagonista", image: "nuevodia",
-    text: hub.nodes.introduccion_maleria_0.text,
-    forcedActivity: { destination: "c14_maleria", dayCost: 1,
-      activity: { id: "orbis_maleria" }, effects: { c14_audiencia_obligatoria: true } },
-  };
-}
+// Compatibilidad: una presentación automática antigua vuelve a los destinos libres.
+STORY_SCENES.c4_actividades.nodes.obligatoria_maleria = {
+  type: "redirect", destination: "c4_actividades", destinationNode: "reflexion_diaria",
+};

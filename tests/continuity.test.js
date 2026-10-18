@@ -28,7 +28,7 @@
    }else StoryEngine.advance(s,STORY_SCENES);
   }
   assert(JSON.stringify(routes)===JSON.stringify(order.map(id=>'c3_'+id)),'Orden de visita incorrecto');
-  assert(s.calendar.active&&s.calendar.remaining===50&&s.calendar.elapsed===0,'Días consumidos antes de revelación');
+  assert(s.calendar.active&&s.calendar.remaining===30&&s.calendar.elapsed===0,'Días consumidos antes de revelación');
   assert(s.descanso_completado&&s.ropa_ada_recibida&&s.revelacion_diosa_completada,'Falta cierre');
   const afterC2=profile==='C'?0:1;
   const afterGreeting=Math.max(0,afterC2+({A:1,B:0,C:-1}[profile]));
@@ -45,7 +45,7 @@
   for(const flag of ['archivo_plano_varda','archivo_carta','archivo_solicitud_retorno','archivo_firma_protagonista','archivo_copias'])assert(!s[flag],'Pista antigua del Archivo '+flag);
   assert(!s.documents.solicitud_retorno,'Solicitud retirada reaparece');
   assert(s.documents.declaracion_inspeccion.signed,'Declaración no guardada');
-  const restored=StoryEngine.restore(s,STORY_SCENES);assert(restored.node===s.node&&restored.calendar.remaining===50,'Carga del final repite contenido');
+  const restored=StoryEngine.restore(s,STORY_SCENES);assert(restored.node===s.node&&restored.calendar.remaining===30,'Carga del final repite contenido');
   runs++;
  }
  return `OK continuidad: ${runs} partidas desde el capítulo 1, seis órdenes de investigación, Inspección obligatoria, cinta, secretos, declaración, descanso y carga.`;

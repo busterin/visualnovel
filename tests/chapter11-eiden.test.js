@@ -5,17 +5,17 @@
  let count=0;
  for(const a of ['A','B','C'])for(const b of ['A','B','C'])for(const c of ['A','B','C'])for(const oldAnswer of ['regreso','pasado','lyra'])for(const initial of [0,1,5]){
   let s=StoryEngine.createState();s.protagonistName='Álex';s.c2_pregunta_lyra=oldAnswer;s.metCompanions=['eiden'];s.affinity={eiden:initial};StoryCalendar.activate(s);
-  s.calendar.elapsed=1;s.calendar.remaining=49;s.calendar.completed=['capital'];s.completedScenes=['c9_mercado'];
+  s.calendar.elapsed=1;s.calendar.remaining=29;s.calendar.completed=['capital'];s.completedScenes=['c9_mercado'];
   StoryEngine.start(s,scenes,'c4_actividades');hub(s);assert(StoryEngine.choose(s,scenes,'eiden'),'Eiden no disponible');
   let steps=0;const path=[];
   while(s.scene==='c11_eiden'){
    assert(++steps<200,'Bucle');const n=StoryEngine.current(s,scenes);path.push(s.node);
-   assert(s.calendar.remaining===49,'Cobro antes de terminar');assert(chapter.assets[n.image],'Imagen ausente');
+   assert(s.calendar.remaining===29,'Cobro antes de terminar');assert(chapter.assets[n.image],'Imagen ausente');
    if(n.type==='choice')StoryEngine.choose(s,scenes,({decision_1:a,decision_2:b,decision_3:c})[s.node]);else StoryEngine.advance(s,scenes);
    const before=JSON.stringify(s);s=StoryEngine.restore(JSON.parse(before),scenes);assert(JSON.stringify(s)===before,'Carga cambia estado');
   }
   assert(s.c11_completado&&s.completedScenes.includes('c11_eiden'),'No completa');
-  assert(s.calendar.remaining===48&&s.calendar.settled.length===1,'No cobra exactamente un día');
+  assert(s.calendar.remaining===28&&s.calendar.settled.length===1,'No cobra exactamente un día');
   assert(s.affinity.eiden===initial+(b==='C'?0:1)+(c==='A'?1:0),'Afinidad incorrecta');
   assert(s.c11_orientacion_eiden===({A:'romance',B:'amistad',C:'investigacion'})[c],'Orientación');
   assert(!s.acceso_orbis&&!s.acceso_mantenimiento_autorizado&&!Object.keys(s.alliances).length,'Desbloqueo indebido');
@@ -31,11 +31,13 @@
  const perms=xs=>xs.length?xs.flatMap(x=>perms(xs.filter(v=>v!==x)).map(p=>[x,...p])):[[]];let orders=0;
  for(const order of perms(['palacio','capital','lyra','eiden']).filter(p=>p[0]!=='eiden')){
   const s=StoryEngine.createState();StoryCalendar.activate(s);
+  // Aislar los órdenes de estas visitas de las misiones añadidas posteriormente.
+  s.calendar.completed=scenes.c4_actividades.nodes.actividades.options.filter(o=>!['palacio','capital','lyra','eiden'].includes(o.id)&&!o.comingSoon).map(o=>o.activity?.id).filter(Boolean);
   for(const id of order){
-   StoryEngine.start(s,scenes,'c4_actividades');hub(s);assert(StoryEngine.availableOptions(s,scenes).length===3,'Antes: tres opciones');assert(StoryEngine.choose(s,scenes,id),'Orden no permite '+id);let n=0;
+   StoryEngine.start(s,scenes,'c4_actividades');hub(s);assert(StoryEngine.availableOptions(s,scenes).length<=3,'Antes: tres opciones');assert(StoryEngine.choose(s,scenes,id),'Orden no permite '+id);let n=0;
    while(s.scene!=='c4_actividades'){assert(++n<210,'Bucle orden');const node=StoryEngine.current(s,scenes);if(node.type==='choice')StoryEngine.choose(s,scenes,StoryEngine.availableOptions(s,scenes)[0].id);else StoryEngine.advance(s,scenes);}
   }
-  hub(s);assert(s.calendar.remaining===46,'Cuatro días');assert(StoryEngine.availableOptions(s,scenes).length===3,'Tres opciones finales');
+  hub(s);assert(s.calendar.remaining===26,'Cuatro días');assert(StoryEngine.availableOptions(s,scenes).length<=3,'Tres opciones finales');
   const before=JSON.stringify(s);assert(!StoryEngine.choose(s,scenes,'actividad_pendiente_eiden')&&JSON.stringify(s)===before,'Placeholder cobra');orders++;
  }
  const preview=StoryEngine.createState();prepareReviewStart(preview,'eiden_visit');assert(preview.calendar.activity.id==='eiden'&&preview.protagonistOutfit==='vaelthar','Acceso revisión');

@@ -848,17 +848,44 @@ STORY_SCENES.c16_verdad_faro = {
   };
 }
 
-// La fecha usa el día mostrado (elapsed + 1), no los días ya consumidos.
+// Compatibilidad: una presentación automática antigua vuelve a los destinos libres.
+STORY_SCENES.c4_actividades.nodes.obligatoria_verdad_faro = {
+  type: "redirect", destination: "c4_actividades", destinationNode: "reflexion_diaria",
+};
+
+// c16_verdad_willard_revelada se conserva por compatibilidad: significa haber oído su relato.
+// Conocimiento adquirido: no confirma la autenticidad de documentos ni testimonios.
+STORY_SCENES.c16_verdad_faro.nodes["fin"].knowledgeEntries = [
+  {
+    "id": "relato_completo_willard",
+    "status": "testimonio",
+    "source": "willard",
+    "observers": [
+      "protagonista"
+    ]
+  }
+];
+
+// El relato de Willard sigue siendo su versión, también después del observatorio.
 {
-  const hub = STORY_SCENES.c4_actividades;
-  hub.scheduledActivities ||= [];
-  hub.scheduledActivities.push({
-    day: 26, scene: "c16_verdad_faro", requiredScenes: ["c15_noveno_segundo"],
-    presentation: "obligatoria_verdad_faro",
+  const n = STORY_SCENES.c16_verdad_faro.nodes;
+  n["96"].next = "comprobar_aurelia";
+  n.comprobar_aurelia = { type: "condition", flag: "aurelia_fallecida", equals: true, ifTrue: "97O", ifFalse: "97" };
+  const lines = [
+    ["97O", "Protagonista", "Antes de morir, Aurelia dijo que Albert no estaba dentro. Tu relato no coincide con el suyo."],
+    ["98O", "Willard", "Sus recuerdos estaban fragmentados. Yo solo puedo contarte lo que recuerdo de aquella noche."],
+    ["99O", "Protagonista", "Eso no basta para descartar sus últimas palabras."],
+    ["100O", "Willard", "No te pido que las descartes. Pero los registros también señalan a Albert."],
+    ["101O", "Protagonista", "Entonces tenemos que encontrarlo y escuchar su versión."],
+    ["102O", "Willard", "Sí. Es quien todavía puede responder a esas preguntas."],
+    ["103O", null, "Fuera, la noche sigue en calma."],
+    ["104O", null, "Pero ahora sé que no durará."],
+    ["105O", null, "La oscuridad no fue destruida aquel día.\nSolo fue rechazada."],
+    ["106O", null, "Aurelia ya no puede explicar lo que recordó. Encontrar a Albert es nuestra siguiente oportunidad."],
+  ];
+  lines.forEach(([id, speaker, text], i) => {
+    n[id] = { type: "dialogue", speaker, text, image: "c16_12", next: lines[i + 1]?.[0] || "fin" };
   });
-  hub.nodes.obligatoria_verdad_faro = {
-    type: "dialogue", speaker: "Protagonista", image: "nuevodia",
-    text: hub.nodes.introduccion_verdad_faro_0.text,
-    forcedActivity: { destination: "c16_verdad_faro", dayCost: 1, activity: { id: "verdad_faro" } },
-  };
+  n["102O"].effects = { objetivo_encontrar_albert: true, c16_contradiccion_testimonio_aurelia: true };
+  n["102O"].knowledgeEntries = [{ id: "contradiccion_willard_aurelia", status: "contradiccion", source: "testimonios_willard_aurelia", observers: ["protagonista"] }];
 }

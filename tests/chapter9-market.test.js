@@ -11,7 +11,7 @@
   const path=[];let steps=0;
   while(s.scene==='c9_mercado'){
    assert(++steps<120,'Bucle mercado');const n=StoryEngine.current(s,scenes);path.push(s.node);
-   assert(s.calendar.remaining===50,'Cobro prematuro');
+   assert(s.calendar.remaining===30,'Cobro prematuro');
    assert(scenes.c9_mercado.assets[n.image],'Imagen falta');
    if(s.node==='presentacion_04')assert(StoryEngine.format(n.text,s)==='Yo soy Álex.','Nombre');
    if(n.type==='choice')assert(StoryEngine.choose(s,scenes,({intervenir:a,identidad:b,respuesta:c})[s.node]),'Elección');
@@ -24,7 +24,7 @@
   assert(s.metCompanions.includes('veyra')===(score===3),'Compañera incorrecta');
   assert(s.veyra_bloqueada===(score<0)&&s.veyra_destino_conocido===(score===3),'Continuidad');
   assert(path.filter(id=>/^(positivo|neutro|negativo)_01$/.test(id)).join()===result+'_01','Ramas mezcladas');
-  assert(s.calendar.remaining===49&&s.calendar.settled.length===1&&s.mercado_completado,'Fin incorrecto');
+  assert(s.calendar.remaining===29&&s.calendar.settled.length===1&&s.mercado_completado,'Fin incorrecto');
   skip(s);assert(!StoryEngine.availableOptions(s,scenes).some(o=>o.id==='capital'),'Repite mercado');
   assert(StoryEngine.availableOptions(s,scenes).length===3,'Día 2 sin tres destinos');
   const future={...scenes, futura_veyra:{unavailableIfFlag:'veyra_bloqueada',start:'a',nodes:{a:{type:'dialogue',text:'',next:null}}}};
@@ -47,8 +47,8 @@
   assert(opts.map(o=>o.id).join() === 'lyra,eiden,homenaje','Día 3 incorrecto');
   const dead=survivor==='seren'?'Jairen':'Seren';
   assert(StoryEngine.format(opts[2].text,s)==='Ir al acto en honor a '+dead+'.','Homenaje persona equivocada');
-  const before=JSON.stringify(s);assert(!StoryEngine.choose(s,scenes,'homenaje')&&JSON.stringify(s)===before,'Acto incompleto cobra');
-  assert(s.calendar.remaining===48,'Dos actividades no cuestan dos días');
+  assert(StoryEngine.choose(s,scenes,'homenaje')&&s.scene==='c12_homenaje','El homenaje no inicia');
+  assert(s.calendar.remaining===28,'Dos actividades no cuestan dos días');
  }
  const preview=StoryEngine.createState();prepareReviewStart(preview,'market');assert(preview.calendar.activity.id==='capital','Revisión sin actividad');
  return 'OK Mercado: 18 combinaciones, 3 desenlaces, guardado en cada bloque, puntuación separada, bloqueo futuro, 4 órdenes/desenlaces de Palacio y homenaje.';
