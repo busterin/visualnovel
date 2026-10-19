@@ -5,6 +5,7 @@ STORY_SCENES.c16_verdad_faro = {
   "title": "La verdad del faro",
   "chapter": 16,
   "hideFromSelector": true,
+  "mainStory": true,
   "start": "comprobar",
   "nextScene": "c4_actividades",
   "assets": {
@@ -848,10 +849,18 @@ STORY_SCENES.c16_verdad_faro = {
   };
 }
 
-// Compatibilidad: una presentación automática antigua vuelve a los destinos libres.
-STORY_SCENES.c4_actividades.nodes.obligatoria_verdad_faro = {
-  type: "redirect", destination: "c4_actividades", destinationNode: "reflexion_diaria",
-};
+{
+  const hub = STORY_SCENES.c4_actividades;
+  hub.scheduledActivities.push({ day: 15, scene: "c16_verdad_faro", requiredScenes: ["c15_noveno_segundo"], hideIfFlag: "willard_enemigo", presentation: "obligatoria_verdad_faro" });
+  hub.nodes.obligatoria_verdad_faro = {
+    type: "dialogue", speaker: "Protagonista", image: "nuevodia",
+    text: hub.nodes.introduccion_verdad_faro_0.text,
+    forcedActivity: { destination: "c16_verdad_faro", dayCost: 1, activity: { id: "verdad_faro" } },
+  };
+  const n = STORY_SCENES.c16_verdad_faro.nodes;
+  n.comprobar.ifTrue = "comprobar_repeticion";
+  n.comprobar_repeticion = { type: "condition", flag: "c16_completado", equals: true, ifTrue: "volver", ifFalse: "1" };
+}
 
 // c16_verdad_willard_revelada se conserva por compatibilidad: significa haber oído su relato.
 // Conocimiento adquirido: no confirma la autenticidad de documentos ni testimonios.

@@ -4,6 +4,7 @@ STORY_SCENES.c25_albert = {
   "title": "El hombre al que culparon",
   "chapter": 25,
   "hideFromSelector": true,
+  "mainStory": true,
   "start": "comprobar",
   "nextScene": "c4_actividades",
   "assets": {
@@ -1413,7 +1414,7 @@ STORY_SCENES.c25_albert = {
     type:"dialogue",speaker:"Protagonista",image:"nuevodia",text:summary,
     next:i<2?`briefing_${i+1}`:"actividades",backTo:"reinos",backRequiresFlag:"acceso_orbis",
   };
-  hub.scheduledActivities.push({day:18,scene:"c25_albert",requiredScenes:["c24_ultimo_recuerdo"],afterActivity,presentation:"obligatoria_albert"});
+  hub.scheduledActivities.push({day:21,scene:"c25_albert",requiredScenes:["c24_ultimo_recuerdo"],afterActivity,presentation:"obligatoria_albert"});
   hub.nodes.obligatoria_albert={
     type:"dialogue",speaker:"Protagonista",image:"nuevodia",text:summary,
     forcedActivity:{destination:"c25_albert",dayCost:1,activity:{id:"albert",afterActivity}},

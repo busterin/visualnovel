@@ -4,6 +4,7 @@ STORY_SCENES.c26_oscuridad = {
   "title": "El rostro de la oscuridad",
   "chapter": 26,
   "hideFromSelector": true,
+  "mainStory": true,
   "start": "comprobar",
   "nextScene": "c4_actividades",
   "assets": {},
@@ -1638,7 +1639,7 @@ STORY_SCENES.c26_oscuridad = {
     hideIfCompleted:"c26_oscuridad",briefingPrefix:"introduccion_oscuridad_",
   });
   for(let i=0;i<3;i++)hub.nodes[`introduccion_oscuridad_${i}`]={type:"dialogue",speaker:"Protagonista",image:"nuevodia",text,next:i<2?`briefing_${i+1}`:"actividades",backTo:"reinos",backRequiresFlag:"acceso_orbis"};
-  hub.scheduledActivities.push({day:23,scene:"c26_oscuridad",requiredScenes:["c25_albert"],presentation:"obligatoria_oscuridad"});
+  hub.scheduledActivities.push({day:24,scene:"c26_oscuridad",requiredScenes:["c25_albert"],presentation:"obligatoria_oscuridad"});
   hub.nodes.obligatoria_oscuridad={type:"dialogue",speaker:"Protagonista",image:"nuevodia",text,
     forcedActivity:{destination:"c26_oscuridad",dayCost:1,activity:{id:"rostro_oscuridad"}}};
   // Las conversaciones anteriores con Willard dejan de estar disponibles.

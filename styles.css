@@ -382,3 +382,10 @@ button:focus-visible { outline: 2px solid #ffe2a3; outline-offset: 4px; }
   border-color: #e34e60;
   box-shadow: 0 0 0 3px #e34e6033;
 }
+
+/* Actividades de trama: rojo apagado y etiqueta, sin alterar su coste. */
+.choice-button.is-main-story { background: #352129; border-color: #b87880; }
+.choice-button.is-main-story .activity-cost { color: #f0bcc2; }
+.choice-button.is-main-story:hover,
+.choice-button.is-main-story:focus-visible { background: #4b2b36; border-color: #f0b5bf; }
+.choice-button.is-main-story:active { background: #57303c; }

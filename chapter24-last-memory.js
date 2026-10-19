@@ -4,6 +4,7 @@ STORY_SCENES.c24_ultimo_recuerdo = {
   "title": "El último recuerdo",
   "chapter": 24,
   "hideFromSelector": true,
+  "mainStory": true,
   "start": "comprobar",
   "nextScene": "c4_actividades",
   "assets": {
@@ -1491,7 +1492,7 @@ STORY_SCENES.c24_ultimo_recuerdo = {
     "comprobar": {
       "type": "condition",
       "requiredScenes": [
-        "c8_palacio"
+        "c16_verdad_faro"
       ],
       "ifTrue": "1",
       "ifFalse": "volver"
@@ -1586,7 +1587,7 @@ STORY_SCENES.c24_ultimo_recuerdo = {
   const summary = "Mara me ha citado en Inspección. Una señal del antiguo observatorio podría ayudarnos a recuperar lo ocurrido hace tres años.";
   hub.nodes.actividades.options.unshift({
     id: "ultimo_recuerdo", text: "Investigar la señal del observatorio con Mara.", destination: "c24_ultimo_recuerdo",
-    dayCost: 1, activity: { id: "ultimo_recuerdo", fromDay: 8, requiresFlags: ["palacio_completado"] },
+    dayCost: 1, activity: { id: "ultimo_recuerdo", fromDay: 8, requiresFlags: ["c16_completado"] },
     hideIfCompleted: "c24_ultimo_recuerdo", briefingPrefix: "introduccion_ultimo_recuerdo_",
   });
   for (let i = 0; i < 3; i++) hub.nodes[`introduccion_ultimo_recuerdo_${i}`] = {
@@ -1594,7 +1595,7 @@ STORY_SCENES.c24_ultimo_recuerdo = {
     next: i < 2 ? `briefing_${i + 1}` : "actividades",
     backTo: "reinos", backRequiresFlag: "acceso_orbis",
   };
-  hub.scheduledActivities.push({ day: 12, scene: "c24_ultimo_recuerdo", requiredScenes: ["c8_palacio"], presentation: "obligatoria_ultimo_recuerdo" });
+  hub.scheduledActivities.push({ day: 18, scene: "c24_ultimo_recuerdo", requiredScenes: ["c16_verdad_faro"], presentation: "obligatoria_ultimo_recuerdo" });
   hub.nodes.obligatoria_ultimo_recuerdo = {
     type: "dialogue", speaker: "Protagonista", image: "nuevodia", text: summary,
     forcedActivity: { destination: "c24_ultimo_recuerdo", dayCost: 1, activity: { id: "ultimo_recuerdo" } },

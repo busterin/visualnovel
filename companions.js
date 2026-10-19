@@ -3,6 +3,20 @@
 // Solo compañeros de la aventura, no todos los personajes del guion.
 // Fichas sin revelaciones posteriores al primer encuentro.
 const COMPANIONS = {
+  // Desbloquear exclusivamente en el cierre de Valdoren · Parte 3 (pendiente)
+  // mediante meetCompanions: ["elara"]. La primera parte no la incorpora.
+  elara: {
+    name: "Elara", bondType: "platonic",
+    portrait: "imagenes/Escena21/c21_3.png",
+    avatarSize: "280% auto", avatarPosition: "30% 25%", portraitPosition: "35% 30%",
+    description: "Una librera de Valdoren. El robo de un manuscrito en su tienda dio comienzo a vuestra investigación junto a Lyra.",
+  },
+  biell: {
+    name: "Biell", bondType: "platonic", hideUntilMet: true,
+    portrait: "imagenes/Heroína.png",
+    avatarSize: "260% auto", avatarPosition: "47% 23%", portraitPosition: "center 25%",
+    description: "Tu hermana, procedente de tu mundo. Compartís la bendición de la Diosa de la Luz. Tras liberarla del Faro, su luz sigue debilitada y el hechizo que ocultó su recuerdo aún no se ha deshecho para todos.",
+  },
   kael: {
     name: "Kael", bondType: "platonic",
     portrait: "imagenes/Escena24/c24_3.png",

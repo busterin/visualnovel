@@ -3,7 +3,7 @@
  let runs=0;
  const setup=(eiden,elapsed)=>{
   const s=StoryEngine.createState();StoryCalendar.activate(s);
-  s.completedScenes=['c8_palacio','c14_maleria','interludio_willard'];s.c14_completado=true;
+  s.completedScenes=['c8_palacio','c14_maleria','interludio_willard'];s.c14_completado=true;s.palacio_completado=true;
   s.c11_completado=eiden;s.acceso_orbis=true;s.veyra_conocida=true;
   s.calendar.elapsed=elapsed;s.calendar.remaining=30-elapsed;
   s.metCompanions=['willard'];s.affinity={willard:3};s.inspeccion_corte_segundos=9;
@@ -33,11 +33,11 @@
   s.node='actividades';check(!StoryEngine.availableOptions(s,scenes).some(o=>o.id==='noveno_segundo'),'Repite capítulo');runs++;
  }
  const locked=StoryEngine.createState();StoryCalendar.activate(locked);locked.scene='c4_actividades';locked.node='actividades';
- check(!StoryEngine.availableOptions(locked,scenes).some(o=>o.id==='noveno_segundo'),'Aparece antes de Maleria');
- check(!StoryEngine.choose(locked,scenes,'noveno_segundo'),'Inicia antes de Maleria');
+ check(!StoryEngine.availableOptions(locked,scenes).some(o=>o.id==='noveno_segundo'),'Aparece antes de palacio');
+ check(!StoryEngine.choose(locked,scenes,'noveno_segundo'),'Inicia antes de palacio');
  StoryEngine.start(locked,scenes,'c15_noveno_segundo');check(locked.scene==='c4_actividades','Acceso directo omite requisito');
  const s=setup(true,10);s.node='briefing_0';StoryEngine.prepare(s,scenes);const summaries=[];
  while(StoryEngine.current(s,scenes).type==='dialogue'){check(summaries.length<3,'Bucle resumen');summaries.push(StoryEngine.current(s,scenes).text);StoryEngine.advance(s,scenes);}
  check(summaries.length===3&&summaries.some(t=>t.includes('Nos ha citado a Willard')),'Resumen diario');
- return `OK capítulo 15: ${runs} recorridos, nueve ramas, guardado, Maleria, Eiden, pistas y día único.`;
+ return `OK capítulo 15: ${runs} recorridos, nueve ramas, guardado, Eiden, pistas y día único.`;
 })()

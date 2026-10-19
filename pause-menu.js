@@ -146,7 +146,8 @@ function showCompanions() {
 }
 
 function isCompanionVisible(id) {
-  return id !== gameState.palacio_fallecido && !(id === "willard" && gameState.willard_enemigo);
+  return id !== gameState.palacio_fallecido && !(id === "willard" && gameState.willard_enemigo) &&
+    (!COMPANIONS[id]?.hideUntilMet || gameState.metCompanions.includes(id));
 }
 
 function showCompanion(id) {

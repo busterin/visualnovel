@@ -24,13 +24,13 @@
   }
   return {s,path};
  };
- for(const flags of fixtures)for(const answer of ['A','B','C'])for(const day of [8,12]){
+ for(const flags of fixtures)for(const answer of ['A','B','C'])for(const day of [8,18]){
   let s=StoryEngine.createState();prepareReviewStart(s,'last_memory');
   s.calendar.activity=null;s.calendar.elapsed=day-1;s.calendar.remaining=31-day;
   s.completedScenes.push('interludio_willard');s.aviso_willard_completado=true;
   Object.assign(s,flags);s.protagonistName='Alex';
   if(day===8){s.scene='c4_actividades';s.node='actividades';ok(StoryEngine.choose(s,scenes,'ultimo_recuerdo'),'Elegir c24');}
-  else {s.scene='c4_actividades';s.node='reinos';StoryEngine.prepare(s,scenes);ok(s.node==='obligatoria_ultimo_recuerdo','Obligatorio día12');StoryEngine.advance(s,scenes);}
+  else {s.scene='c4_actividades';s.node='reinos';StoryEngine.prepare(s,scenes);ok(s.node==='obligatoria_ultimo_recuerdo','Obligatorio día18');StoryEngine.advance(s,scenes);}
   const result=play(s,answer);s=result.s;const path=result.path;
   const willard=!!(flags.c15_expedicion_albert_aurelia_protagonista||flags.c16_expedicion_original_confirmada),eiden=!!flags.c11_expedicion_faro;
   ok(path.includes('10A')===eiden,'Nombre por Eiden');
@@ -62,7 +62,7 @@
  }
  for(const day of [1,7,8])for(const palace of [false,true]){
   const s=StoryEngine.createState();StoryCalendar.activate(s);s.calendar.elapsed=day-1;s.calendar.remaining=31-day;
-  s.palacio_completado=palace;s.completedScenes=palace?['c8_palacio']:[];s.scene='c4_actividades';s.node='actividades';
+  s.c16_completado=palace;s.completedScenes=palace?['c8_palacio','c15_noveno_segundo','c16_verdad_faro']:[];s.scene='c4_actividades';s.node='actividades';
   ok(StoryEngine.availableOptions(s,scenes).some(o=>o.id==='ultimo_recuerdo')===(palace&&day>=8),'Desbloqueo');
  }
  const locked=StoryEngine.createState();StoryEngine.start(locked,scenes,'c24_ultimo_recuerdo');ok(locked.scene==='c4_actividades','Sin palacio');
@@ -84,5 +84,5 @@
    else ok(path.includes('97O')&&!path.includes('97')&&!path.includes('106'),'Cierre anterior muerte');
   }else ok(!path.some(id=>id.includes('O')),'Variante anticipada');
  }
- return `OK capítulo 24: ${runs} recorridos, 3 recompensas, conocimientos por descubrimiento, guardado, días 8/12, revisión y continuidad 15/16.`;
+ return `OK capítulo 24: ${runs} recorridos, 3 recompensas, conocimientos por descubrimiento, guardado, días 8/18, revisión y continuidad 15/16.`;
 })()

@@ -48,13 +48,13 @@
   runs++;
  }
  const option=scenes.c4_actividades.nodes.actividades.options.find(o=>o.id==='albert');
- for(const completedDay of [8,12])for(let day=completedDay+1;day<=19;day++){
+ for(const completedDay of [8,12])for(let day=completedDay+1;day<=22;day++){
   const s=StoryEngine.createState();prepareReviewStart(s,'albert');s.calendar.activity=null;
   s.calendar.completedDays.ultimo_recuerdo=completedDay;s.calendar.elapsed=day-1;s.calendar.remaining=31-day;
   ok(StoryCalendar.available(s,option)===(day>=completedDay+3),'Espera relativa '+day);
   const due=StoryCalendar.dueActivity(s,scenes);
-  ok((due?.scene==='c25_albert')===(day>=18),'Día obligatorio '+day);
-  if(day===18){s.scene='c4_actividades';s.node='reinos';StoryEngine.prepare(s,scenes);ok(s.node==='obligatoria_albert','Presentación obligatoria');StoryEngine.advance(s,scenes);ok(s.scene==='c25_albert'&&s.calendar.activity.cost===1,'Inicio obligatorio');}
+  ok((due?.scene==='c25_albert')===(day>=21),'Día obligatorio '+day);
+  if(day===21){s.scene='c4_actividades';s.node='reinos';StoryEngine.prepare(s,scenes);ok(s.node==='obligatoria_albert','Presentación obligatoria');StoryEngine.advance(s,scenes);ok(s.scene==='c25_albert'&&s.calendar.activity.cost===1,'Inicio obligatorio');}
  }
  const old=StoryEngine.createState();prepareReviewStart(old,'albert');old.calendar.activity=null;delete old.calendar.completedDays;
  old.scene='c4_actividades';old.node='reflexion_diaria';let migrated=StoryEngine.restore(old,scenes);
@@ -62,5 +62,5 @@
  ok(!StoryCalendar.available(migrated,option),'Espera antigua');
  const again=StoryEngine.restore(migrated,scenes);ok(JSON.stringify(again)===JSON.stringify(migrated),'Migración repetida');
  const locked=StoryEngine.createState();StoryEngine.start(locked,scenes,'c25_albert');ok(locked.scene!=='c25_albert','Sin capítulo24');
- return `OK capítulo25: ${runs} recorridos, recompensas, carga por bloque, variantes, espera de 3 días, obligatorio18 y sin Albert en Compañeros.`;
+ return `OK capítulo25: ${runs} recorridos, recompensas, carga por bloque, variantes, espera de 3 días, obligatorio21 y sin Albert en Compañeros.`;
 })()

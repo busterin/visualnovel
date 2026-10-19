@@ -59,6 +59,7 @@ const StoryCalendar = {
     if (!c.active || c.expired || c.activity) return null;
     return (scenes.c4_actividades?.scheduledActivities || []).slice().sort((a,b) => a.day-b.day).find(item =>
       c.elapsed + 1 >= item.day &&
+      !state[item.hideIfFlag] &&
       this.relativeDateReached(c, item.afterActivity) &&
       !state.completedScenes.includes(item.scene) &&
       (item.requiresFlags || []).every(flag => state[flag]) &&

@@ -5,6 +5,7 @@ STORY_SCENES.c15_noveno_segundo = {
   "title": "El noveno segundo",
   "chapter": 15,
   "hideFromSelector": true,
+  "mainStory": true,
   "start": "comprobar_maleria",
   "nextScene": "c4_actividades",
   "assets": {
@@ -1139,7 +1140,7 @@ STORY_SCENES.c15_noveno_segundo = {
     "comprobar_maleria": {
       "type": "condition",
       "requiredScenes": [
-        "c14_maleria"
+        "c8_palacio"
       ],
       "ifTrue": "1",
       "ifFalse": "volver"
@@ -1167,11 +1168,11 @@ STORY_SCENES.c15_noveno_segundo = {
 
 {
  const hub = STORY_SCENES.c4_actividades.nodes;
- // La nueva investigación tiene prioridad una vez concluida la audiencia.
+ // Investigación de trama disponible después de la primera visita a palacio.
  hub.actividades.options.unshift({
    id: "noveno_segundo", text: "Investigar el Faro Primigenio con Mara y Willard.",
    destination: "c15_noveno_segundo", dayCost: 1,
-   activity: { id: "noveno_segundo", requiresFlags: ["c14_completado"] },
+   activity: { id: "noveno_segundo", requiresFlags: ["palacio_completado"] },
    hideIfCompleted: "c15_noveno_segundo", briefingPrefix: "introduccion_noveno_segundo_",
  });
  for (let i=0;i<3;i++) hub[`introduccion_noveno_segundo_${i}`] = {
@@ -1182,10 +1183,32 @@ STORY_SCENES.c15_noveno_segundo = {
  };
 }
 
-// Compatibilidad: una presentación automática antigua vuelve a los destinos libres.
-STORY_SCENES.c4_actividades.nodes.obligatoria_noveno_segundo = {
-  type: "redirect", destination: "c4_actividades", destinationNode: "reflexion_diaria",
-};
+{
+  const hub = STORY_SCENES.c4_actividades;
+  hub.scheduledActivities.push({ day: 12, scene: "c15_noveno_segundo", requiredScenes: ["c8_palacio"], hideIfFlag: "willard_enemigo", presentation: "obligatoria_noveno_segundo" });
+  hub.nodes.obligatoria_noveno_segundo = {
+    type: "dialogue", speaker: "Protagonista", image: "nuevodia",
+    text: hub.nodes.introduccion_noveno_segundo_0.text,
+    forcedActivity: { destination: "c15_noveno_segundo", dayCost: 1, activity: { id: "noveno_segundo" } },
+  };
+}
+
+// El nombre del nodo de entrada se conserva para partidas antiguas; ya no exige Maleria.
+{
+  const n = STORY_SCENES.c15_noveno_segundo.nodes;
+  n.comprobar_maleria.ifTrue = "comprobar_repeticion";
+  n.comprobar_repeticion = { type: "condition", flag: "c15_completado", equals: true, ifTrue: "volver", ifFalse: "1" };
+  // Ni el retrato, ni el nombre, ni la pista de Veyra aparecen si quedó fuera de la partida.
+  n["55"].next = "veyra_sigue_disponible";
+  n.veyra_sigue_disponible = { type: "condition", flag: "veyra_bloqueada", equals: true, ifTrue: "60", ifFalse: "conoce_veyra" };
+  n.conoce_veyra = { type: "condition", flag: "veyra_conocida", equals: true, ifTrue: "56", ifFalse: "60" };
+  n["57"].next = "conoce_recuerdo_maleria";
+  n.conoce_recuerdo_maleria = { type: "condition", flag: "c14_maleria_recuerda_hija", equals: true, ifTrue: "58", ifFalse: "58N" };
+  n["58N"] = { type: "dialogue", speaker: "Protagonista", image: "veyra_faro",
+    text: "Sigue existiendo, aunque los demás no puedan verla.", next: "59N" };
+  n["59N"] = { type: "dialogue", speaker: "Mara", image: "veyra_faro",
+    text: "Eso parece. Pero todavía no sabemos qué provoca cada estado.", next: "60", effects: { c15_veyra_desanclada: true } };
+}
 
 // Los flags antiguos sobre Albert expresan la conclusión del protagonista, no la verdad histórica.
 // Conocimiento adquirido: no confirma la autenticidad de documentos ni testimonios.

@@ -56,13 +56,13 @@
   StoryEngine.start(s,scenes,'c26_oscuridad');ok(s.scene==='c4_actividades','Repite capítulo');
   runs++;
  }
- for(const day of [12,22,23,29]){
+ for(const day of [12,23,24,29]){
   const s=StoryEngine.createState();prepareReviewStart(s,'darkness');s.calendar.activity=null;
   s.calendar.elapsed=day-1;s.calendar.remaining=31-day;
   s.scene='c4_actividades';s.node='reinos';StoryEngine.prepare(s,scenes);
-  ok((s.node==='obligatoria_oscuridad')===(day>=23),'Calendario');
-  if(day>=23){StoryEngine.advance(s,scenes);ok(s.scene==='c26_oscuridad'&&s.calendar.activity.cost===1,'Forzada');}
+  ok((s.node==='obligatoria_oscuridad')===(day>=24),'Calendario');
+  if(day>=24){StoryEngine.advance(s,scenes);ok(s.scene==='c26_oscuridad'&&s.calendar.activity.cost===1,'Forzada');}
  }
  const locked=StoryEngine.createState();StoryEngine.start(locked,scenes,'c26_oscuridad');ok(locked.scene==='c4_actividades','Sin Albert');
- return `OK capítulo26: ${runs} recorridos, guardado por bloque, 3 ventajas, día23, enemigo, misiones compatibles y conocimiento por personaje.`;
+ return `OK capítulo26: ${runs} recorridos, guardado por bloque, 3 ventajas, día24, enemigo, misiones compatibles y conocimiento por personaje.`;
 })()

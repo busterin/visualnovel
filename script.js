@@ -4,6 +4,7 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 27, label: "Siempre fuimos dos", scene: "c27_biell", preset: "biell" },
   { chapter: 26, label: "El rostro de la oscuridad", scene: "c26_oscuridad", preset: "darkness" },
   { chapter: 25, label: "El hombre al que culparon", scene: "c25_albert", preset: "albert" },
   { chapter: 24, label: "El último recuerdo", scene: "c24_ultimo_recuerdo", preset: "last_memory" },
@@ -35,7 +36,8 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
-  const darkness = preset === "darkness";
+  const biell = preset === "biell";
+  const darkness = preset === "darkness" || biell;
   const albert = preset === "albert" || darkness;
   const lastMemory = preset === "last_memory" || albert;
   const valdoren = preset === "valdoren";
@@ -127,6 +129,9 @@ function prepareReviewStart(state, preset) {
       state.calendar.completed.push("palacio");
     }
     if (lastMemory) {
+      state.completedScenes.push("c15_noveno_segundo", "c16_verdad_faro");
+      Object.assign(state, { c15_completado: true, c16_completado: true });
+      state.calendar.completed.push("noveno_segundo", "verdad_faro");
       state.calendar.elapsed = 7; state.calendar.remaining = state.calendar.totalDays - state.calendar.elapsed;
       if (albert) {
         state.completedScenes.push("c24_ultimo_recuerdo", "interludio_willard");
@@ -147,7 +152,16 @@ function prepareReviewStart(state, preset) {
           albert_inocente_segun_pruebas:true, c25_orden_defensa_obtenida:true, objetivo_encontrar_albert:false});
         state.documents.c25_orden_defensa = {...STORY_SCENES.c25_albert.documents.c25_orden_defensa};
       }
-      StoryCalendar.begin(state, { activity: { id: darkness ? "rostro_oscuridad" : albert ? "albert" : "ultimo_recuerdo" }, dayCost: 1 });
+      if (biell) {
+        state.completedScenes.push("c26_oscuridad");
+        state.calendar.completed.push("rostro_oscuridad");
+        state.calendar.completedDays.rostro_oscuridad = 12;
+        state.calendar.elapsed = 12; state.calendar.remaining = state.calendar.totalDays - 12;
+        Object.assign(state, { c26_completado: true, willard_enemigo: true, willard_traidor_confirmado: true,
+          willard_avatar_descubierto: true, ritual_faro_descubierto: true, ritual_faro_amenaza_activa: true,
+          c26_fuente_luz_especial: true, albert_exonerado: true });
+      }
+      StoryCalendar.begin(state, { activity: { id: biell ? "siempre_dos" : darkness ? "rostro_oscuridad" : albert ? "albert" : "ultimo_recuerdo" }, dayCost: 1 });
     }
     if (ninthSecond) {
       Object.assign(state, { c14_completado: true, acceso_orbis: true, aviso_willard_completado: true,
@@ -876,6 +890,8 @@ function renderSceneContent() {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "choice-button";
+      const mainStory = gameState.scene === "c4_actividades" && !!STORY_SCENES[option.destination]?.mainStory;
+      button.classList.toggle("is-main-story", mainStory);
       button.textContent = formatStoryText(option.text);
       if (node.presentation === "kingdoms" && option.emblem) {
         button.classList.add("kingdom-button");
@@ -908,7 +924,7 @@ function renderSceneContent() {
         if (cost || option.continueActivity) {
           const label = document.createElement("small");
           label.className = "activity-cost";
-          label.textContent = cost ? `${cost} día al terminar` : "Misma jornada · sin coste adicional";
+          label.textContent = cost ? `${mainStory ? "Trama principal · " : ""}${cost} día al terminar` : "Misma jornada · sin coste adicional";
           button.append(label);
         }
       }

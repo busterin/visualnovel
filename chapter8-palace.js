@@ -4,6 +4,7 @@ STORY_SCENES.c8_palacio = {
   "title": "Visita a palacio",
   "chapter": 8,
   "hideFromSelector": true,
+  "mainStory": true,
   "start": "001",
   "assets": {
     "c8_principes2": {
