@@ -188,7 +188,12 @@ function showCompanion(id) {
   const heading = menuElement("div", "", "companion-heading");
   heading.append(back, menuElement("h2", companion.name));
   pauseContent.append(heading, frame,
-    menuElement("p", companion.description));
+    menuElement("p", id === "veyra" && gameState.veyra_desaparecida
+      ? "Veyra desapareció en la terraza de Merzien. Conservas el conjuro y la promesa de investigar cómo traerla de vuelta."
+      : id === "veyra" && gameState.veyra_anclaje_restaurado
+      ? "Veyra ha recuperado su anclaje y vuelve a ser visible para los demás. Quiere construir su propia vida en Orbis."
+      : companion.description));
+  if (id === "veyra" && gameState.veyra_relacion === "pareja") pauseContent.append(menuElement("p", "Pareja · Romance confirmado"));
   if (id === "lyra" && gameState.lyra_relacion) pauseContent.append(menuElement("p",
     gameState.lyra_relacion === "pareja" ? "Pareja · Romance activo" : "Amistad profunda"));
   back.focus();

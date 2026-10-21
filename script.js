@@ -4,6 +4,7 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 30, label: "La luz que queda · Veyra", scene: "c30_luz", preset: "veyra_light" },
   { chapter: 29, label: "El día que no existió · Veyra", scene: "c29_jardines", preset: "veyra_gardens" },
   { chapter: 28, label: "Una noche sin informes · Mara", scene: "c28_mara", preset: "mara_evening" },
   { chapter: 27, label: "Siempre fuimos dos", scene: "c27_biell", preset: "biell" },
@@ -38,6 +39,16 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  if (preset === "veyra_light") {
+    prepareReviewStart(state, "veyra_gardens");
+    Object.assign(state, {c18_completado:true,c29_completado:true,c25_completado:true,c18_veyra_cruza_umbral:true,
+      c18_umbral_descubierto:true,conjuro_restauracion_anclaje_obtenido:true});
+    state.completedScenes.push("c18_umbral","c29_jardines","c25_albert");
+    state.documents.c25_conjuro_anclaje = {...STORY_SCENES.c25_albert.documents.c25_conjuro_anclaje};
+    state.calendar.activity=null;
+    StoryCalendar.begin(state,{activity:{id:"orbis_luz"},dayCost:1});
+    return;
+  }
   const veyraGardens = preset === "veyra_gardens";
   const maraEvening = preset === "mara_evening";
   const biell = preset === "biell";

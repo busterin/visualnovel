@@ -966,6 +966,7 @@ STORY_SCENES.lyra_romance = {
           "text": "Quiero estar contigo.",
           "next": "83A",
           "requiresConfirmation": true,
+          "romanceWith": "lyra",
           "effects": {
             "lyra_romance_decision": "pareja"
           }

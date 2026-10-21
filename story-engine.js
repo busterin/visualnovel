@@ -156,7 +156,7 @@ const StoryEngine = {
     const option = pending?.scene === state.scene && pending.node === state.node &&
       node?.options?.find(item => item.id === pending.option && item.requiresConfirmation);
     if (!option) return node;
-    return { type: "choice", image: node.image, prompt: "¿Estás seguro?", detail: option.text,
+    return { type: "choice", image: node.image, prompt: "¿Estás seguro?", detail: option.confirmationDetail || option.text,
       options: [{ id: "confirm_yes", text: "Sí" }, { id: "confirm_no", text: "No" }] };
   },
   availableOptions(state, scenes, node = this.current(state, scenes)) {
