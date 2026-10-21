@@ -4,6 +4,8 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 29, label: "El día que no existió · Veyra", scene: "c29_jardines", preset: "veyra_gardens" },
+  { chapter: 28, label: "Una noche sin informes · Mara", scene: "c28_mara", preset: "mara_evening" },
   { chapter: 27, label: "Siempre fuimos dos", scene: "c27_biell", preset: "biell" },
   { chapter: 26, label: "El rostro de la oscuridad", scene: "c26_oscuridad", preset: "darkness" },
   { chapter: 25, label: "El hombre al que culparon", scene: "c25_albert", preset: "albert" },
@@ -36,9 +38,11 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  const veyraGardens = preset === "veyra_gardens";
+  const maraEvening = preset === "mara_evening";
   const biell = preset === "biell";
   const darkness = preset === "darkness" || biell;
-  const albert = preset === "albert" || darkness;
+  const albert = preset === "albert" || darkness || maraEvening;
   const lastMemory = preset === "last_memory" || albert;
   const valdoren = preset === "valdoren";
   const light = preset === "light_seren" ? "seren" : preset === "light_jairen" ? "jairen" : null;
@@ -57,7 +61,7 @@ function prepareReviewStart(state, preset) {
   const market = preset === "market";
   const willard = preset === "willard";
   const lyraTraining = preset === "lyra_training";
-  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond || lyraRomance || lyraStation || veyraThreshold || crown || valdoren || lastMemory) preset = "countdown";
+  if (palace || market || willard || lyraTraining || eidenVisit || memorial || blackouts || maleria || innDay || ninthSecond || lyraRomance || lyraStation || veyraThreshold || crown || valdoren || lastMemory || veyraGardens) preset = "countdown";
   // Solo se aplica a una partida nueva abierta desde estos accesos temporales.
   Object.assign(state, {
     completedScenes: ["c3_archivo", "c3_posada", "c3_inspeccion"],
@@ -161,7 +165,7 @@ function prepareReviewStart(state, preset) {
           willard_avatar_descubierto: true, ritual_faro_descubierto: true, ritual_faro_amenaza_activa: true,
           c26_fuente_luz_especial: true, albert_exonerado: true });
       }
-      StoryCalendar.begin(state, { activity: { id: biell ? "siempre_dos" : darkness ? "rostro_oscuridad" : albert ? "albert" : "ultimo_recuerdo" }, dayCost: 1 });
+      StoryCalendar.begin(state, { activity: { id: maraEvening ? "noche_mara" : biell ? "siempre_dos" : darkness ? "rostro_oscuridad" : albert ? "albert" : "ultimo_recuerdo" }, dayCost: 1 });
     }
     if (ninthSecond) {
       Object.assign(state, { c14_completado: true, acceso_orbis: true, aviso_willard_completado: true,
@@ -177,6 +181,14 @@ function prepareReviewStart(state, preset) {
         state.calendar.completed.push("noveno_segundo");
       }
       StoryCalendar.begin(state, { activity: { id: lighthouseTruth ? "verdad_faro" : "noveno_segundo" }, dayCost: 1 });
+    }
+    if (veyraGardens) {
+      Object.assign(state, {acceso_orbis:true, aviso_willard_completado:true, veyra_conocida:true, veyra_bloqueada:false,
+        mercado_completado:true, c14_completado:true, c14_maleria_recuerda_hija:true, c15_veyra_desanclada:true});
+      state.completedScenes.push("c8_palacio", "interludio_willard", "c9_mercado", "c14_maleria");
+      state.calendar.elapsed=10;state.calendar.remaining=state.calendar.totalDays-10;
+      state.metCompanions.push("veyra");state.affinity.veyra=1;
+      StoryCalendar.begin(state,{activity:{id:"orbis_jardines"},dayCost:1});
     }
     if (innDay) StoryCalendar.begin(state, { activity: { id: "descanso_posada" }, dayCost: 1 });
     if (maleria) {

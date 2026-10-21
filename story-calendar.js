@@ -43,6 +43,8 @@ const StoryCalendar = {
     const day=calendar.elapsed+1;
     if (activity.fromDay && day<activity.fromDay || activity.throughDay && day>activity.throughDay) return false;
     if ((activity.requiresFlags||[]).some(flag=>!state[flag])) return false;
+    if (activity.requiresAnyFlags?.length && !activity.requiresAnyFlags.some(flag=>state[flag])) return false;
+    if ((activity.excludesFlags||[]).some(flag=>state[flag])) return false;
     if ((activity.excludesActivities||[]).some(id=>calendar.completed.includes(id))) return false;
     const alliance=activity.alliance;
     if (alliance && ((state.affinity[alliance.companion]||0)<Math.max(this.MIN_ALLIANCE_AFFINITY, alliance.minAffinity||0) ||
