@@ -2,7 +2,7 @@
  const ok=(v,m)=>{if(!v)throw Error(m)}, scenes=STORY_SCENES, scene=scenes.c30_luz;let runs=0;
  for(const relationship of ['amistad','pareja','otra_pareja'])for(const route of ['A1','A2','B'])for(const past of ['normal','abrazo','iven_rescatado','sin_iven']) {
   if(relationship==='otra_pareja'&&route==='A2')continue;
-  let s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s.affinity.veyra=4;
+  let s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s.affinity.veyra=8;
   s.veyra_relacion=relationship==='pareja'?'pareja':'amistad';if(relationship==='otra_pareja')s.lyra_relacion='pareja';
   s.c29_abrazo_compartido=past==='abrazo';s.iven_rescatado=past==='iven_rescatado';s.posada_completada=past!=='sin_iven';
   const days=s.calendar.remaining;StoryEngine.start(s,scenes,'c30_luz');const path=[];
@@ -28,7 +28,7 @@
   ok(!!s.veyra_anclaje_restaurado===saved&&!!s.veyra_desaparecida===!saved,'Veyra');
   ok(!!s.ruta_salvacion_global_bloqueada===saved&&!!s.ruta_salvacion_global_disponible===!saved,'Ruta global');
   ok(!s.veyra_fallecida && !!s.iven_rescatado === (past==='iven_rescatado'),'No cura global ni muerte');
-  ok(s.affinity.veyra===4,'Afecto sin cambio');
+  ok(s.affinity.veyra===8,'Afecto sin cambio');
   ok(s.veyra_relacion===(relationship==='pareja'||route==='A2'?'pareja':'amistad'),'Relación');
   ok(path.includes('43A')===(past==='abrazo'),'Abrazo previo');
   ok(path.includes('55R')===(past==='iven_rescatado'),'Iven rescatado');
@@ -46,6 +46,11 @@
  for(const id of ['c18_umbral','c29_jardines','c25_albert']) {
   const s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s.completedScenes=s.completedScenes.filter(x=>x!==id);
   StoryEngine.start(s,scenes,'c30_luz');ok(s.scene==='c4_actividades','Requisito '+id);
+ }
+ for(const affinity of [0,7,8,9]) {
+  const checkState=StoryEngine.createState();checkState.affinity.veyra=affinity;checkState.scene='c30_luz';checkState.node='respuesta';
+  const options=StoryEngine.availableOptions(checkState,scenes);ok(options.some(o=>o.id==='A2')===(affinity>=8),'Romance requiere ocho');
+  ok(options.some(o=>o.id==='A1'),'Se conserva respuesta amistosa');
  }
  const s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s.calendar.activity=null;s.scene='c4_actividades';s.node='actividades_orbis';
  ok(StoryEngine.availableOptions(s,scenes).length===3&&StoryEngine.availableOptions(s,scenes).some(o=>o.id==='orbis_luz'),'Tres opciones, capítulo disponible temprano');

@@ -1,0 +1,62 @@
+REGLAS COMUNES DE COMBATE
+Actualizadas por petición del usuario. Se aplican al prototipo y a todos los combates narrativos.
+
+Duración máxima: 8 minutos. Resistir con integridad mayor que cero da la victoria.
+Equipo inicial: Lyra, Ada, Mara y Eiden. Los demás se incorporan según la historia.
+Seren/Jairen: solo el superviviente. Willard sale tras la traición; el hueco queda vacío hasta rescatar a Biell.
+Veyra no participa si está bloqueada o desaparecida.
+
+Catálogo finito: cada misión nueva aparece una vez. Al agotar el catálogo, se reintentan solo las fallidas.
+El fallo entra en la cola de reintentos cuando se consulta su resultado. Un reintento tiene nueva tirada y nuevo minuto de ejecución.
+Las misiones superadas no vuelven. No se duplican misiones simultáneamente.
+No hay victoria anticipada mientras quedan misiones nuevas, pendientes, en curso, resultados sin consultar o fallos por reintentar.
+Al superar todas las misiones, victoria automática sin esperar al contador.
+Máximo 10 puntos simultáneos, incluidos los resultados sin consultar. Aparición cada 8 segundos.
+
+Cada envío admite uno o dos aliados, ocupados durante un minuto.
+Afinidad: 80 % por aliado afín; 10 % por no afín; suma máxima 100 %.
+Seren aporta 90 % en apoyo. La ruleta gira también con el 100 % y no muestra porcentaje ni «Resolviendo».
+Éxito: +2 puntos porcentuales de integridad; fallo: -10. Se aplican una sola vez al terminar el minuto.
+Cada minuto global, cada misión sin enviar resta 1 punto porcentual la primera vez que se penaliza y 2 puntos en las siguientes. El desgaste no supera 2 puntos por misión y minuto. Cada reintento comienza de nuevo con el primer recuento. Los envíos y resultados pendientes de consultar no penalizan.
+Integridad cero implica derrota.
+
+La selección de aliados se realiza en la franja inferior. Los puntos enviados son amarillos y parpadean al terminar.
+Al consultar el resultado desaparece el punto. Salir reinicia el combate de prueba.
+Defensa del castillo es una misión de Vaelthar disponible tras completar el capítulo 20. Seren o Jairen solicita ayuda con su imagen al comenzar. No está en el icono de combates.
+
+TUTORIAL Y ACCESO DIARIO
+Al comenzar el día 6 (elapsed >= 5), Mara explica los fundamentos en interludio_combate.
+Se reproduce una sola vez y no consume días. No sustituye la visita obligatoria al palacio del día 5.
+Las partidas antiguas que superaron esa fecha reciben la explicación al volver a la selección diaria.
+Al terminar se guarda combates_desbloqueados y aparece un icono de espadas en la selección de actividades/reinos.
+El acceso contiene por ahora el tutorial del faro. Los combates narrativos se incorporarán a este acceso o a las misiones según su definición.
+El tutorial es el antiguo prototipo, ahora con instrucciones contextuales de Mara y los cuatro aliados iniciales.
+Entrar, repetirlo, ganar, perder o salir no consume días ni altera decisiones o vínculos.
+
+COMBATES NARRATIVOS
+Los combates del icono no consumen días; la misión Defender el castillo cuesta un día al finalizar, tanto en victoria como en derrota. Sus resultados se guardan en battleResults para los preparativos y el desenlace.
+El tutorial y las previsualizaciones no conceden beneficios ni guardan resultados narrativos.
+Salir de un combate en curso pide Sí/No; abandonar descarta el intento sin registrar derrota ni cobrar días.
+Castillo: victoria concede +2 al gobernante superviviente una sola vez y defensa_castillo_reforzada.
+Victoria o derrota cierran la misión, se guardan y no pueden repetirse para cambiar el resultado.
+La fórmula final de estos beneficios queda pendiente del guion del desenlace; no se inventa un final.
+Las opciones de combate se distinguen con amarillo apagado, incluido el tutorial del acceso diario.
+
+ADA Y EL ACCESO A COMBATES
+El icono de espadas ocupa el antiguo lugar del icono de la posada; se desbloquea con Mara el día 6.
+La red de la posada deja de ofrecer acceso desde la selección diaria.
+Al cerrar extra_posada se muestra +2 de vínculo con Ada y se activa ada_estrategia_desbloqueada.
+Desde entonces Ada aporta 80 % en estrategia y mantiene 80 % en apoyo; combate sigue en 10 %.
+El límite combinado sigue siendo 100 %. La habilidad se toma de la partida al comenzar un combate.
+Las partidas antiguas que completaron la posada reciben la habilidad y +1 adicional al cargar (el premio anterior era +1), una sola vez.
+
+Castillo reserva la jornada al elegir la misión, la descuenta una sola vez al registrar el resultado y la libera sin cobrar si se cancela el aviso o se abandona el intento.
+
+Willard se incorpora al equipo tras completar El noveno segundo (capítulo 15), aunque todavía no figure en Compañeros. Sale en cuanto se revela su traición. El capítulo 26 se fuerza el día 24 si no se ha escogido antes. Las etiquetas de coste muestran «Consume 1 día».
+
+MERZIEN
+«Protege la ciudad de Merzien» pertenece a las misiones de Orbis, requiere c14_completado y acceso_orbis. No aparece en el icono ni exige conservar a Veyra.
+Fondo: imagenes/Escena14/capital_de_mármol_junto_al_mar.png. Catálogo propio: 30 informes, 10 por especialidad.
+Consume un día al ganar o perder; cancelar o abandonar libera la jornada sin consumirla.
+Victoria: defensa_merzien_reforzada, ventaja persistente para el desenlace. Con Veyra disponible en el equipo al empezar, +1 de afinidad; no exige enviarla a un punto concreto. Nunca aparece si está bloqueada o desaparecida.
+Resultado persistente en battleResults.merzien; no se repite ni acumula recompensas. La fórmula del final se concretará con su guion.

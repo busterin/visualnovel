@@ -14,7 +14,7 @@
     const [limit,target]=schedule[i];
     for(const day of [limit-1,limit,Math.min(limit+1,30)])for(const completed of [false,true]){
       let s=StoryEngine.createState();StoryCalendar.activate(s);
-      s.completedScenes=['interludio_willard'];s.aviso_willard_completado=true;s.acceso_orbis=true;
+      s.completedScenes=['interludio_willard','interludio_combate'];s.aviso_willard_completado=true;s.acceso_orbis=true;
       s.veyra_bloqueada=true;s.veyra_conocida=true;
       for(const [d,id,activity,flag] of schedule.slice(0,i+(completed?1:0))){
         s.completedScenes.push(id);s[flag]=true;s.calendar.completed.push(activity);s.calendar.completedDays[activity]=d;
@@ -34,7 +34,7 @@
     }
   }
   // Una partida nueva puede completar la cadena forzada sin Maleria ni Veyra.
-  let s=StoryEngine.createState();StoryCalendar.activate(s);s.completedScenes=['interludio_willard'];
+  let s=StoryEngine.createState();StoryCalendar.activate(s);s.completedScenes=['interludio_willard','interludio_combate'];
   s.veyra_bloqueada=true;s.veyra_conocida=true;
   for(const [day,target] of schedule){
     s.calendar.elapsed=day-1;s.calendar.remaining=31-day;s.scene='c4_actividades';s.node='reinos';StoryEngine.prepare(s,scenes);

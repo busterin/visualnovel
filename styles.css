@@ -217,21 +217,7 @@ button:focus-visible { outline: 2px solid #ffe2a3; outline-offset: 4px; }
 
 .pause-to-cover { position: absolute; top: max(12px, env(safe-area-inset-top)); right: 12px; z-index: 3; width: 56px; height: 56px; padding: 2px; border: 0; border-radius: 6px; background: transparent; }
 .pause-to-cover img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 4px #0009); }
-.inn-network-button { position: absolute; top: max(12px, env(safe-area-inset-top)); right: 80px; z-index: 3; width: 56px; height: 56px; padding: 2px; border: 0; border-radius: 6px; background: transparent; }
-.inn-network-button img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 4px #0009); }
-.inn-network-button.is-new {
-  background: radial-gradient(circle, #ffe5a8aa, #e9b44c44 55%, transparent 75%);
-  box-shadow: 0 0 14px 4px #ffd57599;
-  animation: inn-network-glow 2.8s ease-in-out infinite;
-}
-.inn-network-button.is-new img { filter: brightness(1.18) drop-shadow(0 0 5px #ffe4a1); }
-@keyframes inn-network-glow {
-  0%, 100% { box-shadow: 0 0 10px 2px #ffd57588; }
-  50% { box-shadow: 0 0 22px 7px #ffd575cc; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .inn-network-button.is-new { animation: none; }
-}
+
 .save-status { position: absolute; top: 60px; left: 5%; width: 90%; z-index: 8; padding: 10px; background: #111b2f; color: #fff0d5; font-size: 14px; }
 .story-event { position: absolute; inset: 0; z-index: 7; background: #080b14; opacity: 0; }
 .story-event img { display: block; width: 100%; height: 100%; object-fit: contain; }
@@ -311,7 +297,7 @@ button:focus-visible { outline: 2px solid #ffe2a3; outline-offset: 4px; }
 
 .dialogue-panel.is-danger { background: #3b1019f5; border-color: #ef8181; box-shadow: 0 8px 36px #0009, inset 3px 0 0 #ef8181; }
 
-.day-heading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; margin: 0; padding: 10px 24px; color: #fff0cf; font-family: Georgia, "Times New Roman", serif; font-size: clamp(32px, 7vw, 48px); letter-spacing: .08em; white-space: nowrap; text-shadow: 0 2px 6px #000, 0 0 22px #000; background: radial-gradient(ellipse, #080b1499, transparent 72%); pointer-events: none; }
+.day-heading { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); z-index: 1; margin: 0; padding: 10px 24px; color: #fff0cf; font-family: Georgia, "Times New Roman", serif; font-size: clamp(32px, 7vw, 48px); letter-spacing: .08em; white-space: nowrap; text-shadow: 0 2px 6px #000, 0 0 22px #000; background: radial-gradient(ellipse, #080b1499, transparent 72%); pointer-events: none; }
 .choices-panel.is-daily-choices { z-index: 2; }
 .choices-panel.is-kingdoms { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; background: transparent; border: 0; box-shadow: none; }
 .choices-panel.is-kingdoms .kingdom-button { display: grid; place-items: center; padding: 6px; min-width: 0; background: transparent; border-color: transparent; }
@@ -389,3 +375,18 @@ button:focus-visible { outline: 2px solid #ffe2a3; outline-offset: 4px; }
 .choice-button.is-main-story:hover,
 .choice-button.is-main-story:focus-visible { background: #4b2b36; border-color: #f0b5bf; }
 .choice-button.is-main-story:active { background: #57303c; }
+
+.combat-access-button {position:absolute;top:calc(max(12px, env(safe-area-inset-top)) + 6px);right:86px;z-index:3;width:44px;height:44px;padding:5px;border:1px solid #d4b575;border-radius:50%;color:#f1d99b;background:radial-gradient(#365246,#14221e);box-shadow:inset 0 0 0 3px #15221d,0 2px 8px #0008;}
+.combat-access-button svg {display:block;width:100%;height:100%;}
+.combat-access-button:focus-visible {outline:3px solid #ffe7a9;outline-offset:3px;}
+
+/* Misiones de combate: oro apagado, diferenciado de la trama principal. */
+.choice-button.is-combat-choice { background:#393322; border-color:#a69764; color:#f2e5bc; }
+.choice-button.is-combat-choice .activity-cost { color:#d6c68e; }
+.choice-button.is-combat-choice:hover, .choice-button.is-combat-choice:focus-visible { background:#51472c; border-color:#d2bd7e; }
+
+/* Diálogos y elecciones crecen desde su borde inferior según el contenido. */
+.game-screen .dialogue-panel, .game-screen .choices-panel { max-height:none; overflow:visible; }
+@media (orientation: landscape) and (max-height: 500px) {
+  .novel:has(.game-screen:not([hidden])) { width: min(100vw, 900px); height: 100dvh; aspect-ratio: auto; }
+}

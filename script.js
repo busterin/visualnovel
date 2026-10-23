@@ -281,6 +281,22 @@ window.visualViewport?.addEventListener("resize", updateNameViewport);
 window.visualViewport?.addEventListener("scroll", updateNameViewport);
 const dialoguePanel = document.getElementById("dialogue-panel");
 const dialogueText = document.getElementById("dialogue-text");
+
+function fitDialoguePanel() {
+  if (dialoguePanel.hidden || gameScreen.hidden) return;
+  dialogueText.style.removeProperty('font-size');
+  const bounds = gameScreen.getBoundingClientRect();
+  const available = bounds.height - 88 - (parseFloat(getComputedStyle(dialoguePanel).bottom) || 16);
+  // Mantener el tamaño habitual siempre que quepa al ampliar el cuadro.
+  // En pantallas especialmente bajas, ajustar solo lo necesario.
+  let size = parseFloat(getComputedStyle(dialogueText).fontSize);
+  while (dialoguePanel.offsetHeight > available && size > 14) {
+    size -= .5;
+    dialogueText.style.fontSize = `${size}px`;
+  }
+}
+new ResizeObserver(fitDialoguePanel).observe(gameScreen);
+document.fonts.ready.then(fitDialoguePanel);
 const speaker = document.getElementById("speaker");
 const choicesPanel = document.getElementById("choices-panel");
 const sceneEnding = document.getElementById("scene-ending");
@@ -298,15 +314,11 @@ storyVideoPanel.addEventListener("keydown", event => {
 });
 const eventImage = document.getElementById("event-image");
 const pauseToCover = document.getElementById("pause-to-cover");
-const innNetworkButton = document.getElementById("inn-network-button");
-innNetworkButton.addEventListener("click", event => {
+const combatAccessButton = document.getElementById("combat-access-button");
+combatAccessButton.addEventListener("click", event => {
   event.stopPropagation();
-  if (isGamePaused || eventRunning || dayTransitionRunning || !gameState.red_posada_desbloqueada ||
-      gameState.scene !== "c4_actividades" || gameState.calendar.expired) return;
-  gameState.red_posada_retorno = gameState.node;
-  gameState.red_posada_presentada = true;
-  gameState.node = "red_posada";
-  renderScene();
+  if (isGamePaused || eventRunning || dayTransitionRunning) return;
+  CombatAccess.open();
 });
 const saveStatus = document.getElementById("save-status");
 const SAVE_KEY = "el-mundo-que-te-recuerda.save.v2";
@@ -363,9 +375,15 @@ function openChapterSelector() {
   const combatTrial = document.createElement("button");
   combatTrial.type = "button";
   combatTrial.className = "text-button";
-  combatTrial.textContent = "Combate de prueba · Defensa del Faro";
+  combatTrial.textContent = "Tutorial de combate · Defensa del Faro";
   combatTrial.addEventListener("click", () => BattleDemo.open());
   chapterOptions.append(combatTrial);
+  const castleCombat = document.createElement("button");
+  castleCombat.type = "button";
+  castleCombat.className = "text-button";
+  castleCombat.textContent = "Combate · Defensa del castillo (aliados de tu partida)";
+  castleCombat.addEventListener("click", () => CastleBattle.open());
+  chapterOptions.append(castleCombat);
   const entries = Object.entries(STORY_SCENES)
     .filter(([, scene]) => scene.chapter && !scene.hideFromSelector && scene.nodes?.[scene.start])
     .map(([id, scene]) => ({ chapter: scene.chapter, label: scene.title, scene: id }));
@@ -821,16 +839,7 @@ function renderSceneContent() {
   const node = StoryEngine.current(gameState, STORY_SCENES);
   const chapter = STORY_SCENES[gameState.scene];
   const chapterChanged = renderedChapter !== gameState.scene;
-  if (gameState.scene === "c4_actividades" && gameState.node === "red_posada") {
-    node.backTo = gameState.red_posada_retorno || "reflexion_diaria";
-  }
-  innNetworkButton.hidden = !(gameState.red_posada_desbloqueada && gameState.calendar.active &&
-    !gameState.calendar.expired && gameState.scene === "c4_actividades" &&
-    node?.type === "choice" && gameState.node !== "red_posada");
-  const newInnNetwork = !innNetworkButton.hidden && !gameState.red_posada_presentada;
-  innNetworkButton.classList.toggle("is-new", newInnNetwork);
-  innNetworkButton.setAttribute("aria-label", newInnNetwork
-    ? "Nueva ayuda disponible: abrir la Red de la Posada" : "Abrir la Red de la Posada");
+  combatAccessButton.hidden = !CombatAccess.available(gameState, node);
   const dayCounter = document.getElementById("day-counter");
   dayCounter.hidden = !gameState.calendar.active;
   dayCounter.textContent = `${gameState.calendar.remaining} ${gameState.calendar.remaining === 1 ? "día restante" : "días restantes"}`;
@@ -921,6 +930,7 @@ function renderSceneContent() {
       button.className = "choice-button";
       const mainStory = gameState.scene === "c4_actividades" && !!STORY_SCENES[option.destination]?.mainStory;
       button.classList.toggle("is-main-story", mainStory);
+      button.classList.toggle("is-combat-choice", !!option.combat || !!option.combatBattle);
       button.textContent = formatStoryText(option.text);
       if (node.presentation === "kingdoms" && option.emblem) {
         button.classList.add("kingdom-button");
@@ -950,10 +960,10 @@ function renderSceneContent() {
       }
       if (gameState.calendar.active) {
         const cost = StoryCalendar.cost(gameState, option);
-        if (cost || option.continueActivity) {
+        if (cost || option.continueActivity || option.combat) {
           const label = document.createElement("small");
           label.className = "activity-cost";
-          label.textContent = cost ? `${mainStory ? "Trama principal · " : ""}${cost} día al terminar` : "Misma jornada · sin coste adicional";
+          label.textContent = option.combat ? ((cost || (option.continueActivity && option.dayCost)) ? `Combate · Consume ${cost || option.dayCost} día` : "Combate · no consume días") : cost ? `${mainStory ? "Trama principal · " : ""}Consume ${cost} día` : "Misma jornada · sin coste adicional";
           button.append(label);
         }
       }
@@ -961,6 +971,8 @@ function renderSceneContent() {
         event.stopPropagation();
         if (isGamePaused || dayTransitionRunning) return;
         if (option.comingSoon) { window.alert("En construcción"); return; }
+        if (option.cancelBattle) { StoryBattles.returnToActivities(); return; }
+        if (option.combatBattle) { StoryBattles.open(option.combatBattle); return; }
         if (StoryEngine.choose(gameState, STORY_SCENES, option.id)) {
           renderScene();
           gameScreen.focus({ preventScroll: true });
@@ -976,6 +988,7 @@ function renderSceneContent() {
     speaker.textContent = node.speaker ? formatStoryText(node.speaker) : "";
     dialogueText.textContent = formatStoryText(node.text);
     dialoguePanel.scrollTop = 0;
+    fitDialoguePanel();
     if (node.sound === "metallic-hit") playMetallicHit();
   }
 }
@@ -1190,7 +1203,7 @@ gameScreen.addEventListener("keydown", (event) => {
     return;
   }
   const controls = !choicesPanel.hidden
-    ? [...choicesPanel.querySelectorAll("button"), innNetworkButton, pauseToCover]
+    ? [...choicesPanel.querySelectorAll("button"), combatAccessButton, pauseToCover]
     : [...gameScreen.querySelectorAll("button")];
   if (focusWithArrow(event, controls)) return;
   if (event.key !== "Enter" && event.key !== " ") return;

@@ -40,12 +40,17 @@
     <script src="chapter28-mara-evening.js" defer></script>
     <script src="chapter29-veyra-gardens.js" defer></script>
     <script src="chapter30-veyra-light.js" defer></script>
+    <script src="interlude-combat.js" defer></script>
+    <script src="combat-story.js" defer></script>
     <script src="story-calendar.js" defer></script>
     <script src="story-engine.js" defer></script>
     <script src="script.js" defer></script>
     <script src="companions.js" defer></script>
     <script src="pause-menu.js" defer></script>
     <script src="combat-demo.js" defer></script>
+    <script src="combat-castle.js" defer></script>
+    <script src="combat-merzien.js" defer></script>
+    <script src="combat-access.js" defer></script>
   </head>
   <body>
     <main class="novel" aria-label="El mundo que te recuerda">
@@ -114,7 +119,26 @@
         <div id="story-video-panel" class="story-video-panel" hidden>
           <video id="story-video" muted playsinline disablepictureinpicture disableremoteplayback preload="metadata" tabindex="-1" aria-label="Escena con Lyra"></video>
         </div>
-        <button id="inn-network-button" class="inn-network-button" type="button" aria-label="Abrir la Red de la Posada" hidden><img src="imagenes/Otros/red_posada.png" alt="" draggable="false"></button>
+        <button id="combat-access-button" class="combat-access-button" type="button" aria-label="Abrir combates" title="Combates" hidden>
+          <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <g stroke="#46351e" stroke-width="1.2" stroke-linejoin="round">
+              <g transform="rotate(-43 24 24)">
+                <path d="M24 3 28 10 27 30H21L20 10Z" fill="#eee9d8"/>
+                <path d="M24 6V29" fill="none" stroke="#a5b3b5"/>
+                <path d="M16 29H32V33H16Z" fill="#d6b465"/>
+                <path d="M22 33H26V41H22Z" fill="#926040"/>
+                <circle cx="24" cy="43" r="3" fill="#d6b465"/>
+              </g>
+              <g transform="rotate(43 24 24)">
+                <path d="M24 3 28 10 27 30H21L20 10Z" fill="#eee9d8"/>
+                <path d="M24 6V29" fill="none" stroke="#a5b3b5"/>
+                <path d="M16 29H32V33H16Z" fill="#d6b465"/>
+                <path d="M22 33H26V41H22Z" fill="#926040"/>
+                <circle cx="24" cy="43" r="3" fill="#d6b465"/>
+              </g>
+            </g>
+          </svg>
+        </button>
         <div id="scene-art" class="scene-art">
           <img id="scene-image-a" class="scene-image" alt="" draggable="false">
           <img id="scene-image-b" class="scene-image" alt="" draggable="false">

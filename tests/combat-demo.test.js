@@ -1,8 +1,37 @@
 (()=>{
- const C=CombatTrial,ok=(v,m)=>{if(!v)throw Error(m)},s=C.create(1000);
- ok(C.assign(s,'lyra',0,1000),'Asignar');C.assign(s,'lyra',1,1000);ok(s.assignments.lyra===1,'Mover');C.assign(s,'lyra',1,1000);ok(!('lyra'in s.assignments),'Retirar');
- C.assign(s,'lyra',0,1000);C.assign(s,'mara',0,1000);ok(!C.assign(s,'kael',0,1000),'Dos por misión');ok(!C.assign(s,'otro',0,1000),'Aliado inválido');
- C.resolve(s,1000);ok(!C.resolve(s,1000),'Sin asignaciones no enviar');const raw=JSON.stringify(s);ok(JSON.stringify(C.restore(raw))===raw,'Guardado');
- for(const x of [null,{}, {...s,endsAt:0},{...s,assignments:{lyra:4}}]){let bad=false;try{C.restore(JSON.stringify(x))}catch{bad=true}ok(bad,'Guardado inválido');}
- return 'OK motor: asignación, movimiento, cupos, no duplicar envío y validación de guardado.';
+ const C=CombatTrial,ok=(v,m)=>{if(!v)throw Error(m)},s=C.create(0,null,CastleBattle.missions);
+ ok(C.chance(1,['kael'])===10&&C.chance(0,['veyra'])===10&&C.chance(1,['veyra'])===80,'Cambio de afinidades');
+ ok(C.chance(0,['jairen'])===80&&C.chance(1,['jairen'])===80&&C.chance(2,['jairen'])===10,'Afinidades de Jairen');
+ ok(C.chance(2,['seren'])===90&&C.chance(0,['seren'])===10,'Seren noventa solo en apoyo');
+ ok(C.chance(2,['seren','lyra'])===100&&C.chance(2,['seren','ada'])===100,'Seren respeta límite cien');
+ const rulers={metCompanions:['seren','jairen'],palacio_superviviente:'jairen',palacio_fallecido:'seren'};
+ ok(C.roster(rulers).includes('jairen')&&!C.roster(rulers).includes('seren'),'Jairen sustituye a Seren');
+ rulers.palacio_superviviente='seren';rulers.palacio_fallecido='jairen';
+ ok(C.roster(rulers).includes('seren')&&!C.roster(rulers).includes('jairen'),'Seren superviviente');
+ ok(C.chance(1,['eiden'])===80&&C.chance(2,['eiden'])===80,'Eiden estrategia y apoyo');
+ ok(C.chance(0,['willard'])===80&&C.chance(0,['biell'])===80,'Relevo de combate');
+ ok(JSON.stringify(C.roster())===JSON.stringify(['lyra','ada','mara','eiden']),'Equipo inicial común');
+ ok(C.roster({metCompanions:[]}).length===4,'Equipo inicial narrativo');
+ const story={metCompanions:['lyra','willard']};
+ ok(!C.roster(story).includes('willard'),'No combate antes de la primera expedición');
+ story.c15_completado=true;
+ ok(C.roster({completedScenes:['c15_noveno_segundo']}).includes('willard'),'Compatible con capítulo completado');
+ for(const day of [12,20,25,26])ok(C.roster({...story,calendar:{elapsed:day-1}}).includes('willard'),'Disponible hasta que ocurra la traición');
+ ok(C.roster(story).includes('willard')&&!C.roster(story).includes('biell'),'Willard antes de la traición');
+ story.willard_enemigo=true;
+ ok(!C.roster(story).includes('willard')&&!C.roster(story).includes('biell'),'Hueco vacío tras la traición');
+ story.biell_conocida=true;ok(!C.roster(story).includes('biell'),'No combate mientras está encerrada');
+ story.biell_liberada=true;story.metCompanions.push('biell');
+ ok(C.roster(story).includes('biell')&&!C.roster(story).includes('willard'),'Biell tras el rescate');
+ ok(!C.dispatch(s,0,['willard'],0),'No enviar aliados fuera del equipo');
+ ok(s.points.length===3&&s.endsAt===480000,'Inicio con tres misiones y ocho minutos');
+ ok(!C.dispatch(s,0,[],0)&&!C.dispatch(s,0,['nadie'],0)&&!C.dispatch(s,0,['lyra','lyra'],0),'Rechaza equipos inválidos');
+ ok(!C.dispatch(s,0,['lyra','mara','kael'],0),'Máximo dos aliados');
+ ok(C.dispatch(s,0,['lyra'],0),'Envío individual');
+ ok(!C.dispatch(s,0,['kael'],1)&&!C.dispatch(s,1,['lyra'],1),'Sin doble envío ni aliado duplicado');
+ ok(C.dispatch(s,1,['mara'],1000),'Otra misión simultánea');
+ C.update(s,56000);ok(s.points.length===10,'Límite diez');
+ const positions=s.points.map(p=>p.position);ok(new Set(positions).size===10,'Posiciones únicas');
+ C.update(s,120000);ok(s.points.length===10,'No excede diez contando resultados');
+ return 'OK motor: equipos válidos, misiones independientes, límite de diez y posiciones únicas.';
 })()

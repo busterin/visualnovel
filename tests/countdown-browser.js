@@ -21,7 +21,7 @@
   while(StoryEngine.current(gameState,STORY_SCENES)?.type==='dialogue'){renderScene();advanceDialogue();}
   renderScene();assert(images.size===6,'Faltan imágenes nuevas');
   assert(requestedImage===STORY_SCENES.c4_actividades.assets.nuevodia.src,'La selección diaria no muestra nuevodia');
-  assert(choicesPanel.textContent.includes('1 día al terminar'),'No muestra coste');
+  assert(choicesPanel.textContent.includes('Consume 1 día'),'No muestra coste');
   assert(document.getElementById('day-counter').textContent==='30 días restantes','Contador incorrecto');
   openPauseMenu();assert(document.getElementById('protagonist-portrait').classList.contains('has-travel-clothes'),'Retrato antiguo');
   assert(gameState.calendar.remaining===30,'Menú consume día');closePauseMenu();
@@ -33,7 +33,7 @@
   assert(document.getElementById('day-counter').textContent==='29 días restantes','No descuenta al acabar');
   assert(!choicesPanel.hidden && choicesPanel.children.length===3,'No muestra las tres actividades pendientes');
   const originalAlert=window.alert;let notices=0;window.alert=()=>notices++;
-  try{const before=JSON.stringify(gameState);for(const button of [...choicesPanel.children].filter(b=>!b.textContent.startsWith('Visitar al Rey'))){assert(button.textContent.includes('1 día al terminar'),'Falta coste diario');button.click();assert(JSON.stringify(gameState)===before,'Actividad pendiente cambia el estado');}assert(notices===3,'Falta aviso');}finally{window.alert=originalAlert;}
+  try{const before=JSON.stringify(gameState);for(const button of [...choicesPanel.children].filter(b=>!b.textContent.startsWith('Visitar al Rey'))){assert(button.textContent.includes('Consume 1 día'),'Falta coste diario');button.click();assert(JSON.stringify(gameState)===before,'Actividad pendiente cambia el estado');}assert(notices===3,'Falta aviso');}finally{window.alert=originalAlert;}
   assert(requestedImage===STORY_SCENES.c4_actividades.assets.nuevodia.src,'El siguiente día no vuelve a nuevodia');
   gameState=StoryEngine.restore(JSON.parse(JSON.stringify(gameState)),STORY_SCENES);renderScene();
   assert(gameState.calendar.remaining===29 && requestedImage===STORY_SCENES.c4_actividades.assets.nuevodia.src,'Cargar el día cambia el tiempo o el fondo');

@@ -1162,139 +1162,6 @@ STORY_SCENES.extra_posada = {
       "speaker": null,
       "text": "Alma apoya los brazos sobre la barra.",
       "image": "POSADA_Ada_Alma_Informacion",
-      "next": "95"
-    },
-    "95": {
-      "type": "dialogue",
-      "speaker": "Alma",
-      "text": "Por cierto.",
-      "image": "POSADA_Ada_Alma_Informacion",
-      "next": "96"
-    },
-    "96": {
-      "type": "dialogue",
-      "speaker": "Alma",
-      "text": "Si alguna vez buscas información, pregunta.",
-      "image": "POSADA_Ada_Alma_Informacion",
-      "next": "97"
-    },
-    "97": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿A vosotras?",
-      "image": "POSADA_Ada_Alma_Informacion",
-      "next": "98"
-    },
-    "98": {
-      "type": "dialogue",
-      "speaker": "Ada",
-      "text": "Aquí entra gente de todo Vaelthar.",
-      "image": "POSADA_Ada_Alma_Informacion",
-      "next": "99"
-    },
-    "99": {
-      "type": "dialogue",
-      "speaker": "Alma",
-      "text": "Viajeros, comerciantes, soldados, marineros.",
-      "image": "POSADA_Ada_Alma_Informacion",
-      "next": "100"
-    },
-    "100": {
-      "type": "dialogue",
-      "speaker": "Ada",
-      "text": "Y casi todos hablan demasiado.",
-      "image": "POSADA_Ada_Alma_Informacion",
-      "next": "101"
-    },
-    "101": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Ada abre uno de los libros que guarda bajo la barra.",
-      "image": "POSADA_Mapas_Registros",
-      "next": "102"
-    },
-    "102": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Alma coloca junto a él varias notas y un viejo mapa.",
-      "image": "POSADA_Mapas_Registros",
-      "next": "103"
-    },
-    "103": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿Guardáis todo eso?",
-      "image": "POSADA_Mapas_Registros",
-      "next": "104"
-    },
-    "104": {
-      "type": "dialogue",
-      "speaker": "Ada",
-      "text": "Guardamos lo que puede volver a ser útil.",
-      "image": "POSADA_Mapas_Registros",
-      "next": "105"
-    },
-    "105": {
-      "type": "dialogue",
-      "speaker": "Alma",
-      "text": "Y recordamos bastante más de lo que guardamos.",
-      "image": "POSADA_Mapas_Registros",
-      "next": "106"
-    },
-    "106": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "¿Me estáis ofreciendo una red de informadores?",
-      "image": "POSADA_Mapas_Registros",
-      "next": "107"
-    },
-    "107": {
-      "type": "dialogue",
-      "speaker": "Ada",
-      "text": "Te estamos diciendo que preguntes.",
-      "image": "POSADA_Mapas_Registros",
-      "next": "108"
-    },
-    "108": {
-      "type": "dialogue",
-      "speaker": "Alma",
-      "text": "Lo otro suena más interesante.",
-      "image": "POSADA_Mapas_Registros",
-      "next": "109"
-    },
-    "109": {
-      "type": "dialogue",
-      "speaker": null,
-      "text": "Ada levanta su vaso.",
-      "image": "POSADA_Mapas_Registros",
-      "next": "110"
-    },
-    "110": {
-      "type": "dialogue",
-      "speaker": "Ada",
-      "text": "Si escuchamos algo útil, te lo diremos.",
-      "image": "POSADA_Mapas_Registros",
-      "next": "111"
-    },
-    "111": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "Eso sí que suena útil.",
-      "image": "POSADA_Mapas_Registros",
-      "next": "112"
-    },
-    "112": {
-      "type": "dialogue",
-      "speaker": "Alma",
-      "text": "Mucho más que servir mesas.",
-      "image": "POSADA_Mapas_Registros",
-      "next": "113"
-    },
-    "113": {
-      "type": "dialogue",
-      "speaker": "Protagonista",
-      "text": "Discrepo.\nHe desarrollado habilidades.",
-      "image": "POSADA_Mapas_Registros",
       "next": "114"
     },
     "114": {
@@ -1358,7 +1225,7 @@ STORY_SCENES.extra_posada = {
       "speaker": null,
       "text": "Empieza a parecerse un poco a casa.",
       "image": "POSADA_Final_Ada_Alma",
-      "next": "fin"
+      "next": "ada_estrategia"
     },
     "decision_1": {
       "type": "choice",
@@ -1457,15 +1324,22 @@ STORY_SCENES.extra_posada = {
       "completeRoute": true,
       "endActivity": true,
       "effects": {
-        "posada_dia_completado": true,
-        "red_posada_desbloqueada": true
+        "posada_dia_completado": true
+      }
+    },
+    "ada_estrategia": {
+      "type": "dialogue",
+      "speaker": null,
+      "image": "POSADA_Final_Ada_Alma",
+      "text": "Hemos conseguido una mayor afinidad con Ada. A partir de ahora, en los combates no solo nos ayudará como apoyo, sino que también pondrá a prueba sus dotes estratégicas.",
+      "affinityGain": {
+        "companion": "ada",
+        "amount": 2
       },
-      "affinityGains": [
-        {
-          "companion": "ada",
-          "amount": 1
-        }
-      ]
+      "effects": {
+        "ada_estrategia_desbloqueada": true
+      },
+      "next": "fin"
     }
   }
 };

@@ -383,6 +383,15 @@ const StoryEngine = {
       const level = state.affinity[id];
       state.affinity[id] = Number.isSafeInteger(level) && level >= 0 ? level : 1;
     }
+    // Sustituir la antigua red de la posada y completar su premio de +1 a +2.
+    if ((state.posada_dia_completado || state.completedScenes.includes('extra_posada')) && !state.ada_estrategia_desbloqueada) {
+      state.ada_estrategia_desbloqueada = true;
+      state.affinity.ada = (state.affinity.ada ?? 1) + 1;
+      if (!state.appliedNodes.includes('extra_posada:ada_estrategia')) state.appliedNodes.push('extra_posada:ada_estrategia');
+    }
+    if (state.scene === 'extra_posada' && /^(9[5-9]|10[0-9]|11[0-3])$/.test(state.node)) state.node = '114';
+    if (state.scene === 'c4_actividades' && state.node === 'red_posada') state.node = 'reflexion_diaria';
+
     if (!Array.isArray(state.decisions) || !Array.isArray(state.completedScenes) || !Array.isArray(state.appliedNodes)
         || !state.events || !state.documents || typeof state.protagonistName !== "string"
         || (state.node !== null && !scenes[state.scene].nodes[state.node])) throw new Error("Partida no válida");

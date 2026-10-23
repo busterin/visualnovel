@@ -1193,7 +1193,14 @@ STORY_SCENES.c10_lyra = {
     "106": {
       "type": "dialogue",
       "speaker": null,
-      "text": "Salgo hacia la calle.\nAl llegar a la esquina, me vuelvo. Lyra sigue en la entrada y levanta una mano al ver que la miro.\nLe devuelvo el gesto.\nTodavía no recuerdo la vida que compartimos. Pero hoy hemos pasado una tarde juntos.\nEsa sí la recuerdo.",
+      "text": "Salgo hacia la calle.\nAl llegar a la esquina, me vuelvo. Lyra sigue en la entrada y levanta una mano al ver que la miro.\nLe devuelvo el gesto.",
+      "image": "c10_despedida",
+      "next": "106b"
+    },
+    "106b": {
+      "type": "dialogue",
+      "speaker": null,
+      "text": "Todavía no recuerdo la vida que compartimos. Pero hoy hemos pasado una tarde juntos.\nEsa sí la recuerdo.",
       "image": "c10_despedida",
       "next": "fin"
     },

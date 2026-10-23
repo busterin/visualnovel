@@ -1,12 +1,40 @@
 (()=>{
- const C=CombatTrial,ok=(v,m)=>{if(!v)throw Error(m)},s=C.create(0);
- C.assign(s,'lyra',0,0);C.resolve(s,0);C.assign(s,'kael',1,1000);C.resolve(s,1000);
- ok(s.batches.length===2,'Envíos simultáneos');ok(!C.reveal(s,0,0,59999),'Esperar minuto');
- C.update(s,60000);ok(!C.busy(s,'lyra',60000)&&C.busy(s,'kael',60000),'Plazos independientes');
- C.update(s,61000);ok(!C.busy(s,'kael',61000),'Segundo plazo');
- const a=C.restore(JSON.stringify(s)),b=C.restore(JSON.stringify(s));
- for(const i of [0,1,2])C.reveal(a,0,i,61000);for(const i of [2,0,1])C.reveal(b,0,i,61000);
- ok(a.integrity===b.integrity&&a.darkness===b.darkness,'Orden no cambia consecuencias');
- const raw=JSON.stringify(a);ok(!C.reveal(a,0,0,61000)&&JSON.stringify(a)===raw,'No repetir');
- return 'OK revelación: minuto por envío, aliados independientes y consecuencias únicas.';
+ const C=CombatTrial,ok=(v,m)=>{if(!v)throw Error(m)},s=C.create(0,null,CastleBattle.missions);
+ C.dispatch(s,0,['lyra'],0,()=>.5);C.dispatch(s,1,['ada'],1000,()=>.5);
+ ok(C.reveal(s,0,59999)===null&&C.busy(s,'lyra'),'Resultado no disponible antes del minuto');
+ C.update(s,60000);ok(!C.busy(s,'lyra')&&C.busy(s,'ada'),'Liberación por plazo individual');
+ const integrity=s.integrity,result=C.reveal(s,0,60000);
+ ok(result.success&&s.integrity===integrity&&!s.points.some(p=>p.id===0),'Resultado retira punto sin repetir efectos');
+ ok(C.reveal(s,0,60000)===null,'No repite recompensa');
+ ok(!C.reveal(s,1,61000).success,'Fallo disponible y retirado');
+ C.update(s,64000);ok(s.points.length===9&&new Set(s.points.map(p=>p.position)).size===9,'Reutiliza espacio libre sin solapar');
+ const penalty=C.create(0,null,CastleBattle.missions);C.update(penalty,59999);ok(penalty.integrity===100,'Sin desgaste antes del minuto');
+ C.update(penalty,60000);ok(penalty.integrity===90,'Diez pendientes restan diez');
+ C.update(penalty,60000);ok(penalty.integrity===90,'Penalización única por minuto');
+ C.update(penalty,120000);ok(penalty.integrity===70,'Pendientes antiguas restan dos');
+ C.update(penalty,180000);ok(penalty.integrity===50,'La penalización queda limitada a dos');
+ const failure=C.create(0,null,CastleBattle.missions);C.dispatch(failure,0,['mara'],0,()=>.5);C.update(failure,60000);
+ ok(failure.integrity===81,'Nueve pendientes y un fallo restan diecinueve');
+ const success=C.create(0,null,CastleBattle.missions);C.dispatch(success,0,['lyra'],0,()=>0);C.update(success,60000);
+ ok(success.integrity===93,'Nueve pendientes y éxito recupera dos');
+ C.update(success,120000);ok(success.integrity===75,'Resultado sin leer no cuenta como pendiente de envío');
+ const idle=C.create(0,null,CastleBattle.missions);C.update(idle,480000);ok(idle.outcome==='defeat'&&idle.integrity===0,'La inactividad pierde antes de ocho minutos');
+ const destroyed=C.create(0);destroyed.integrity=1;C.update(destroyed,60000);ok(destroyed.outcome==='defeat','Cero integridad derrota');
+ const active=C.create(0,null,CastleBattle.missions);
+ for(let t=0;t<480000;t+=1000){
+  C.update(active,t);
+  for(const p of [...active.points])if(p.status==='ready')C.reveal(active,p.id,t);
+  for(const p of active.points.filter(p=>p.status==='available')){
+   const ids=active.roster.filter(id=>!C.busy(active,id)).sort((a,b)=>Number(C.allies[b].affinities.includes(p.kind))-Number(C.allies[a].affinities.includes(p.kind)));
+   if(ids.length)C.dispatch(active,p.id,ids.slice(0,2),t,()=>0);
+
+  }
+ }
+ C.update(active,480000);ok(active.outcome==='victory','Defendiendo aguanta ocho minutos');
+ ok(C.chance(0,['lyra'])===80&&C.chance(1,['lyra'])===10,'Afinidad 80/10');
+ ok(C.chance(0,['lyra','mara'])===90&&C.chance(0,['ada','mara'])===20&&C.chance(0,['lyra','kael'])===100,'Suma con límite cien');
+ for(const [team,roll,success]of [[['lyra'],.79999,true],[['lyra'],.8,false],[['mara'],.0999,true],[['mara'],.1,false],[['lyra','kael'],.99999,true]]){
+  const trial=C.create(0,{metCompanions:['kael']},CastleBattle.missions);C.dispatch(trial,0,team,0,()=>roll);ok(trial.points[0].success===success,'Umbral probabilístico');
+ }
+ return 'OK resultados: minuto individual, éxito/fallo, efectos únicos, huecos reutilizados, victoria y derrota.';
 })()
