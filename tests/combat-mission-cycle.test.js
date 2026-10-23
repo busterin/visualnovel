@@ -13,7 +13,7 @@
  ok(retry2.missionIndex===0&&s.completed.length===1,'Puede fallar y volver más de una vez');
  C.dispatch(s,retry2.id,['lyra'],128000,()=>0);C.update(s,188000);
  ok(s.phase==='active','Esperar última ruleta');C.reveal(s,retry2.id,188000);
- ok(s.phase==='finished'&&s.outcome==='victory'&&s.victoryReason==='all_missions','Victoria inmediata antes de ocho minutos');
+ ok(s.phase==='finished'&&s.outcome==='victory'&&s.victoryReason==='all_missions','Victoria inmediata antes de cinco minutos');
  ok(!C.spawn(s)&&C.reveal(s,retry2.id,188000)===null,'Sin duplicar tras ganar');
  const fresh=C.create(0,null,C.missions.slice(0,5));
  C.dispatch(fresh,0,['lyra'],0,()=>.99);C.update(fresh,60000);C.reveal(fresh,0,60000);

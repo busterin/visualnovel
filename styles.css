@@ -63,7 +63,6 @@ body {
 .affinity-notice.is-romantic { color: #ffc0d4; }
 .day-counter { position: absolute; top: max(12px, env(safe-area-inset-top)); left: 14px; z-index: 3; margin: 0; padding: 10px 12px; border-radius: 8px; background: #10182ae8; color: #ffe0a5; font-size: 15px; }
 .activity-cost { display: block; margin-top: 6px; color: #e3cfa4; font-size: 13px; }
-.protagonist-portrait.has-travel-clothes { background-image: url("imagenes/Escena7/c7_protagonista_atuendo.png"); background-size: 400% auto; background-position: 45% 11%; }
 .resume-game { flex-shrink: 0; }
 .chapter-screen { z-index: 4; display: grid; grid-template-rows: minmax(0, 1fr); place-items: center; padding: 20px; background: #080b14db; }
 .chapter-card { width: min(100%, 400px); min-height: 0; max-height: 100%; overflow-y: auto; overscroll-behavior-y: contain; touch-action: pan-y; scrollbar-gutter: stable; padding: 24px; border: 1px solid #b39464; border-radius: 16px; background: #111827; text-align: center; }

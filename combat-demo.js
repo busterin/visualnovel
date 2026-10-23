@@ -34,7 +34,7 @@ const CombatTrial = {
     return [...initial,...ids.filter(id=>known.includes(id)&&id!==story.palacio_fallecido&&!(id==='veyra'&&(story.veyra_bloqueada||story.veyra_desaparecida))),...(slot?[slot]:[])];
   },
   create(now=Date.now(),story=null,missions=this.missions){
-    const s={missions,adaStrategy:!!story?.ada_estrategia_desbloqueada,roster:this.roster(story),integrity:100,phase:'active',points:[],nextId:0,nextMission:0,retries:[],completed:[],startedAt:now,endsAt:now+480000,nextPenalty:now+60000,nextSpawn:now+8000};
+    const s={missions,adaStrategy:!!story?.ada_estrategia_desbloqueada,roster:this.roster(story),integrity:100,phase:'active',points:[],nextId:0,nextMission:0,retries:[],completed:[],startedAt:now,endsAt:now+300000,nextPenalty:now+60000,nextSpawn:now+8000};
     for(let i=0;i<3;i++)this.spawn(s);
     return s;
   },
@@ -55,7 +55,7 @@ const CombatTrial = {
     this.update(s,now);
     const p=s.points.find(p=>p.id===pointId);
     if(s.phase!=='active'||!p||p.status!=='available'||!Array.isArray(allies)||allies.length<1||allies.length>2||new Set(allies).size!==allies.length||allies.some(id=>!this.allies[id]||!s.roster.includes(id)||this.busy(s,id)))return false;
-    p.allies=[...allies];p.status='running';p.readyAt=now+60000;
+    p.allies=[...allies];p.status='running';p.readyAt=now+30000;
     p.chance=this.chance(p.kind,allies,s.adaStrategy);
     // Una única tirada por envío; consultar o cerrar la ventana no permite repetirla.
     p.roll=random()*100;p.success=p.roll<p.chance;
@@ -208,7 +208,7 @@ const BattleDemo = {
       const label=this.el('label','combat-meter '+cls,title+' · '+value+'%'),bar=document.createElement('meter');bar.min=0;bar.max=100;bar.value=value;bar.setAttribute('aria-label',title);label.append(bar);meters.append(label);
     }root.append(meters);
     if(this.config.tutorial&&s.phase==='active'){
-      const hint=this.activePoint!==null?'Mara · Elige los retratos de abajo y confirma el envío.':s.points.some(p=>p.status==='ready')?'Mara · Pulsa un punto que parpadee para ver el resultado.':s.points.some(p=>p.status==='running')?'Mara · El equipo enviado está ocupado. Puedes atender otros puntos.':s.completed.length?'Mara · Continúa hasta resolverlas todas o resistir ocho minutos.':'Mara · Pulsa un punto del mapa para leer su informe.';
+      const hint=this.activePoint!==null?'Mara · Elige los retratos de abajo y confirma el envío.':s.points.some(p=>p.status==='ready')?'Mara · Pulsa un punto que parpadee para ver el resultado.':s.points.some(p=>p.status==='running')?'Mara · El equipo enviado está ocupado. Puedes atender otros puntos.':s.completed.length?'Mara · Continúa hasta resolverlas todas o resistir cinco minutos.':'Mara · Pulsa un punto del mapa para leer su informe.';
       root.append(this.el('p','combat-tutorial-hint',hint));
     }
     if(s.phase==='active')this.renderMap(root);else this.renderReport(root);
@@ -219,9 +219,9 @@ const BattleDemo = {
     else if(this.help){
       panel=this.dialog('Reglas para los combates');panel.append(this.el('h2','','Reglas para los combates'));
       for(const text of ['Pulsa un punto para leer un informe de misión. Elige hasta un máximo de dos personajes de la franja inferior y confirma su envío.',
-        'El punto se pone de color amarillo cuando la misión está en curso. Los aliados tardarán un minuto o más, según la misión, en llevarla a cabo. Cuando el punto parpadee, pulsa para ver el resultado y retirarlo del mapa.',
+        'El punto se pone de color amarillo cuando la misión está en curso. Los aliados tardarán 30 segundos, en llevarla a cabo. Cuando el punto parpadee, pulsa para ver el resultado y retirarlo del mapa.',
         'Escoge a los aliados que consideres más aptos para resolver cada misión, eso aumentará tus posibilidades de victoria.',
-        'Debes aguantar 8 minutos sin que tus defensas lleguen a cero o completar todas las misiones con éxito.',
+        'Debes aguantar 5 minutos sin que tus defensas lleguen a cero o completar todas las misiones con éxito.',
         'Fallar misiones o tardar mucho en resolverlas, hará bajar tus defensas.'])panel.append(this.el('p','',text));
       panel.append(this.button('Volver al combate','close-help',()=>this.dismiss()));
     }else if(this.activePoint!==null){
@@ -284,7 +284,7 @@ const BattleDemo = {
   portrait(id){const c=COMPANIONS[id],img=this.el('div','combat-portrait');img.style.backgroundImage=`url("${c.portrait}")`;img.style.backgroundSize=`${Math.round(parseFloat(c.avatarSize)*.8)}% auto`;img.style.backgroundPosition=c.avatarPosition;img.setAttribute('role','img');img.setAttribute('aria-label',c.name);return img;},
   renderReport(root){
     const won=this.state.outcome==='victory',report=this.el('section','combat-report');
-    report.append(this.el('h2','',won?'La luz resiste':`El ${this.config.target} ha caído`),this.el('p','',won?(this.state.victoryReason==='all_missions'?'Has superado todas las misiones.':`Has resistido ocho minutos sin perder el ${this.config.target}.`):`La integridad del ${this.config.target} ha llegado a cero.`));
+    report.append(this.el('h2','',won?'La luz resiste':`El ${this.config.target} ha caído`),this.el('p','',won?(this.state.victoryReason==='all_missions'?'Has superado todas las misiones.':`Has resistido cinco minutos sin perder el ${this.config.target}.`):`La integridad del ${this.config.target} ha llegado a cero.`));
     if(this.config.storyBattle)report.append(this.el('p','',won?this.config.victoryMessage:'Derrota registrada. El resultado se conservará para el desenlace.'));
     if(!this.config.storyBattle)report.append(this.button('Volver a intentarlo','restart',()=>{this.reset();this.render();},'combat-primary'));
     report.append(this.button(this.config.storyBattle?'Volver a las actividades':'Volver','leave',()=>this.close()));root.append(report);

@@ -960,10 +960,10 @@ function renderSceneContent() {
       }
       if (gameState.calendar.active) {
         const cost = StoryCalendar.cost(gameState, option);
-        if (cost || option.continueActivity || option.combat) {
+        if (cost || option.continueActivity || option.combat || option.costLabel) {
           const label = document.createElement("small");
           label.className = "activity-cost";
-          label.textContent = option.combat ? ((cost || (option.continueActivity && option.dayCost)) ? `Combate · Consume ${cost || option.dayCost} día` : "Combate · no consume días") : cost ? `${mainStory ? "Trama principal · " : ""}Consume ${cost} día` : "Misma jornada · sin coste adicional";
+          label.textContent = option.costLabel || (option.combat ? ((cost || (option.continueActivity && option.dayCost)) ? `Combate · Consume ${cost || option.dayCost} día` : "Combate · no consume días") : cost ? `${mainStory ? "Trama principal · " : ""}Consume ${cost} día` : "Misma jornada · sin coste adicional");
           button.append(label);
         }
       }

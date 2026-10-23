@@ -24,7 +24,7 @@
  story.biell_liberada=true;story.metCompanions.push('biell');
  ok(C.roster(story).includes('biell')&&!C.roster(story).includes('willard'),'Biell tras el rescate');
  ok(!C.dispatch(s,0,['willard'],0),'No enviar aliados fuera del equipo');
- ok(s.points.length===3&&s.endsAt===480000,'Inicio con tres misiones y ocho minutos');
+ ok(s.points.length===3&&s.endsAt===300000,'Inicio con tres misiones y cinco minutos');
  ok(!C.dispatch(s,0,[],0)&&!C.dispatch(s,0,['nadie'],0)&&!C.dispatch(s,0,['lyra','lyra'],0),'Rechaza equipos inválidos');
  ok(!C.dispatch(s,0,['lyra','mara','kael'],0),'Máximo dos aliados');
  ok(C.dispatch(s,0,['lyra'],0),'Envío individual');

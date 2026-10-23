@@ -25,7 +25,6 @@ function openPauseMenu() {
   if (resumeAudio) audioContext.suspend().catch(() => {});
   saveGame();
   document.getElementById("pause-heading").textContent = gameState.protagonistName;
-  document.getElementById("protagonist-portrait").classList.toggle("has-travel-clothes", gameState.protagonistOutfit === "vaelthar");
   pauseMenu.hidden = false;
   showHistory();
   pauseMenu.querySelector(".pause-header").hidden = false;

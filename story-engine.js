@@ -238,7 +238,8 @@ const StoryEngine = {
         return;
       }
       if (node.type === "condition") {
-        const matches=node.calendarRemainingAtLeast !== undefined ? state.calendar.active && !state.calendar.expired && state.calendar.remaining >= node.calendarRemainingAtLeast :
+        const matches=node.calendarDayAtLeast !== undefined ? state.calendar.active && state.calendar.elapsed + 1 >= node.calendarDayAtLeast :
+          node.calendarRemainingAtLeast !== undefined ? state.calendar.active && !state.calendar.expired && state.calendar.remaining >= node.calendarRemainingAtLeast :
           node.requiredScenes ? node.requiredScenes.every(id=>state.completedScenes.includes(id)) :
           node.atLeast !== undefined ? (node.affinityCompanion ? state.affinity[node.affinityCompanion] || 0 : state[node.flag]) >= node.atLeast : state[node.flag] === node.equals;
         state.node = matches ? node.ifTrue : node.ifFalse;

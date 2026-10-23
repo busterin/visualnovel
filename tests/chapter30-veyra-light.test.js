@@ -2,7 +2,7 @@
  const ok=(v,m)=>{if(!v)throw Error(m)}, scenes=STORY_SCENES, scene=scenes.c30_luz;let runs=0;
  for(const relationship of ['amistad','pareja','otra_pareja'])for(const route of ['A1','A2','B'])for(const past of ['normal','abrazo','iven_rescatado','sin_iven']) {
   if(relationship==='otra_pareja'&&route==='A2')continue;
-  let s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s.affinity.veyra=8;
+  let s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s.completedScenes.push('interludio_combate');s.affinity.veyra=8;
   s.veyra_relacion=relationship==='pareja'?'pareja':'amistad';if(relationship==='otra_pareja')s.lyra_relacion='pareja';
   s.c29_abrazo_compartido=past==='abrazo';s.iven_rescatado=past==='iven_rescatado';s.posada_completada=past!=='sin_iven';
   const days=s.calendar.remaining;StoryEngine.start(s,scenes,'c30_luz');const path=[];
@@ -39,12 +39,12 @@
   StoryEngine.start(s,scenes,'c30_luz');ok(s.scene==='c4_actividades'&&s.calendar.remaining===days-1,'Repetición');runs++;
  }
  for(const flag of ['veyra_bloqueada','veyra_desaparecida','veyra_anclaje_restaurado','conjuro_restauracion_anclaje_consumido','ultima_noche_iniciada','c30_completado']) {
-  const s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s[flag]=true;s.calendar.activity=null;
+  const s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s.completedScenes.push('interludio_combate');s[flag]=true;s.calendar.activity=null;
   const o=scenes.c4_actividades.nodes.actividades_orbis.options.find(o=>o.id==='orbis_luz');ok(!StoryCalendar.available(s,o),'Disponibilidad '+flag);
   StoryEngine.start(s,scenes,'c30_luz');ok(s.scene==='c4_actividades','Entrada '+flag);
  }
  for(const id of ['c18_umbral','c29_jardines','c25_albert']) {
-  const s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s.completedScenes=s.completedScenes.filter(x=>x!==id);
+  const s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s.completedScenes.push('interludio_combate');s.completedScenes=s.completedScenes.filter(x=>x!==id);
   StoryEngine.start(s,scenes,'c30_luz');ok(s.scene==='c4_actividades','Requisito '+id);
  }
  for(const affinity of [0,7,8,9]) {
@@ -52,7 +52,7 @@
   const options=StoryEngine.availableOptions(checkState,scenes);ok(options.some(o=>o.id==='A2')===(affinity>=8),'Romance requiere ocho');
   ok(options.some(o=>o.id==='A1'),'Se conserva respuesta amistosa');
  }
- const s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s.calendar.activity=null;s.scene='c4_actividades';s.node='actividades_orbis';
+ const s=StoryEngine.createState();prepareReviewStart(s,'veyra_light');s.completedScenes.push('interludio_combate');s.calendar.activity=null;s.scene='c4_actividades';s.node='actividades_orbis';
  ok(StoryEngine.availableOptions(s,scenes).length===3&&StoryEngine.availableOptions(s,scenes).some(o=>o.id==='orbis_luz'),'Tres opciones, capítulo disponible temprano');
  s.veyra_relacion='pareja';ok(!StoryCalendar.available(s,{romanceWith:'lyra'}),'Romance recíproco');
  ok(!scenes.c4_actividades.scheduledActivities.some(o=>o.scene==='c30_luz'),'No obligatorio');

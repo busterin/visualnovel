@@ -1,22 +1,22 @@
 REGLAS COMUNES DE COMBATE
 Actualizadas por petición del usuario. Se aplican al prototipo y a todos los combates narrativos.
 
-Duración máxima: 8 minutos. Resistir con integridad mayor que cero da la victoria.
+Duración máxima: 5 minutos. Resistir con integridad mayor que cero da la victoria.
 Equipo inicial: Lyra, Ada, Mara y Eiden. Los demás se incorporan según la historia.
 Seren/Jairen: solo el superviviente. Willard sale tras la traición; el hueco queda vacío hasta rescatar a Biell.
 Veyra no participa si está bloqueada o desaparecida.
 
 Catálogo finito: cada misión nueva aparece una vez. Al agotar el catálogo, se reintentan solo las fallidas.
-El fallo entra en la cola de reintentos cuando se consulta su resultado. Un reintento tiene nueva tirada y nuevo minuto de ejecución.
+El fallo entra en la cola de reintentos cuando se consulta su resultado. Un reintento tiene nueva tirada y nuevo plazo de 30 segundos de ejecución.
 Las misiones superadas no vuelven. No se duplican misiones simultáneamente.
 No hay victoria anticipada mientras quedan misiones nuevas, pendientes, en curso, resultados sin consultar o fallos por reintentar.
 Al superar todas las misiones, victoria automática sin esperar al contador.
 Máximo 10 puntos simultáneos, incluidos los resultados sin consultar. Aparición cada 8 segundos.
 
-Cada envío admite uno o dos aliados, ocupados durante un minuto.
+Cada envío admite uno o dos aliados, ocupados durante 30 segundos.
 Afinidad: 80 % por aliado afín; 10 % por no afín; suma máxima 100 %.
 Seren aporta 90 % en apoyo. La ruleta gira también con el 100 % y no muestra porcentaje ni «Resolviendo».
-Éxito: +2 puntos porcentuales de integridad; fallo: -10. Se aplican una sola vez al terminar el minuto.
+Éxito: +2 puntos porcentuales de integridad; fallo: -10. Se aplican una sola vez al terminar los 30 segundos.
 Cada minuto global, cada misión sin enviar resta 1 punto porcentual la primera vez que se penaliza y 2 puntos en las siguientes. El desgaste no supera 2 puntos por misión y minuto. Cada reintento comienza de nuevo con el primer recuento. Los envíos y resultados pendientes de consultar no penalizan.
 Integridad cero implica derrota.
 

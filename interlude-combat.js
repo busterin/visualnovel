@@ -21,7 +21,7 @@ STORY_SCENES.interludio_combate = {
   ['Mara','Cuando parpadee, podrás consultar el resultado. La ruleta mostrará si han tenido éxito; una buena elección mejora tus posibilidades.'],
   ['Protagonista','¿Y mientras tanto, atiendo los demás puntos?'],
   ['Mara','Exacto. Los fallos dañan nuestras defensas, pero dejar problemas sin atender también. Cuanto más esperes, peor.'],
-  ['Mara','Debes resistir ocho minutos o superar todas las misiones. Si alguna falla, volverá a aparecer cuando se agoten las nuevas.'],
+  ['Mara','Debes resistir cinco minutos o superar todas las misiones. Si alguna falla, volverá a aparecer cuando se agoten las nuevas.'],
   ['Mara','Empezaremos con Lyra, Ada, Eiden y conmigo. Más adelante podrás contar con otras personas.'],
   ['Mara','He preparado un ejercicio para practicar. Lo encontrarás en el icono de espadas, al elegir tus actividades del día. Puedes repetirlo sin gastar una jornada.'],
   [null,'Mara recoge los informes y me deja el mapa. A partir de ahora puedo acceder a los combates desde la selección diaria.'],
