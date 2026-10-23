@@ -360,6 +360,12 @@ function openChapterSelector() {
   if (!ENABLE_CHAPTER_SELECTOR) { startNewGame(); return; }
   if (introTransitionRunning) return;
   chapterOptions.replaceChildren();
+  const combatTrial = document.createElement("button");
+  combatTrial.type = "button";
+  combatTrial.className = "text-button";
+  combatTrial.textContent = "Combate de prueba · Defensa del Faro";
+  combatTrial.addEventListener("click", () => BattleDemo.open());
+  chapterOptions.append(combatTrial);
   const entries = Object.entries(STORY_SCENES)
     .filter(([, scene]) => scene.chapter && !scene.hideFromSelector && scene.nodes?.[scene.start])
     .map(([id, scene]) => ({ chapter: scene.chapter, label: scene.title, scene: id }));
