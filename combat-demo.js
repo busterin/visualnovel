@@ -34,7 +34,7 @@ const CombatTrial = {
     return [...initial,...ids.filter(id=>known.includes(id)&&id!==story.palacio_fallecido&&!(id==='veyra'&&(story.veyra_bloqueada||story.veyra_desaparecida))),...(slot?[slot]:[])];
   },
   create(now=Date.now(),story=null,missions=this.missions){
-    const s={missions,adaStrategy:!!story?.ada_estrategia_desbloqueada,roster:this.roster(story),integrity:100,phase:'active',points:[],nextId:0,nextMission:0,retries:[],completed:[],startedAt:now,endsAt:now+300000,nextPenalty:now+60000,nextSpawn:now+8000};
+    const s={missions,adaStrategy:!!story?.ada_estrategia_desbloqueada,roster:this.roster(story),integrity:100,phase:'active',points:[],successesByAlly:{},nextId:0,nextMission:0,retries:[],completed:[],startedAt:now,endsAt:now+300000,nextPenalty:now+60000,nextSpawn:now+8000};
     for(let i=0;i<3;i++)this.spawn(s);
     return s;
   },
@@ -78,7 +78,9 @@ const CombatTrial = {
         if(!s.integrity){s.phase='finished';s.outcome='defeat';return true;}
       }
       for(const p of s.points.filter(p=>p.status==='running'&&p.readyAt===time)){
-        p.status='ready';s.integrity=Math.max(0,Math.min(100,s.integrity+(p.success?2:-10)));
+        p.status='ready';
+        if(p.success)for(const id of p.allies){s.successesByAlly ||= {};s.successesByAlly[id]=(s.successesByAlly[id]||0)+1;}
+        s.integrity=Math.max(0,Math.min(100,s.integrity+(p.success?2:-10)));
         changed=true;
       }
       if(!s.integrity){s.phase='finished';s.outcome='defeat';return true;}
@@ -286,7 +288,8 @@ const BattleDemo = {
     const won=this.state.outcome==='victory',report=this.el('section','combat-report');
     report.append(this.el('h2','',won?'La luz resiste':`El ${this.config.target} ha caído`),this.el('p','',won?(this.state.victoryReason==='all_missions'?'Has superado todas las misiones.':`Has resistido cinco minutos sin perder el ${this.config.target}.`):`La integridad del ${this.config.target} ha llegado a cero.`));
     if(this.config.storyBattle)report.append(this.el('p','',won?this.config.victoryMessage:'Derrota registrada. El resultado se conservará para el desenlace.'));
-    if(!this.config.storyBattle)report.append(this.button('Volver a intentarlo','restart',()=>{this.reset();this.render();},'combat-primary'));
+    if(this.config.resultMessage)report.append(this.el('p','',this.config.resultMessage));
+    if(!this.config.storyBattle&&!this.config.hideRestart)report.append(this.button('Volver a intentarlo','restart',()=>{this.reset();this.render();},'combat-primary'));
     report.append(this.button(this.config.storyBattle?'Volver a las actividades':'Volver','leave',()=>this.close()));root.append(report);
   },
 };
