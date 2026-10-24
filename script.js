@@ -4,6 +4,7 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 31, label: "Los nombres que aún responden · Rescate de los borrados", scene: "c31_nombres", preset: "names_return" },
   { chapter: 30, label: "La luz que queda · Veyra", scene: "c30_luz", preset: "veyra_light" },
   { chapter: 29, label: "El día que no existió · Veyra", scene: "c29_jardines", preset: "veyra_gardens" },
   { chapter: 28, label: "Una noche sin informes · Mara", scene: "c28_mara", preset: "mara_evening" },
@@ -39,6 +40,26 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  if (preset === "names_return") {
+    prepareReviewStart(state, "veyra_light");
+    Object.assign(state, {c30_completado:true,c30_decision:"B",veyra_desaparecida:true,
+      veyra_anclaje_restaurado:false,conjuro_restauracion_anclaje_consumido:false,
+      ruta_salvacion_global_disponible:true,ruta_salvacion_global_bloqueada:false,
+      promesa_salvar_borrados:true,iven_esposo_ada:true,iven_rescatado:false,
+      c24_completado:true,c26_completado:true,willard_enemigo:true});
+    state.calendar.elapsed=24;
+    state.calendar.remaining=6;
+    state.calendar.activity=null;
+    state.affinity.veyra=8;
+    for (const id of ["mara","kael","veyra"]) {
+      if (!state.metCompanions.includes(id)) state.metCompanions.push(id);
+      state.affinity[id] ??= 1;
+    }
+    state.completedScenes=[...new Set([...state.completedScenes,"c30_luz",
+      "interludio_combate","interludio_willard",
+      ...STORY_SCENES.c4_actividades.scheduledActivities.filter(item=>item.day<=24).map(item=>item.scene)])];
+    return;
+  }
   if (preset === "veyra_light") {
     prepareReviewStart(state, "veyra_gardens");
     Object.assign(state, {c18_completado:true,c29_completado:true,c25_completado:true,c18_veyra_cruza_umbral:true,
