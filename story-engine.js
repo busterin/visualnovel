@@ -167,6 +167,7 @@ const StoryEngine = {
       !state[scenes[option.destination]?.unavailableIfFlag] &&
       (!node.optionLimit || !state.calendar.completed.includes(option.activity?.id)))
       ;
+    if (node?.unifiedDaily) return DailyActivities.select(state, options);
     const limit = node?.optionLimit || Infinity;
     if (!node?.randomOverflow || options.length <= limit) {
       const selected = options.slice(0, limit);
@@ -223,6 +224,7 @@ const StoryEngine = {
     for (let hops = 0; hops < 100; hops++) {
       const node = this.current(state, scenes);
       if (!node) return;
+      if (node.legacyUnifiedRedirect) { state.node="actividades"; continue; }
       if (node.deferRomance === "lyra") {
         StoryRelationships.defer(state);
         this.goToScene(state, scenes, "c4_actividades");

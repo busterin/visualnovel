@@ -17,6 +17,8 @@ STORY_SCENES.interludio_willard = {
     ["Willard", "Si, un permiso que te permite viajar de nuestro reino, Vaelthar, al reino de Orbis."],
     ["Willard", "Podrás viajar en uno de los barcos de la realeza cuando lo necesites. Estoy convencido de que allí podrás encontrar buenas alianzas."],
     ["Willard", "Si la oscuridad sigue ganando fuerza, necesitarás alianzas en Vaelthar pero también en otros reinos."],
+    ["Willard", "Las elecciones que aparezcan en verde pertenecen al reino de Orbis. Las encontrarás junto a las demás misiones."],
+    ["Willard", "Las elecciones rojas son misiones de suma importancia. Presta especial atención a ellas."],
     ["Willard", "Administra bien tu tiempo."],
     [null, "A partir de ahora, puedes acceder a misiones también en el reino de Orbis."],
   ];

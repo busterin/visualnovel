@@ -958,6 +958,8 @@ function renderSceneContent() {
   dialoguePanel.hidden = isChoice;
   choicesPanel.hidden = !isChoice;
   choicesPanel.replaceChildren();
+  choicesPanel.classList.toggle("is-daily-grid", isChoice && node.presentation === "daily-grid");
+  gameScreen.classList.toggle("has-daily-grid", isChoice && node.presentation === "daily-grid");
   choicesPanel.classList.toggle("is-character-cards", isChoice && node.presentation === "character-cards");
   choicesPanel.classList.toggle("is-kingdoms", isChoice && node.presentation === "kingdoms");
   choicesPanel.classList.toggle("is-daily-choices", isChoice &&
@@ -988,12 +990,18 @@ function renderSceneContent() {
       detail.textContent = node.detail || "";
       choicesPanel.append(detail);
     }
-    StoryEngine.availableOptions(gameState, STORY_SCENES).forEach((option) => {
+    const allChoices=StoryEngine.availableOptions(gameState, STORY_SCENES);
+    const dailyGrid=node.presentation === "daily-grid";
+    const pageCount=dailyGrid?Math.max(1,Math.ceil(allChoices.length/6)):1;
+    const page=dailyGrid?Math.max(0,Math.min(Math.floor(Number(gameState.dailyActivityPage)||0),pageCount-1)):0;
+    const shownChoices=dailyGrid?allChoices.slice(page*6,page*6+6):allChoices;
+    shownChoices.forEach((option) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "choice-button";
       const mainStory = gameState.scene === "c4_actividades" && !!STORY_SCENES[option.destination]?.mainStory;
       button.classList.toggle("is-main-story", mainStory);
+      button.classList.toggle("is-orbis", dailyGrid && option.realm === "orbis");
       button.classList.toggle("is-combat-choice", !!option.combat || !!option.combatBattle);
       button.textContent = formatStoryText(option.text);
       if (node.presentation === "kingdoms" && option.emblem) {
@@ -1022,7 +1030,7 @@ function renderSceneContent() {
         frame.append(portrait);
         button.replaceChildren(frame, label);
       }
-      if (gameState.calendar.active) {
+      if (gameState.calendar.active && !dailyGrid) {
         const cost = StoryCalendar.cost(gameState, option);
         if (cost || option.continueActivity || option.combat || option.costLabel) {
           const label = document.createElement("small");
@@ -1044,7 +1052,16 @@ function renderSceneContent() {
       });
       choicesPanel.append(button);
     });
-    choicesPanel.querySelector("button")?.focus({ preventScroll: true });
+    if(dailyGrid && pageCount>1){
+      const nav=document.createElement("nav");nav.className="daily-pages";nav.setAttribute("aria-label","Páginas de misiones");
+      for(const [label,delta]of [["← Anteriores",-1],["Siguientes →",1]]){
+        const button=document.createElement("button");button.type="button";button.textContent=label;
+        button.disabled=page+delta<0||page+delta>=pageCount;
+        button.addEventListener("click",()=>{gameState.dailyActivityPage=page+delta;renderScene();});nav.append(button);
+      }
+      const count=document.createElement("span");count.textContent=`${page+1} / ${pageCount}`;nav.insertBefore(count,nav.lastChild);choicesPanel.append(nav);
+    }
+    choicesPanel.querySelector("button:not(:disabled)")?.focus({ preventScroll: true });
   } else {
     speaker.hidden = !node.speaker;
     dialogueText.classList.toggle("is-narration", !node.speaker && node.textStyle !== "document");
