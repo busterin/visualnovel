@@ -211,6 +211,7 @@ const StoryEngine = {
     }
   },
   prepare(state, scenes) {
+    if (typeof StoryCrown !== "undefined") StoryCrown.update(state);
     if (typeof StoryRelationships !== "undefined") StoryRelationships.update(state);
     const interlude = scenes[state.scene]?.interludes?.find(item =>
       !state[item.hideIfFlag] &&
@@ -238,7 +239,8 @@ const StoryEngine = {
         return;
       }
       if (node.type === "condition") {
-        const matches=node.calendarDayAtLeast !== undefined ? state.calendar.active && state.calendar.elapsed + 1 >= node.calendarDayAtLeast :
+        const matches=node.romanceWith ? StoryCalendar.available(state, {romanceWith:node.romanceWith}) :
+          node.calendarDayAtLeast !== undefined ? state.calendar.active && state.calendar.elapsed + 1 >= node.calendarDayAtLeast :
           node.calendarRemainingAtLeast !== undefined ? state.calendar.active && !state.calendar.expired && state.calendar.remaining >= node.calendarRemainingAtLeast :
           node.requiredScenes ? node.requiredScenes.every(id=>state.completedScenes.includes(id)) :
           node.atLeast !== undefined ? (node.affinityCompanion ? state.affinity[node.affinityCompanion] || 0 : state[node.flag]) >= node.atLeast : state[node.flag] === node.equals;
@@ -278,6 +280,7 @@ const StoryEngine = {
         }
         state.appliedNodes.push(id);
       }
+      if (typeof StoryCrown !== "undefined") StoryCrown.update(state);
       if (node.type === "choice") this.availableOptions(state, scenes, node);
       if (node.endActivity) StoryCalendar.finish(state);
       if (node.completeRoute) {

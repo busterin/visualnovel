@@ -35,7 +35,8 @@ const StoryCalendar = {
     return option.activity || option.destination ? (option.dayCost ?? 1) : 0;
   },
   available(state, option) {
-    if (option.romanceWith === "veyra" && (state.affinity.veyra || 0) < 8) return false;
+    if (option.requiredSurvivor && state.palacio_superviviente !== option.requiredSurvivor) return false;
+    if (["veyra", "seren"].includes(option.romanceWith) && (state.affinity[option.romanceWith] || 0) < 8) return false;
     if (option.romanceWith && (state[`${option.romanceWith}_romance_cerrado`] ||
         Object.keys(state).some(key => key.endsWith('_relacion') && key !== `${option.romanceWith}_relacion` && state[key] === 'pareja'))) return false;
     const calendar=state.calendar, activity=option.activity;
@@ -94,5 +95,6 @@ const StoryCalendar = {
       c.expired=c.remaining===0;
     }
     c.activity=null;
+    if (typeof StoryCrown !== "undefined") StoryCrown.update(state);
   },
 };

@@ -4,6 +4,12 @@
 const ENABLE_CHAPTER_SELECTOR = true;
 // Accesos de revisión a tramos que no son rutas independientes del capítulo.
 const REVIEW_STARTS = [
+  { chapter: 33, label: "La voluntad quebrada · Seren vive", scene: "c33_voluntad", preset: "will_seren" },
+  { chapter: 33, label: "La voluntad quebrada · Jairen vive", scene: "c33_voluntad", preset: "will_jairen" },
+  { chapter: 33, label: "La voluntad quebrada · Seren pareja", scene: "c33_voluntad", preset: "will_seren_romance" },
+  { chapter: 32.5, interlude: true, label: "Romance Seren", scene: "seren_romance", preset: "seren_romance" },
+  { chapter: 32, label: "El peso de la corona · Seren vive", scene: "c32_corona", preset: "crown_weight_seren" },
+  { chapter: 32, label: "El peso de la corona · Jairen vive", scene: "c32_corona", preset: "crown_weight_jairen" },
   { chapter: 31, label: "Los nombres que aún responden · Rescate de los borrados", scene: "c31_nombres", preset: "names_return" },
   { chapter: 30, label: "La luz que queda · Veyra", scene: "c30_luz", preset: "veyra_light" },
   { chapter: 29, label: "El día que no existió · Veyra", scene: "c29_jardines", preset: "veyra_gardens" },
@@ -40,6 +46,43 @@ const REVIEW_STARTS = [
 let startingNode = null;
 
 function prepareReviewStart(state, preset) {
+  if (["will_seren","will_jairen","will_seren_romance"].includes(preset)) {
+    const ruler=preset === "will_jairen" ? "jairen" : "seren";
+    prepareReviewStart(state, `crown_weight_${ruler}`);
+    state.calendar.elapsed=24;state.calendar.remaining=6;state.calendar.activity=null;
+    Object.assign(state,{c26_completado:true,willard_enemigo:true,willard_avatar_descubierto:true});
+    state.completedScenes=[...new Set([...state.completedScenes,"interludio_willard",
+      ...STORY_SCENES.c4_actividades.scheduledActivities.filter(x=>x.day<=24).map(x=>x.scene)])];
+    state.affinity[ruler]=8;
+    if(preset === "will_seren_romance") {
+      Object.assign(state,{seren_relacion:"pareja",seren_romance_activo:true,seren_romance_completado:true,c32_completado:true});
+      state.completedScenes.push("seren_romance","c32_corona");
+    }
+    StoryCalendar.begin(state,{activity:{id:"voluntad_quebrada"},dayCost:1});
+    return;
+  }
+  if (preset === "seren_romance") {
+    prepareReviewStart(state, "crown_weight_seren");
+    Object.assign(state, {c32_completado:true,c32_superviviente:"seren",c32_decision:"A",seren_conversacion_corona:true});
+    state.completedScenes.push("c32_corona");
+    state.calendar.completed.push("peso_corona");
+    state.affinity.seren=8;
+    state.calendar.activity=null;
+    StoryCalendar.begin(state,{activity:{id:"romance_seren"},dayCost:1});
+    return;
+  }
+  if (preset === "crown_weight_seren" || preset === "crown_weight_jairen") {
+    const ruler=preset === "crown_weight_seren" ? "seren" : "jairen";
+    prepareReviewStart(state, `light_${ruler}`);
+    Object.assign(state, {c20_completado:true,c20_superviviente:ruler,
+      c20_ataque_palacio_repelido:true,c20_faro_restablecido:true,combates_desbloqueados:true});
+    state.completedScenes.push("c20_falla_luz","interludio_combate");
+    state.calendar.completed.push("falla_luz");
+    state.calendar.elapsed=8;state.calendar.remaining=state.calendar.totalDays-8;
+    state.calendar.activity=null;
+    StoryCalendar.begin(state,{activity:{id:"peso_corona"},dayCost:1});
+    return;
+  }
   if (preset === "names_return") {
     prepareReviewStart(state, "veyra_light");
     Object.assign(state, {c30_completado:true,c30_decision:"B",veyra_desaparecida:true,

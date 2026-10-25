@@ -192,6 +192,11 @@ function showCompanion(id) {
       : id === "veyra" && gameState.veyra_anclaje_restaurado
       ? "Veyra ha recuperado su anclaje y vuelve a ser visible para los demás. Quiere construir su propia vida en Orbis."
       : companion.description));
+  if (id === gameState.palacio_superviviente && gameState.gobernante_posesion) {
+    const stateText={liberado:"Ha recuperado su voluntad y se ha liberado de la influencia del Gran Mal.",residual:"Ha recuperado su voluntad, pero conserva una influencia oscura residual.",poseido:"La influencia del Gran Mal sigue activa. Su vida y sus vínculos no se han perdido.",en_curso:"Está luchando por recuperar su voluntad."};
+    pauseContent.append(menuElement("p",stateText[gameState.gobernante_posesion]));
+  }
+  if (id === "seren" && gameState.seren_relacion) pauseContent.append(menuElement("p", gameState.seren_relacion === "pareja" ? "Pareja · Romance confirmado" : "Amistad"));
   if (id === "veyra" && gameState.veyra_relacion === "pareja") pauseContent.append(menuElement("p", "Pareja · Romance confirmado"));
   if (id === "lyra" && gameState.lyra_relacion) pauseContent.append(menuElement("p",
     gameState.lyra_relacion === "pareja" ? "Pareja · Romance activo" : "Amistad profunda"));
