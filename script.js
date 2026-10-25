@@ -957,7 +957,11 @@ function renderSceneContent() {
   const isChoice = node.type === "choice";
   dialoguePanel.hidden = isChoice;
   choicesPanel.hidden = !isChoice;
+  // Recuperar el título antes de renovar las opciones; durante los resúmenes
+  // conserva su posición habitual sobre la ilustración.
+  gameScreen.append(dayHeading);
   choicesPanel.replaceChildren();
+  if (isChoice && node.presentation === "daily-grid") choicesPanel.append(dayHeading);
   choicesPanel.classList.toggle("is-daily-grid", isChoice && node.presentation === "daily-grid");
   gameScreen.classList.toggle("has-daily-grid", isChoice && node.presentation === "daily-grid");
   choicesPanel.classList.toggle("is-character-cards", isChoice && node.presentation === "character-cards");
